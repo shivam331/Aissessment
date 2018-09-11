@@ -35,12 +35,12 @@ if(this.props.questions_meta != newProps.questions_meta){
  componentDidMount(){
    var api = ""
    if(this.props.index == 0){
-      api = "http://localhost:3000/api/chapter/"
+      api = "http://10.0.18.144:3000/api/chapter/"
      api = api + this.props.book_id;
      this.props.headerFetch(api,FETCH_CHAPTER_SUCCESS)
    }
    else if(this.props.index == 1){
-    api = "http://localhost:3000/api/questiontypes/"
+    api = "http://10.0.18.144:3000/api/questiontypes/"
    api = api + this.props.book_id;
    this.props.headerFetch(api,FETCH_QUESTION_TYPE_SUCCESS)
 }

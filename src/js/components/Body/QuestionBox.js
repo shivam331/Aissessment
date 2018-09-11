@@ -17,13 +17,13 @@ constructor(props){
 }
 loadMore() {
   let new_page_no = this.props.data.page_no + 1
-  let api = 'http://localhost:3000/api/question/'+this.props.book_id+"/" + new_page_no;
+  let api = 'http://10.0.18.144:3000/api/question/'+this.props.book_id+"/" + new_page_no;
 this.props.dispatch(fetchQuestionData(api,LOAD_MORE_QUESTION,this.props.questioncatid,new_page_no));
 }
 
     componentDidMount() {
 
-            let api = 'http://localhost:3000/api/filter/'+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes;
+            let api = 'http://10.0.18.144:3000/api/filter/'+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes;
     this.props.dispatch(fetchQuestionData(api,FETCH_QUESTION_SUCCESS,this.props.questioncatid,this.props.data.page_no));
 
               }
