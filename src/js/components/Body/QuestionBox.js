@@ -11,9 +11,8 @@ class QuestionBox  extends Component{
     super(props)
     this.initialisation = this.initialisation.bind(this);
 
-    this.loadMore = this.loadMore.bind(this);
+}
 
-  }
   loadMore() {
     if(this.props.data.current_category == 1)
   {  let new_page_no = this.props.data.page_no + 1
