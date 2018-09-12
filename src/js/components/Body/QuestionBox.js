@@ -10,10 +10,12 @@ class QuestionBox  extends Component{
   constructor(props){
     super(props)
     this.initialisation = this.initialisation.bind(this);
+    this.loadMore = this.loadMore.bind(this);
 
 }
 
   loadMore() {
+    console.log(this.props);
     if(this.props.data.current_category == 1)
   {  let new_page_no = this.props.data.page_no + 1
     let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
