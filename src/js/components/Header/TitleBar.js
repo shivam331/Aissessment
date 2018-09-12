@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { FETCH_TITLE_SUCCESS } from "../../Actions/HeaderActions"
+import {API} from "../../utils/api_list"
 
 
-var api = "http://localhost:3000/api/bookname/"
+
 class TitleBar extends Component{
   componentDidMount(){
-    api = api + this.props.book_id;
+    let api = API.BOOK_NAME + this.props.book_id;
     this.props.headerFetch(api,FETCH_TITLE_SUCCESS)
-    //this.props.dispatch(fetchHeaderData(api,FETCH_TITLE_SUCCESS));
   }
   render(){
     if (this.props.data.error) {

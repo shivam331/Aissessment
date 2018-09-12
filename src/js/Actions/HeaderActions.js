@@ -1,3 +1,5 @@
+import {BASE_URL} from "../utils/api_list";
+
 
 export const FETCH_TITLE_BEGIN   = 'FETCH_TITLE_BEGIN';
 export const FETCH_TITLE_SUCCESS = 'FETCH_TITLE_SUCCESS';
@@ -27,16 +29,16 @@ export const fetchTitleError = error => ({
 export const fetchHeaderData = (api_link,action_type) =>{
   return dispatch => {
     dispatch(fetchTitleBegin());
-    return fetch(api_link)
-      .then(handleErrors)
-      .then(res => res.json())
-      .then(json => {
-        dispatch(fetchSuccess(json.data,action_type));
-        return json.data;
-      })
-      .catch(error => dispatch(fetchTitleError(error)));
+    return fetch(BASE_URL+api_link)
+    .then(handleErrors)
+    .then(res => res.json())
+    .then(json => {
+      dispatch(fetchSuccess(json.data,action_type));
+      return json.data;
+    })
+    .catch(error => dispatch(fetchTitleError(error)));
   };
- }
+}
 
 
 

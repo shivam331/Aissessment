@@ -6,7 +6,7 @@ import QuestionCatBar from './QuestionCatBar'
 import {connect} from 'react-redux';
 
 import { fetchHeaderData } from "../../Actions/HeaderActions"
-import {fetchQuestionData,newChapter,newType} from "../../Actions/QuestionBoxActions"
+import {fetchQuestionData,newChapter,newType,newCategory} from "../../Actions/QuestionBoxActions"
 
 const mapStateToProps = state => {
   return {
@@ -19,7 +19,9 @@ const mapDispatchToProps = {
     fetchHeaderData,
     fetchQuestionData,
     newChapter,
-    newType
+    newType,
+    newCategory
+
 }
 
 class HeaderView extends Component {
@@ -44,6 +46,7 @@ newChapter = {this.props.newChapter}
 newType ={this.props.newType}/>
 
 <QuestionCatBar
+newCategory = {this.props.newCategory}
 oncatchange = {this.props.oncatchange}
 book_id = {this.props.book_id} />
 </div>

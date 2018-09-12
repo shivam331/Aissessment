@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input,} from 'reactstrap'
 
 var modal_checkbox_text = ["The question did not make sense","The distractors were inappropriate for the question stem",
-"there was a formatting issue in the question stem or distractors", "the distractors weren't similar enough to each other"];
+"There was a formatting issue in the question stem or distractors", "The distractors weren't similar enough to each other"];
 
 class DownVoteBtn extends Component {
   constructor(props) {

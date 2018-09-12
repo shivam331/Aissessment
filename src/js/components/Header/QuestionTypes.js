@@ -8,19 +8,16 @@ import {NavItem,NavLink } from 'reactstrap';
 class QuestTypes extends Component{
   constructor(props){
     super(props)
-     this.handleclick = this.handleclick.bind(this);
+    this.handleclick = this.handleclick.bind(this);
   }
   handleclick() {
-    const data = {
-   category_id: this.props.category_id
+    this.props.newCategory(this.props.category_id)
+    
   }
-    this.props.dispatch(changeCategory(this.props.category_id));
-
- }
   render(){
     return(
       <NavItem>
-          <NavLink href = "#" onClick={this.handleclick} >{this.props.name}</NavLink>
+      <NavLink href = "#" onClick={this.handleclick} >{this.props.name}</NavLink>
       </NavItem>
 
     );
