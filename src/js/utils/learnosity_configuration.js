@@ -1,6 +1,6 @@
 var Learnosity = require('learnosity-sdk-nodejs');
 var learnositySdk = new Learnosity();
-
+  // "domain":       "aissessment.paperscorer.com",
 
 var initOptions = learnositySdk.init(
   "questions",
@@ -27,7 +27,7 @@ const callbacks = {
 
 
   readyListener: function() {
-    console.log("Learnosity Questions API is ready");
+  //  console.log("Learnosity Questions API is ready");
   },
 
   labelBundle: {

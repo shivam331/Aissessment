@@ -79,7 +79,24 @@ class FilterDropDown extends Component{
       <DropdownToggle caret>
       {( this.props.index == 0) ? this.props.questions_meta.chapter : this.props.questions_meta.questiontypes}
       </DropdownToggle>
-      <DropdownMenu>
+      <DropdownMenu
+      modifiers={{
+    setMaxHeight: {
+      enabled: true,
+      order: 890,
+      fn: (data) => {
+        return {
+          ...data,
+          styles: {
+            ...data.styles,
+            overflow: 'auto',
+            maxHeight: 340,
+          },
+        };
+      },
+    },
+  }}
+    >
       {options}
       </DropdownMenu>
       </Dropdown>

@@ -12,18 +12,20 @@ var mcq = (json,new_category_id,reset_question) =>{
   for(let questions of data){
     let options = [];
     for(let option of questions.choices){
-      options.push({
+      if(option != null)
+    {  options.push({
         "value":option,
         "label":option
-      })
+      })}
     }
     var min=0;
     var max=options.length;
     var random =Math.floor(Math.random() * (+max - +min)) + +min;
-    options.splice(random, 0,{
+    if(questions.answer != null)
+{    options.splice(random, 0,{
       "value":questions.answer,
       "label":questions.answer
-    })
+    })}
     mcq_questions.push(
       {
         "response_id": questions._id,

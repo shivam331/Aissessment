@@ -53,12 +53,14 @@ export default function questionBoxReducer(state = initialState, action) {
     case CHANGE_CHAPTER:
     return Object.assign({},state,{
       page_no : 0,
-      chapter : action.chapter
+      chapter : action.chapter,
+      questions: []
     })
     case CHANGE_QUESTION_TYPE:
     return Object.assign({},state,{
       page_no : 0,
-      questiontypes : action.questiontype
+      questiontypes : action.questiontype,
+      questions: []
     })
 
     case CHANGE_QUESTION_CATEGORY:

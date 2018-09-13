@@ -52,7 +52,7 @@ export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,res
     .then(handleErrors)
     .then(res => res.json())
     .then(json => {
-      console.log(api_link);
+       console.log(api_link);
       let question_list = question(category_id,json,reset_question);
       dispatch(fetchQuestionSuccess(question_list,action_type,new_page_no));
       return json.data;
