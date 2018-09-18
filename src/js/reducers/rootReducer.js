@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import questionReducer from './questionReducer'
 import headerReducer from './headerReducer'
+import {loginReducer} from './loginReducer'
 
 export default combineReducers({
   question : questionReducer,
-  header : headerReducer
+  header : headerReducer,
+  login : loginReducer
 })

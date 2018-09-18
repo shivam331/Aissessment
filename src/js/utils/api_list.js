@@ -9,5 +9,6 @@ export const API = {
 "CHAPTER_LIST" : "chapter/",
 "QUESTION_TYPES_LIST" : "questiontypes/",
 "QUESTIONS" : "version/",
-"SEARCH" : "search/"
+"SEARCH" : "search/",
+"LOGIN" : "login"
 }
