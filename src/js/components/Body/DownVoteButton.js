@@ -13,8 +13,9 @@ class DownVoteBtn extends Component {
     };
     this.toggle = this.toggle.bind(this);
   }
-  
-  toggle() {
+
+  toggle(e) {
+    e.preventDefault()
     this.setState({
       modal: !this.state.modal
     });
@@ -23,7 +24,7 @@ class DownVoteBtn extends Component {
     const title_mssg = "Please tell us more about why this question doesn't work"
     return(
       <div className = "col-10-md px-2">
-      <span onClick={this.toggle} className="fa fa-thumbs-down"></span>
+      <a href = "#" onClick={this.toggle} className="fa fa-thumbs-down"></a>
       <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
       <ModalHeader toggle={this.toggle}>{title_mssg}</ModalHeader>
       <ModalBody>

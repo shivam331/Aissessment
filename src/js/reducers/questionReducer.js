@@ -44,6 +44,8 @@ export default function questionBoxReducer(state = initialState, action) {
     });
 
     case LOAD_MORE_QUESTION:
+
+      // return Object.assign({},state)
     return Object.assign({},state,{
       loading : false,
       questions:  action.payload.data,

@@ -3,8 +3,10 @@ import QuestTypes from './QuestionTypes';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGroupItem,
   Nav, Row, Col,Button } from 'reactstrap';
 
-  var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice"},{"id" : 2,"category":"association","category_name":"Matching"},
-  {"id" :3,"category":"orderlist","category_name":"Sorting"}, {"id": 4,"category":"clozetext","category_name":"Fill in the blanks"}]
+  // var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice"},{"id" : 2,"category":"association","category_name":"Matching"},
+  // {"id" :3,"category":"orderlist","category_name":"Sorting"}, {"id": 4,"category":"clozetext","category_name":"Fill in the blanks"}]
+
+  var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice :"}]
 
   export class QuestionCatBar extends Component{
     constructor(props){

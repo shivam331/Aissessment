@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HeaderView from "./Header";
 import QuestionView from './Body'
+import LoginView from './LoginPage'
 var book_id =15;
 class App extends Component{
   constructor(props){
@@ -9,16 +10,22 @@ class App extends Component{
 
   render(){
 
-    return (
-      <div>
-      <HeaderView
-      book_id = {book_id}/>
 
-      <QuestionView
-      book_id = {book_id}
-      />
-      </div>
-    );
+return(
+  
+  <LoginView />
+)
+
+    // return (
+    //   <div>
+    //   <HeaderView
+    //   book_id = {book_id}/>
+    //
+    //   <QuestionView
+    //   book_id = {book_id}
+    //   />
+    //   </div>
+    // );
 
   }
 }

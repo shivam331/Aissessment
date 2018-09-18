@@ -67,7 +67,7 @@ class FilterDropDown extends Component{
       )
     })
     if (this.props.data.error) {
-      return <p>{this.props.data.message}</p>;
+      return <p>{this.props.data.error.message}</p>;
     }
 
     if (this.props.data.loading) {

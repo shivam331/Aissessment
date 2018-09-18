@@ -13,7 +13,7 @@ var mcq = (json,new_category_id,reset_question) =>{
     let options = [];
     for(let option of questions.choices){
       if(option != null)
-    {  options.push({
+      {  options.push({
         "value":option,
         "label":option
       })}
@@ -22,7 +22,7 @@ var mcq = (json,new_category_id,reset_question) =>{
     var max=options.length;
     var random =Math.floor(Math.random() * (+max - +min)) + +min;
     if(questions.answer != null)
-{    options.splice(random, 0,{
+    {    options.splice(random, 0,{
       "value":questions.answer,
       "label":questions.answer
     })}
@@ -42,6 +42,56 @@ var mcq = (json,new_category_id,reset_question) =>{
 
 
   return mcq_questions;
+}
+var mcq_versions_question = []
+var version_mcq = (json,new_category_id,reset_question) =>{
+  if(reset_question){
+    mcq_versions_question = []
+  }
+  let data = json.data;
+  data.forEach((group)=>{
+    let question_array =[]
+    for(let questions of group.questions_list){
+      let options = [];
+      for(let option of questions.choices){
+        if(option != null)
+        {  options.push({
+          "value":option,
+          "label":option
+        })}
+      }
+      var min=0;
+      var max=options.length;
+      var random =Math.floor(Math.random() * (+max - +min)) + +min;
+      if(questions.answer != null)
+      {    options.splice(random, 0,{
+        "value":questions.answer,
+        "label":questions.answer
+      })}
+      if(options.length > 3)
+  {    question_array.push(
+        {
+          "response_id": questions._id,
+          "type": "mcq",
+          "stimulus" : questions.question,
+          "options" :options,
+          "valid_responses" : [
+            {"value" : questions.answer, "score": 1}
+          ],
+          "instant_feedback": true
+
+        }
+      )}
+    }
+    if(question_array.length != 0){
+    mcq_versions_question.push({"group_name":group._id,
+      "question_array":question_array});
+    }
+
+  })
+  //  console.log(mcq_versions_question);
+  return mcq_versions_question;
+
 }
 
 var matching_questions = [
@@ -195,8 +245,9 @@ const question = (category_id,json,reset_question) => {
 
   switch (category_id) {
     case 1:
+ return version_mcq(json,category_id,reset_question)
+//    return mcq(json,category_id,reset_question);
 
-    return mcq(json,category_id,reset_question);
     break;
 
     case 2:

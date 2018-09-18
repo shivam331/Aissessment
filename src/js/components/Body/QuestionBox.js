@@ -11,17 +11,22 @@ class QuestionBox  extends Component{
     super(props)
     this.initialisation = this.initialisation.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.virsionChangeClicked =this.virsionChangeClicked.bind(this);
+    this.state = {
+      active_question_set : [],
+      questions_version_set : []
+    }
 
-}
-
-  loadMore() {
-
-    if(this.props.data.current_category == 1)
-  {  let new_page_no = this.props.data.page_no + 1
-    let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-    + new_page_no;
-    this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,new_page_no,false);
   }
+
+  loadMore(e) {
+    e.preventDefault()
+    if(this.props.data.current_category == 1)
+    {  let new_page_no = this.props.data.page_no + 1
+      let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
+      + new_page_no;
+      this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,new_page_no,false);
+    }
   }
 
   componentDidMount() {
@@ -32,10 +37,27 @@ class QuestionBox  extends Component{
   }
   componentDidUpdate(prevProps, prevState) {
     if(this.props.data.questions !== prevProps.data.questions || this.props.data.page_no !== prevProps.data.page_no){
-      this.initialisation()
+      const question_data = this.props.data.questions;
+      var active_question_set = []
+      var questions_version_set = []
+      question_data.map((group)=>{
+        active_question_set.push(group.question_array[0])
+        questions_version_set.push(0)
+      })
+      this.setState(prevState=>({
+        active_question_set : prevState.active_question_set  = active_question_set,
+        questions_version_set:prevState.questions_version_set = questions_version_set
+      }),() => {
+        this.initialisation(false,"")
+      })
+
+    }
+
+    if(this.state.active_question_set !== prevState.active_question_set){
     }
   }
   componentWillReceiveProps(newProps){
+
     if( this.props.data.current_category !== newProps.data.current_category){
       let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
       + this.props.data.page_no;
@@ -44,26 +66,50 @@ class QuestionBox  extends Component{
     }
   }
 
-  initialisation(){
-    initOptions.questions = this.props.data.questions
+  initialisation(newVersionClicked,newVersionQuestion){
+    if(newVersionClicked){
+      initOptions.questions =[newVersionQuestion]
+    }
+    else
+    {    initOptions.questions = this.state.active_question_set}
     if(initOptions.questions.length != 0){
       LearnosityApp.init(initOptions,callbacks);
     }
 
   }
+  virsionChangeClicked(index){
+    if(this.props.data.questions[index].question_array.length > 1)
+    {    let current_version = this.state.questions_version_set[index] + 1;
+      current_version = current_version%this.props.data.questions[index].question_array.length
+
+      const aqs = this.state.active_question_set;
+      const newVersionQuestion =  this.props.data.questions[index].question_array[current_version];
+      aqs[index] = newVersionQuestion
+      const questions_version_set = this.state.questions_version_set
+      questions_version_set[index] = questions_version_set[index]+1;
+
+
+      this.setState(prevState=>({
+        active_question_set :prevState.active_question_set = aqs,
+        questions_version_set:prevState.questions_version_set =questions_version_set
+      }),() => {
+        this.initialisation(true,newVersionQuestion)
+      })
+    }
+  }
   render(){
-    const question_data = this.props.data.questions;
     const questions = [];
-    question_data.forEach((question)=>{
+    this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
       questions.push(
-        <Question className = {className} key = {question.response_id} />
+        <Question className = {className} key = {question.response_id} index ={index}
+        virsionChangeClicked ={this.virsionChangeClicked}/>
       );
     })
 
 
     if (this.props.data.error) {
-      return <p>{error.message}</p>;
+      return <p>{this.props.data.error.message}</p>;
     }
 
     if (this.props.data.loading) {
@@ -91,6 +137,15 @@ class QuestionBox  extends Component{
 }
 
 class Question extends Component{
+  constructor(props){
+    super(props)
+    this.versionChange = this.versionChange.bind(this)
+  }
+  versionChange(e){
+    e.preventDefault()
+    this.props.virsionChangeClicked(this.props.index)
+
+  }
 
   render(){
     return(
@@ -100,7 +155,7 @@ class Question extends Component{
       <span className= {this.props.className}></span>
       <div className="row col-md-12">
       <div className = "col-2-md">
-      <a href ="#"><u>View Other Versions</u></a>
+      <a  href = "#" onClick ={this.versionChange}><u>View Other Versions</u></a>
       </div>
       <DownVoteBtn />
       </div>
@@ -110,4 +165,4 @@ class Question extends Component{
   }
 }
 
-  export default QuestionBox;
+export default QuestionBox;

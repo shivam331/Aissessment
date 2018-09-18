@@ -32,12 +32,12 @@ export default function titleReducer(state = initialState, action) {
     case FETCH_CHAPTER_SUCCESS:
     return Object.assign({}, state, {
       loading: false,
-      chapters: ["All Chapters", ...action.payload.data[0].chapter]
+      chapters: ["All Chapters", ...action.payload.data[0].chapter.sort()]
     });
     case FETCH_QUESTION_TYPE_SUCCESS:
     return Object.assign({}, state, {
       loading: false,
-      questionstype: ["All Question Types", ...action.payload.data]
+      questionstype: ["All Question Types", ...action.payload.data.sort()]
     });
     case FETCH_TITLE_FAILURE:
     return Object.assign({}, state, {
