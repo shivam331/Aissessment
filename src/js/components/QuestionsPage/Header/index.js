@@ -5,8 +5,8 @@ import MenuBar from './MenuBar'
 import QuestionCatBar from './QuestionCatBar'
 import {connect} from 'react-redux';
 
-import { fetchHeaderData } from "../../Actions/HeaderActions"
-import {fetchQuestionData,newChapter,newType,newCategory} from "../../Actions/QuestionBoxActions"
+import { fetchHeaderData } from "../../../Actions/HeaderActions"
+import {fetchQuestionData,newChapter,newType,newCategory} from "../../../Actions/QuestionBoxActions"
 
 const mapStateToProps = state => {
   return {

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGroupItem,
 Nav,NavItem,NavLink, Row, Col,Button } from 'reactstrap';
 import FilterDropDown from './FilterDropDown'
-import { FETCH_QUESTION_SUCCESS} from "../../Actions/QuestionBoxActions"
-import {API} from "../../utils/api_list"
+import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
+import {API} from "../../../utils/api_list"
 
 
 

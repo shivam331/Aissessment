@@ -4,6 +4,7 @@ import {
   FormGroup, Label, Input,
   Button, FormText, FormFeedback,
 } from 'reactstrap';
+
 import styles from './loginForm.css';
 
 class LoginView extends Component {
@@ -50,7 +51,6 @@ class LoginView extends Component {
 
   render() {
     const { email, password } = this.state;
-console.log(this.props.userdetails);
     if (this.props.userdetails.error) {
       return <p>{this.props.userdetails.error.message}</p>;
     }
@@ -64,6 +64,7 @@ console.log(this.props.userdetails);
 
       <Container className={styles.LoginView}>
         <h2>Log In</h2>
+
         <Form className={styles.form} onSubmit={ (e) => this.submitForm(e) }>
         <Col>
             <FormGroup>

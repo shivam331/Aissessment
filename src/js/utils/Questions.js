@@ -9,14 +9,21 @@ var mcq = (json,new_category_id,reset_question) =>{
   }
   old_category_id = new_category_id;
   let data = json.data;
+
   for(let questions of data){
     let options = [];
+      let count  = 0
     for(let option of questions.choices){
       if(option != null)
-      {  options.push({
+      {
+if(count <6){
+        options.push({
         "value":option,
         "label":option
-      })}
+      })
+    }
+    count = count +1;
+    }
     }
     var min=0;
     var max=options.length;
@@ -53,12 +60,17 @@ var version_mcq = (json,new_category_id,reset_question) =>{
     let question_array =[]
     for(let questions of group.questions_list){
       let options = [];
+      let count  = 0
       for(let option of questions.choices){
         if(option != null)
-        {  options.push({
+        {  if(count <6)
+          {
+            options.push({
           "value":option,
           "label":option
-        })}
+        })
+      count = count +1}
+      }
       }
       var min=0;
       var max=options.length;

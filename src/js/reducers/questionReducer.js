@@ -7,8 +7,10 @@ import {
   CHANGE_QUESTION_TYPE,
   CHANGE_QUESTION_CATEGORY
 } from '../Actions/QuestionBoxActions';
+import {CHANGE_BOOK_ID} from '../Actions/BookListAction'
 
 const initialState = {
+  current_book_id : "",
   questions: [],
   loading: false,
   error: null,
@@ -70,6 +72,21 @@ export default function questionBoxReducer(state = initialState, action) {
       current_category : action.category_id
 
     })
+
+    case CHANGE_BOOK_ID:
+    console.log("%%%%%%%%%%" + action.bookid);
+    return Object.assign({}, state, {
+      current_book_id : action.bookid,
+      questions: [],
+      loading: false,
+      error: null,
+      page_no : 0,
+      chapter : "All Chapters",
+      questiontypes : "All Question Types",
+      current_category : 1
+
+    })
+
     default:
     return state;
   }

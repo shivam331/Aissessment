@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {initOptions,callbacks} from "../../utils/learnosity_configuration";
+import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
-import {API} from "../../utils/api_list";
+import {API} from "../../../utils/api_list";
 import { FormText,Input,Button,Row,Col  } from 'reactstrap';
-import { fetchQuestionData,FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../Actions/QuestionBoxActions"
+import { fetchQuestionData,FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
 
 
 class QuestionBox  extends Component{
@@ -98,6 +98,7 @@ class QuestionBox  extends Component{
     }
   }
   render(){
+  
     const questions = [];
     this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
@@ -118,7 +119,9 @@ class QuestionBox  extends Component{
     if(questions.length == 0){
       return <h3>Sorry, No Question Found...</h3>
     }
-
+    // <Col sm="12" md={{ size: 8, offset: 5}}>
+    // <Button color="danger"  onClick={this.loadMore} className = "form-row text-center">Load More...</Button>
+    // </Col>
     return(
       <div className="container">
       <Row>
@@ -127,9 +130,7 @@ class QuestionBox  extends Component{
       </Col>
       </Row>
       <Row className = "mt-2 mb-5">
-      <Col sm="12" md={{ size: 8, offset: 5}}>
-      <Button color="danger"  onClick={this.loadMore} className = "form-row text-center">Load More...</Button>
-      </Col>
+
       </Row>
       </div>
     )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FETCH_TITLE_SUCCESS } from "../../Actions/HeaderActions"
-import {API} from "../../utils/api_list"
+import { FETCH_TITLE_SUCCESS } from "../../../Actions/HeaderActions"
+import {API} from "../../../utils/api_list"
+import {Link} from 'react-router-dom'
 
 
 
@@ -18,7 +19,9 @@ class TitleBar extends Component{
       return <p>Loading Data ...</p>;
     }
     return(
+      <div>
       <h3 className="font-weight-bold ml-5 mt-2">{this.props.data.title}</h3>
+      </div>
     );
   }
 }

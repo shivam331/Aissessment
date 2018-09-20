@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import QuestionBox from './QuestionBox'
-import {fetchQuestionData} from "../../Actions/QuestionBoxActions"
+import {fetchQuestionData} from "../../../Actions/QuestionBoxActions"
 
 const mapStateToProps = state => {
   return {

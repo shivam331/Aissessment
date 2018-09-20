@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {changeCategory} from "../../Actions/HeaderActions";
+import {changeCategory} from "../../../Actions/HeaderActions";
 import {connect} from 'react-redux';
 import {NavItem,NavLink } from 'reactstrap';
 
@@ -12,7 +12,7 @@ class QuestTypes extends Component{
   }
   handleclick() {
     this.props.newCategory(this.props.category_id)
-    
+
   }
   render(){
     return(

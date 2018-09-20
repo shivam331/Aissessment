@@ -1,33 +1,62 @@
 import React, { Component } from 'react';
-import HeaderView from "./Header";
-import QuestionView from './Body'
 import LoginView from './LoginPage'
-var book_id =15;
+import QuestionPage from './QuestionsPage'
+import BookPage from './BookPage'
+import {connect} from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect,
+  browserHistory
+} from 'react-router-dom'
+
+const mapStateToProps = state => {
+  return {
+    data :state.login
+  }
+}
+
+
 class App extends Component{
   constructor(props){
     super(props)
   }
 
   render(){
+    return(
+      <Router history = {browserHistory}>
+      <Switch>
+        <Route exact={true} path="/" component={LoginView} />
+        <Route path="/question" component={QuestionPage} />
+        <Route path="/books" component={BookPage} />
+        </Switch>
+        </Router>
 
-
-return(
-  
-  <LoginView />
-)
-
-    // return (
-    //   <div>
-    //   <HeaderView
-    //   book_id = {book_id}/>
-    //
-    //   <QuestionView
-    //   book_id = {book_id}
-    //   />
-    //   </div>
-    // );
-
-  }
+      )
 }
 
-export default App;
+  }
+
+
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props =>
+        (this.props.data.user != "") ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  );
+
+
+  export default (App)

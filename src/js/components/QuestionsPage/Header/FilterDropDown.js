@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-import { FETCH_CHAPTER_SUCCESS,FETCH_QUESTION_TYPE_SUCCESS } from "../../Actions/HeaderActions";
-import { FETCH_QUESTION_SUCCESS} from "../../Actions/QuestionBoxActions"
-import {API} from "../../utils/api_list"
+import { FETCH_CHAPTER_SUCCESS,FETCH_QUESTION_TYPE_SUCCESS } from "../../../Actions/HeaderActions";
+import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
+import {API} from "../../../utils/api_list"
 
 
 
