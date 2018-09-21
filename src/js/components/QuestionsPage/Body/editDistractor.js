@@ -15,9 +15,9 @@ class EditDistractor extends Component{
   this.toggle = this.toggle.bind(this);
 }
 toggle() {
-  this.setState({
-    modal: !this.state.modal
-  });
+  this.setState((prevState)=>({
+    modal: !prevState.modal
+  }));
 }
 
 
@@ -26,7 +26,7 @@ toggle() {
     return(
 <div>
            <Button color="primary" size="sm"  onClick={this.toggle}>Edit Distractors</Button>
-              <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+              {this.state.modal && <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
             <ModalHeader toggle={this.toggle}>Customize Distractors</ModalHeader>
             <ModalBody>
             <ModalBodyContent distractors = {this.props.distractors}/>
@@ -35,7 +35,7 @@ toggle() {
               <Button color="danger" onClick={this.toggle}>Save Changes</Button>{' '}
               <Button color="secondary" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
-          </Modal>
+          </Modal>}
 </div>
     )
   }
@@ -51,12 +51,13 @@ class ModalBodyContent extends Component{
 this.deleteRow = this.deleteRow.bind(this)
   }
   deleteRow(index){
-    let newDistractors =[]
-     newDistractors=this.state.currentDistractors
- newDistractors.splice(index, 1);
- this.setState(prevState=>({
-   currentDistractors : prevState.currentDistractors = newDistractors
- }))
+ this.setState(prevState=>{
+   const ar = [...prevState.currentDistractors]
+   ar.splice(index,1)
+   return {
+     currentDistractors : ar
+   }
+ })
 
 
   }
