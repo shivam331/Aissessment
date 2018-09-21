@@ -4,6 +4,7 @@ import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
 import { FormText,Input,Button,Row,Col  } from 'reactstrap';
 import { fetchQuestionData,FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
+import EditDistractor from './editDistractor'
 
 
 class QuestionBox  extends Component{
@@ -98,13 +99,13 @@ class QuestionBox  extends Component{
     }
   }
   render(){
-  
     const questions = [];
     this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
       questions.push(
         <Question className = {className} key = {question.response_id} index ={index}
-        virsionChangeClicked ={this.virsionChangeClicked}/>
+        virsionChangeClicked ={this.virsionChangeClicked} version_length ={this.props.data.questions[index].question_array.length}
+        distractors = {question.options}/>
       );
     })
 
@@ -149,19 +150,21 @@ class Question extends Component{
   }
 
   render(){
+
     return(
-      <div className="form-check mt-3  shadow ">
-      <div className="p-2">
-      <Input type="checkbox" />
-      <span className= {this.props.className}></span>
-      <div className="row col-md-12">
-      <div className = "col-2-md">
-      <a  href = "#" onClick ={this.versionChange}><u>View Other Versions</u></a>
+  <div className="form-check mt-3  shadow ">
+    <div className="p-2">
+       <Input type="checkbox" />
+       <span className= {this.props.className}></span>
+          <div className="row col-md-12">
+             <div className = "col-2-md">
+                <a  href = {this.props.version_length > 1 ? "#" : null}  onClick ={this.versionChange} ><u>View Other Versions</u></a>
+             </div>
+                  <DownVoteBtn />
+                  <EditDistractor distractors = {this.props.distractors}/>
       </div>
-      <DownVoteBtn />
-      </div>
-      </div>
-      </div>
+    </div>
+  </div>
     );
   }
 }

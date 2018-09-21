@@ -16,7 +16,7 @@ constructor(props){
   render(){
     const rows = [];
 
-    this.props.booklist.Books.forEach((book,index)=> {
+    this.props.booklist.Books.map((book,index)=> {
       rows.push(
          <ProdctRow bookname = {book.bookname} key  = {book._id} index = {index} bookid = {book._id}
          newBookId = {this.props.newBookId} question = {this.props.question}
@@ -57,9 +57,9 @@ class ProdctRow extends Component{
   render(){
     return (
       <tr>
-      <td>{this.props.index + 1}</td>
+     <th scope="row">{this.props.index + 1}</th>
 <td>{this.props.bookname}</td>
-<td><a href ='' onClick={this.handleClick}>Show Problems</a></td>
+<td><a href ='' onClick={this.handleClick}>{this.props.bookid}</a></td>
       </tr>
     );
 

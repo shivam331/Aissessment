@@ -18,7 +18,7 @@ class MenuBar  extends Component {
   }
 render(){
   const dropdown = [];
-dropdown_list.forEach((dropdownData,index)=>{
+dropdown_list.map((dropdownData,index)=>{
 dropdown.push(
   <FilterDropDown
   book_id = {this.props.book_id}

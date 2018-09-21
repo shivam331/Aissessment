@@ -31,7 +31,7 @@ const callbacks = {
   },
 
   labelBundle: {
-    loadingInfo: "Loading page...",
+    loadingInfo: "Loading Question...",
     play: "play"
   },
 

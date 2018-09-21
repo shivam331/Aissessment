@@ -44,11 +44,13 @@ class FilterDropDown extends Component{
   handleChange(event){
     event.preventDefault();
     if(this.props.index == 0){
-      this.props.newChapter(event.target.innerText);
+      if( this.props.questions_meta.chapter != event.target.innerText)
+    {  this.props.newChapter(event.target.innerText);}
 
     }
     else if(this.props.index == 1){
-      this.props.newType(event.target.innerText)
+      if(this.props.questions_meta.questiontypes != event.target.innerText)
+      {this.props.newType(event.target.innerText)}
     }
     //event.persist();
   }
@@ -60,7 +62,7 @@ class FilterDropDown extends Component{
   render(){
     const list = ( this.props.index == 0) ? this.props.data.chapters : this.props.data.questionstype
     const options = [];
-    list.forEach((option)=>{
+    list.map((option)=>{
       options.push(
         <DropDownRows option = {option} key = {option}
         handleChange = {this.handleChange}/>
