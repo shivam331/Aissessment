@@ -19,7 +19,7 @@ constructor(props){
     this.props.booklist.Books.map((book,index)=> {
       rows.push(
          <ProdctRow bookname = {book.bookname} key  = {book._id} index = {index} bookid = {book._id}
-         newBookId = {this.props.newBookId} question = {this.props.question}
+         newBookId = {this.props.newBookId}
           />
       )
     });

@@ -40,6 +40,7 @@ export const userlogin = (credentials) =>{
       if (json.data.email === undefined) {
         user = ""
       }
+      localStorage.setItem('auth',JSON.stringify({user}));
       dispatch(userLoginSuccess(user));
     //  return json.data;
     })

@@ -1,12 +1,15 @@
 import {FETCH_BOOKLIST_BEGIN,
        FETCH_BOOKLIST_SUCCESS,
-       FETCH_BOOKLIST_FAILURE
+       FETCH_BOOKLIST_FAILURE,
+       CHANGE_BOOK_ID
 } from '../Actions/BookListAction';
 
+const bookCache = localStorage.getItem('book')
 const initialState = {
   Books: [],
   loading: false,
   error: null,
+  currentBookId : bookCache && JSON.parse(bookCache).id,
 }
 
 export  const  BookListReducer = (state = initialState, action) =>{
@@ -30,6 +33,13 @@ export  const  BookListReducer = (state = initialState, action) =>{
       error: action.payload.error,
       Books: []
     });
+
+    case CHANGE_BOOK_ID:
+    localStorage.setItem('book',JSON.stringify({id:action.bookid}))
+    return Object.assign({}, state, {
+      currentBookId : action.bookid
+    })
+
     default:
      return state;
   }

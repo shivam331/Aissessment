@@ -41,7 +41,7 @@ export const fetchBookList = () =>{
 }
 
 
-export var newBookId = (bookid) =>{
+export var setCurrentBookId = (bookid) =>{
   return dispatch => {
     dispatch(changeCurrentBook(bookid))
   }

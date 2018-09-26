@@ -18,7 +18,7 @@ const mapDispatchToProps = {
 
 class Login  extends Component {
   render(){
-    if(this.props.data.user != ""){
+    if(this.props.data.user){
       return(
        <Redirect to={'/books'} />
       )

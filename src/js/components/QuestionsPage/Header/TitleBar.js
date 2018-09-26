@@ -7,8 +7,10 @@ import {Link} from 'react-router-dom'
 
 class TitleBar extends Component{
   componentDidMount(){
-    let api = API.BOOK_NAME + this.props.book_id;
-    this.props.headerFetch(api,FETCH_TITLE_SUCCESS)
+    if(this.props.book_id){
+      let api = API.BOOK_NAME + this.props.book_id;
+      this.props.headerFetch(api,FETCH_TITLE_SUCCESS)
+    }
   }
   render(){
     if (this.props.data.error) {
