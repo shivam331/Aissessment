@@ -18,22 +18,24 @@ class MenuBar  extends Component {
   }
 render(){
   const dropdown = [];
-dropdown_list.map((dropdownData,index)=>{
-dropdown.push(
-  <FilterDropDown
-  book_id = {this.props.book_id}
-   key = {dropdownData.name}
-   index = {index}
-   headerFetch = {this.props.headerFetch}
-   questionfetch = {this.props.questionfetch}
-   data ={this.props.data}
-   questions_meta = {this.props.questions_meta}
-   newChapter = {this.props.newChapter}
-   newType = {this.props.newType}
-  />
-);
+  if(this.props.book_id){
+    dropdown_list.map((dropdownData,index)=>{
+      dropdown.push(
+        <FilterDropDown
+        book_id = {this.props.book_id}
+         key = {dropdownData.name}
+         index = {index}
+         headerFetch = {this.props.headerFetch}
+         questionfetch = {this.props.questionfetch}
+         data ={this.props.data}
+         questions_meta = {this.props.questions_meta}
+         newChapter = {this.props.newChapter}
+         newType = {this.props.newType}
+        />
+      );
+    });
+  }
 
-});
   return(
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +50,6 @@ dropdown.push(
           book_id = {this.props.book_id} />
       </div>
     </nav>
-
   );
 }
 }
@@ -65,8 +66,11 @@ class SearchBar extends Component{
   handleSearch(e) {
 	var criteria;
 	e.preventDefault();
-  let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
-this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+  if(this.props.book_id){
+    let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
+  this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+  }
+
 
 
 }

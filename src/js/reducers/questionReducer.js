@@ -16,7 +16,7 @@ const initialState = {
   error: null,
   page_no : 0,
   chapter : "All Chapters",
-  questiontypes : "All Question Types",
+  questiontypes : "Example",
   current_category : 1
 };
 
@@ -70,21 +70,9 @@ export default function questionBoxReducer(state = initialState, action) {
     case CHANGE_QUESTION_CATEGORY:
     return Object.assign({}, state, {
       current_category : action.category_id
-
     })
 
-    case CHANGE_BOOK_ID:
-    return Object.assign({}, state, {
-      current_book_id : action.bookid,
-      questions: [],
-      loading: false,
-      error: null,
-      page_no : 0,
-      chapter : "All Chapters",
-      questiontypes : "All Question Types",
-      current_category : 1
 
-    })
 
     default:
     return state;

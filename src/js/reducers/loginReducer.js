@@ -3,9 +3,10 @@ import {USER_SIGNIN_BEGIN,
        USER_SIGNIN_FAILURE
 } from '../Actions/loginActions';
 
+const authCache = localStorage.getItem('auth')
 const initialState = {
-  user: "",
-  loading: false,
+  user:  authCache && JSON.parse(authCache).user,
+  loading: (authCache && JSON.parse(authCache).user) || false,
   error: null,
 }
 

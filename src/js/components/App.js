@@ -31,8 +31,8 @@ class App extends Component{
         <Route exact={true} path="/" component={LoginView} />
         <Route path="/question" component={QuestionPage} />
         <Route path="/books" component={BookPage} />
-        </Switch>
-        </Router>
+      </Switch>
+      </Router>
 
       )
 }

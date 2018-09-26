@@ -10,7 +10,7 @@ import {
 const mapStateToProps = state => {
   return {
     data :state.login,
-    book_id :state.question.current_book_id
+    book_id :state.booklist.currentBookId
   }
 }
 
@@ -19,7 +19,7 @@ class QuestionPage extends Component{
 
 render()
 
-  {if(this.props.data.user == ""){
+  {if(!this.props.data.user){
     return(
      <Redirect to={'/'} />
     )
@@ -30,9 +30,9 @@ render()
         <HeaderView
         book_id = {this.props.book_id}/>
 
-        <QuestionView
+        { this.props.book_id && <QuestionView
         book_id = {this.props.book_id}
-        />
+        />}
         </div>
     );}
 }
