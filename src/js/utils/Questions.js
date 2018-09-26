@@ -65,11 +65,19 @@ var version_mcq = (json,new_category_id,reset_question) =>{
         if(option != null)
         {  if(count <6)
           {
-            options.push({
-          "value":option,
-          "label":option
-        })
-      count = count +1}
+            json.blacklist.Editing.map((edit)=>{
+              if(edit.from == option){
+                option = edit.to
+              }
+            })
+            if(!json.blacklist.Choices.includes(option)){
+              options.push({
+            "value":option,
+            "label":option
+          })
+        count = count +1
+            }
+        }
       }
       }
       var min=0;

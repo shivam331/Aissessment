@@ -1,6 +1,6 @@
-//export const BASE_URL = "http://localhost:80/api/"
+export const BASE_URL = "http://localhost:80/api/"
 // export const BASE_URL = "https://dry-garden-43793.herokuapp.com/api/"
- export const BASE_URL = "http://aissessment.paperscorer.com/api/"
+ // export const BASE_URL = "http://aissessment.paperscorer.com/api/"
 
 
 export const API = {
@@ -11,5 +11,7 @@ export const API = {
 "QUESTIONS" : "version/",
 "SEARCH" : "search/",
 "LOGIN" : "login",
-"BOOKS" :"books"
+"BOOKS" :"books",
+"BLACKLIST_DISTRACTORS" : "addBlacklist/",
+"UPDATE_DISTRACTORS" : "updateDistractors/"
 }

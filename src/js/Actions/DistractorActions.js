@@ -1,41 +1,71 @@
 import {BASE_URL,API} from "../utils/api_list";
 import handleErrors from './HeaderActions'
 
-export const FETCH_DISTRACTORS_BEGIN   = 'FETCH_TITLE_BEGIN';
-export const FETCH_TITLE_SUCCESS = 'FETCH_TITLE_SUCCESS';
-export const FETCH_TITLE_FAILURE = 'FETCH_TITLE_FAILURE';
-export const FETCH_CHAPTER_SUCCESS = 'FETCH_CHAPTER_SUCCESS'
-export const FETCH_QUESTION_TYPE_SUCCESS = "FETCH_QUESTION_TYPE_SUCCESS"
-export const CHANGE_QUESTION_CATEGORY = "CHANGE_QUESTION_CATEGORY"
+export const ADD_DISTRACTORS_BEGIN   = 'ADD_DISTRACTORS_BEGIN';
+export const ADD_DISTRACTORS_SUCCESS = 'ADD_DISTRACTORS_SUCCESS';
+export const ADD_DISTRACTORS_FAILURE = 'ADD_DISTRACTORS_FAILURE';
+export const UPDATE_DISTRACTORS_SUCCESS = 'UPDATE_DISTRACTORS_SUCCESS'
 
 
-export const fetchTitleBegin = () => ({
-  type: FETCH_TITLE_BEGIN
+
+export const addDistractorsBegin = () => ({
+  type: ADD_DISTRACTORS_BEGIN
 });
 
-export const fetchSuccess = (data,action_type) => ({
-  type: action_type,
-  payload: { data }
+export const addDistractorsSuccess = (status) => ({
+  type: ADD_DISTRACTORS_SUCCESS,
+  payload: { status }
 });
 
-
-export const fetchTitleError = error => ({
-  type: FETCH_TITLE_FAILURE,
+export const updateDistractorSuccess = (status) =>({
+  type : UPDATE_DISTRACTORS_SUCCESS,
+  payload: {status}
+})
+export const addDistractorsFailure = error => ({
+  type: ADD_DISTRACTORS_FAILURE,
   payload: { error }
 });
 
 
 
-export const fetchHeaderData = (api_link,action_type) =>{
+export const blacklistDistractors = (distractor) =>{
   return dispatch => {
-    dispatch(fetchTitleBegin());
-    return fetch(BASE_URL+api_link)
-    .then(handleErrors)
+    dispatch(addDistractorsBegin());
+    return   fetch(BASE_URL+API.BLACKLIST_DISTRACTORS, {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        // "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify({distractor:distractor})
+    })    .then(handleErrors)
     .then(res => res.json())
     .then(json => {
-      dispatch(fetchSuccess(json.data,action_type));
+       console.log(json);
+      dispatch(addDistractorsSuccess(json.status));
       return json.data;
     })
-    .catch(error => dispatch(fetchTitleError(error)));
+    .catch(error => dispatch(addDistractorsFailure(error)));
+  };
+}
+
+export const updateDistractors = (data) =>{
+  return dispatch => {
+    dispatch(addDistractorsBegin());
+    return   fetch(BASE_URL+API.UPDATE_DISTRACTORS, {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        // "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify(data)
+    })    .then(handleErrors)
+    .then(res => res.json())
+    .then(json => {
+       console.log(json);
+      dispatch(updateDistractorSuccess(json.status));
+      return json.data;
+    })
+    .catch(error => dispatch(addDistractorsFailure(error)));
   };
 }

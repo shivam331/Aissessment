@@ -83,7 +83,7 @@ class QuestionBox  extends Component{
     {    let current_version = this.state.questions_version_set[index] + 1;
       current_version = current_version%this.props.data.questions[index].question_array.length
 
-      const aqs = this.state.active_question_set;
+      const aqs = [...this.state.active_question_set];
       const newVersionQuestion =  this.props.data.questions[index].question_array[current_version];
       aqs[index] = newVersionQuestion
       const questions_version_set = this.state.questions_version_set
@@ -100,14 +100,20 @@ class QuestionBox  extends Component{
   }
   render(){
     const questions = [];
-    this.state.active_question_set.map((question,index)=>{
+    if(this.props.data.questions.length != 0)
+  {  this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
       questions.push(
         <Question className = {className} key = {question.response_id} index ={index}
         virsionChangeClicked ={this.virsionChangeClicked} version_length ={this.props.data.questions[index].question_array.length}
-        distractors = {question.options}/>
+        distractors = {question.options} blacklistDistractors = {this.props.blacklistDistractors} distractorState = {this.props.distractorState}
+        updateDistractors = {this.props.updateDistractors}
+        data ={this.props.data}
+          book_id = {this.props.book_id}
+          questionfetch = {this.props.questionfetch}
+        />
       );
-    })
+    })}
 
 
     if (this.props.data.error) {
@@ -160,8 +166,15 @@ class Question extends Component{
              <div className = "col-2-md">
                 <a  href = {this.props.version_length > 1 ? "#" : null}  onClick ={this.versionChange} ><u>View Other Versions</u></a>
              </div>
+               <EditDistractor distractors = {this.props.distractors} blacklistDistractors = {this.props.blacklistDistractors}
+               distractorState = {this.props.distractorState} updateDistractors = {this.props.updateDistractors}
+               data ={this.props.data}
+                 book_id = {this.props.book_id}
+                 questionfetch = {this.props.questionfetch}
+
+               />
                   <DownVoteBtn />
-                  <EditDistractor distractors = {this.props.distractors}/>
+
       </div>
     </div>
   </div>

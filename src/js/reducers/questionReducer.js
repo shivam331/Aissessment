@@ -74,7 +74,6 @@ export default function questionBoxReducer(state = initialState, action) {
     })
 
     case CHANGE_BOOK_ID:
-    console.log("%%%%%%%%%%" + action.bookid);
     return Object.assign({}, state, {
       current_book_id : action.bookid,
       questions: [],
