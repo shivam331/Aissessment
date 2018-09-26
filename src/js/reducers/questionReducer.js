@@ -16,7 +16,7 @@ const initialState = {
   error: null,
   page_no : 0,
   chapter : "All Chapters",
-  questiontypes : "All Question Types",
+  questiontypes : "Example",
   current_category : 1
 };
 
@@ -81,7 +81,7 @@ export default function questionBoxReducer(state = initialState, action) {
       error: null,
       page_no : 0,
       chapter : "All Chapters",
-      questiontypes : "All Question Types",
+      questiontypes : "Example",
       current_category : 1
 
     })
