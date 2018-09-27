@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {
   Redirect
 } from 'react-router-dom'
-
+import history from '../../utils/history'
 // var book_id =15;
 const mapStateToProps = state => {
   return {
@@ -16,20 +16,23 @@ const mapStateToProps = state => {
 
 
 class QuestionPage extends Component{
+  componentWillMount(){
 
+  }
+
+  componentWillReceiveProps(newProps){
+    if(!newProps.data.user){
+  history.replace('/')
+  }
+if(!newProps.book_id){
+
+  history.replace('/books')
+}
+
+  }
 
 render()
   {
-    if(!this.props.data.user){
-    return(
-     <Redirect to={'/'} />
-    )
-  }
-if(!this.props.book_id){
-  return(
-<Redirect to={'/books'} />
-  )
-}
     return (
         <div>
         <HeaderView

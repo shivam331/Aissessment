@@ -4,13 +4,13 @@ import QuestionPage from './QuestionsPage'
 import BookPage from './BookPage'
 import {connect} from 'react-redux';
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Link,
   Switch,
-  Redirect,
-  browserHistory
+  Redirect
 } from 'react-router-dom'
+import history from '../utils/history'
 
 const mapStateToProps = state => {
   return {
@@ -26,7 +26,7 @@ class App extends Component{
 
   render(){
     return(
-      <Router history = {browserHistory}>
+      <Router history = {history}>
       <Switch>
         <Route exact={true} path="/" component={LoginView} />
         <Route path="/question" component={QuestionPage} />

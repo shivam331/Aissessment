@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import BookListTable from './BookListTable'
 import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
+import history from '../../utils/history'
 import {
   Redirect
 } from 'react-router-dom'
@@ -21,19 +22,25 @@ const mapDispatchToProps = {
 class BooksList  extends Component {
 
   componentWillMount() {
+
     this.props.setCurrentBookId()
+
+
   }
+  componentWillReceiveProps(newProps){
+    console.log(newProps.data.user);
+    console.log(newProps.booklist.currentBookId);
+    if(!newProps.data.user){
+        history.replace('/')
+    }
+
+    if(newProps.data.user && newProps.booklist.currentBookId){
+  history.replace('/question')
+}
+  }
+
+
   render(){
-    if(!this.props.data.user){
-      return(
-<Redirect to={'/'} />
-)
-    }
-    if(this.props.booklist.currentBookId){
-      return(
-       <Redirect to={'/question'} />
-      )
-    }
 
     return (
 <BookListTable
