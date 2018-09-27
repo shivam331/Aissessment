@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { FETCH_TITLE_SUCCESS } from "../../../Actions/HeaderActions"
 import {API} from "../../../utils/api_list"
 import {Link} from 'react-router-dom'
-
-
+import {Col,Label} from 'reactstrap';
+import Spinner from '../../../utils/Spinner';
 
 class TitleBar extends Component{
   componentDidMount(){
@@ -18,7 +18,7 @@ class TitleBar extends Component{
     }
 
     if (this.props.data.loading) {
-      return <p>Loading Data ...</p>;
+      return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     }
     return(
       <div>
