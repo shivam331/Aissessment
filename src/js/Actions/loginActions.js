@@ -5,7 +5,7 @@ import {BASE_URL,API} from "../utils/api_list";
 export const USER_SIGNIN_BEGIN   = 'USER_SIGNIN_BEGIN';
 export const USER_SIGNIN_SUCCESS = 'USER_SIGNIN_SUCCESS';
 export const USER_SIGNIN_FAILURE = 'USER_SIGNIN_FAILURE';
-
+export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS'
 
 export const userLoginBegin = () => ({
   type: USER_SIGNIN_BEGIN
@@ -20,6 +20,10 @@ export const userLoginFailure = (error) => ({
   type: USER_SIGNIN_FAILURE,
   payload: { error }
 });
+
+export const userLogOutSuccess = () =>({
+  type: USER_LOGOUT_SUCCESS
+})
 
 
 export const userlogin = (credentials) =>{
@@ -46,4 +50,10 @@ export const userlogin = (credentials) =>{
     })
     .catch(error => dispatch(userLoginFailure(error)));
   };
+}
+
+export const userLogOut = () =>{
+  localStorage.setItem('auth',JSON.stringify({}));
+  return dispatch=>
+{  dispatch(userLogOutSuccess())}
 }

@@ -1,6 +1,7 @@
 import {USER_SIGNIN_BEGIN,
        USER_SIGNIN_SUCCESS,
-       USER_SIGNIN_FAILURE
+       USER_SIGNIN_FAILURE,
+       USER_LOGOUT_SUCCESS
 } from '../Actions/loginActions';
 
 const authCache = localStorage.getItem('auth')
@@ -29,8 +30,15 @@ export  const  loginReducer = (state = initialState, action) =>{
     return Object.assign({}, state, {
       loading: false,
       error: action.payload.error,
-      user: ""
     });
+
+    case USER_LOGOUT_SUCCESS:
+    return Object.assign({}, state, {
+     user : undefined,
+     loading: false,
+     });
+
+
     default:
      return state;
   }

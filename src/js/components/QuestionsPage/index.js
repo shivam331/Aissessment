@@ -17,14 +17,19 @@ const mapStateToProps = state => {
 
 class QuestionPage extends Component{
 
-render()
 
-  {if(!this.props.data.user){
+render()
+  {
+    if(!this.props.data.user){
     return(
      <Redirect to={'/'} />
     )
   }
-
+if(!this.props.book_id){
+  return(
+<Redirect to={'/books'} />
+  )
+}
     return (
         <div>
         <HeaderView
@@ -34,6 +39,6 @@ render()
         book_id = {this.props.book_id}
         />}
         </div>
-    );}
-}
+    );
+}}
 export default connect(mapStateToProps)(QuestionPage)

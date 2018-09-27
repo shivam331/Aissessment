@@ -19,7 +19,6 @@ const mapDispatchToProps = {
 
 class QuestionView  extends Component {
   render(){
-    console.log("@@@@@@@@@@@@@@");
     return (
 <QuestionBox
 data ={this.props.data}
