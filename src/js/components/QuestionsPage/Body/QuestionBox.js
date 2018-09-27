@@ -200,14 +200,13 @@ class Question extends Component{
        <span className= {this.props.className}></span>
           <div className="row col-md-12">
              <div className = "col-2-md">
-                <a  href = {this.props.version_length > 1 ? "#" : null}  onClick ={this.versionChange} ><u>View Other Versions</u></a>
+               <Button color="link" disabled={this.props.version_length > 1 ? false :true} onClick ={this.versionChange}>View Other Versions</Button>
              </div>
                <EditDistractor distractors = {this.props.distractors} blacklistDistractors = {this.props.blacklistDistractors}
                distractorState = {this.props.distractorState} updateDistractors = {this.props.updateDistractors}
                data ={this.props.data}
                  book_id = {this.props.book_id}
                  questionfetch = {this.props.questionfetch}
-
                />
                   <DownVoteBtn />
 

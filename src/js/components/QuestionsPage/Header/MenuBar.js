@@ -64,9 +64,9 @@ class SearchBar extends Component{
   this.handleSearch = this.handleSearch.bind(this);}
 
   handleSearch(e) {
-	var criteria;
+
 	e.preventDefault();
-  if(this.props.book_id){
+  if(this.props.book_id && this.search.current.value != ""){
     let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
   this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
   }
@@ -78,7 +78,7 @@ class SearchBar extends Component{
     return(
       <form className="form-inline my-2 my-lg-0">
         <input ref={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-        <Button color="secondary"  onClick={this.handleSearch}>Search</Button>
+        <Button type ="submit" color="secondary"  onClick={this.handleSearch}>Search</Button>
       </form>
     );
   }

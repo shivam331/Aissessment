@@ -7,6 +7,8 @@ import {connect} from 'react-redux';
 
 import { fetchHeaderData } from "../../../Actions/HeaderActions"
 import {fetchQuestionData,newChapter,newType,newCategory} from "../../../Actions/QuestionBoxActions"
+import {setCurrentBookId} from "../../../Actions/BookListAction"
+import {userLogOut} from "../../../Actions/loginActions"
 
 const mapStateToProps = state => {
   return {
@@ -20,7 +22,9 @@ const mapDispatchToProps = {
     fetchQuestionData,
     newChapter,
     newType,
-    newCategory
+    newCategory,
+    setCurrentBookId,
+    userLogOut
 
 }
 
@@ -34,7 +38,10 @@ class HeaderView extends Component {
 <TitleBar
 data ={this.props.data}
 book_id = {this.props.book_id}
-headerFetch = {this.props.fetchHeaderData}/>
+headerFetch = {this.props.fetchHeaderData}
+setCurrentBookId = {this.props.setCurrentBookId}
+userLogOut ={this.props.userLogOut}
+/>
 
 <MenuBar
 book_id = {this.props.book_id}

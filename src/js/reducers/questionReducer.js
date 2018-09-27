@@ -72,8 +72,6 @@ export default function questionBoxReducer(state = initialState, action) {
       current_category : action.category_id
     })
 
-
-
     default:
     return state;
   }
