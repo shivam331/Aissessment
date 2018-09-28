@@ -5,7 +5,7 @@ import {userlogin} from "../../Actions/loginActions"
 import {
   Redirect
 } from 'react-router-dom'
-
+import history from '../../utils/history'
 const mapStateToProps = state => {
   return {
     data :state.login
@@ -16,13 +16,23 @@ const mapDispatchToProps = {
     userlogin
 }
 
+
 class Login  extends Component {
+componentWillMount(){
+
+}
+
+componentWillReceiveProps(newProps){
+  if(newProps.data.user){
+  history.replace('/books')
+  }
+
+}
+
+
+     // <Redirect to={'/books'} />
   render(){
-    if(this.props.data.user){
-      return(
-       <Redirect to={'/books'} />
-      )
-    }
+
     return (
 <LoginView
 userdetails ={this.props.data}

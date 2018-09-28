@@ -19,7 +19,9 @@ class TitleBar extends Component{
     }
   }
   logOut(){
+
     this.props.userLogOut()
+      this.props.setCurrentBookId()
   }
   bookList(){
   this.props.setCurrentBookId()
