@@ -77,6 +77,7 @@ this.updateDistarctor = this.updateDistarctor.bind(this)
  // })
   // console.log(this.props.questionfetch);
 
+
  this.props.blacklistDistractors(this.state.currentDistractors[index].value)
 
 
