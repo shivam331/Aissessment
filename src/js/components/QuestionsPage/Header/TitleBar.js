@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { FETCH_TITLE_SUCCESS } from "../../../Actions/HeaderActions"
 import {API} from "../../../utils/api_list"
+import {Link} from 'react-router-dom'
+import Spinner from '../../../utils/Spinner';
 import {Button, Row, Col} from 'reactstrap'
-
+import history from '../../../utils/history'
 
 
 class TitleBar extends Component{
@@ -23,7 +25,9 @@ class TitleBar extends Component{
       this.props.setCurrentBookId()
   }
   bookList(){
-  this.props.setCurrentBookId()
+history.push('/books')
+
+//  this.props.setCurrentBookId()
   }
   render(){
     if (this.props.data.error) {
@@ -31,7 +35,7 @@ class TitleBar extends Component{
     }
 
     if (this.props.data.loading) {
-      return <p>Loading Data ...</p>;
+      return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     }
     return(
       <Row>

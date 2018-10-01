@@ -1,0 +1,8 @@
+.spin {
+  margin:40%;
+  font-weight: 150;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+}
+
+@keyframes spinner-animation { 100% { transform: rotate(360deg) } }

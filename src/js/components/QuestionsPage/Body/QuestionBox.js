@@ -3,10 +3,11 @@ import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
 import { FormText,Input,Button,Row,Col  } from 'reactstrap';
-import { fetchQuestionData,FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
+import {FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
 import EditDistractor from './editDistractor'
+import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 
-
+const response_ids =[];
 class QuestionBox  extends Component{
   constructor(props){
     super(props)
@@ -34,7 +35,31 @@ class QuestionBox  extends Component{
     let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
     + this.props.data.page_no;
     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
-
+    var myVar = setInterval(myTimer, 500);
+    function myTimer() {
+    response_ids.map(id => {
+      var container = document.getElementById(id)
+      if(container){
+        // console.log("Found");
+        var options = container.querySelectorAll('.lrn_response_wrapper ul li .lrn_contentWrapper')
+        clearInterval(myVar);
+        for(let i=0;i<options.length;i++){
+          let thumbIcon = document.createElement('i');
+          thumbIcon.className = "fa fa-thumbs-down"
+          thumbIcon.style = "margin-left : 10px;"
+          options[i].onmouseenter = function() {
+            options[i].appendChild(thumbIcon);
+          };
+          thumbIcon.onclick = function() {
+            alert(options[i].innerText)
+          }
+          options[i].onmouseleave = function() {
+            options[i].removeChild(thumbIcon);
+          };
+        }
+      }
+    })
+  }
   }
   componentDidUpdate(prevProps, prevState) {
     if(this.props.data.questions !== prevProps.data.questions || this.props.data.page_no !== prevProps.data.page_no){
@@ -103,6 +128,7 @@ class QuestionBox  extends Component{
     if(this.props.data.questions.length != 0)
   {  this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
+      response_ids.push(question.response_id);
       questions.push(
         <Question className = {className} key = {question.response_id} index ={index}
         virsionChangeClicked ={this.virsionChangeClicked} version_length ={this.props.data.questions[index].question_array.length}
@@ -121,7 +147,15 @@ class QuestionBox  extends Component{
     }
 
     if (this.props.data.loading) {
-      return <p>Loading Data ...</p>;
+      return (<OverlayLoader
+            color={'red'} // default is white
+            loader="ScaleLoader" // check below for more loaders
+            text="Loading... Please wait!"
+            active={true}
+            backgroundColor={'black'} // default is black
+            opacity=".4" // default is .9
+            >
+          </OverlayLoader>);
     }
     if(questions.length == 0){
       return <h3>Sorry, No Question Found...</h3>

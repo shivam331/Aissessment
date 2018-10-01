@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem,Col} from 'reactstrap';
 import { FETCH_CHAPTER_SUCCESS,FETCH_QUESTION_TYPE_SUCCESS } from "../../../Actions/HeaderActions";
 import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list"
-
+import Spinner from '../../../utils/Spinner'
 
 
 class FilterDropDown extends Component{
@@ -17,7 +17,7 @@ class FilterDropDown extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    // this for better approach rather than if else
+    // look for better approach rather than if else
     if(this.props.questions_meta.chapter != newProps.questions_meta.chapter && this.props.index == 0 ){
       let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
       + "/"+ + newProps.questions_meta.page_no;
@@ -73,7 +73,7 @@ class FilterDropDown extends Component{
     }
 
     if (this.props.data.loading) {
-      return <p>Loading Data ...</p>;
+      return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     }
     return(
       <li className="nav-item m-2">
