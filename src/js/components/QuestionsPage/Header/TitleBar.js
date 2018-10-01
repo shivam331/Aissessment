@@ -6,7 +6,6 @@ import Spinner from '../../../utils/Spinner';
 import {Button, Row, Col} from 'reactstrap'
 import history from '../../../utils/history'
 
-
 class TitleBar extends Component{
   constructor(props){
     super(props)

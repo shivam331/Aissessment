@@ -40,7 +40,7 @@ class QuestionBox  extends Component{
     response_ids.map(id => {
       var container = document.getElementById(id)
       if(container){
-        // console.log("Found");
+        console.log("Found");
         var options = container.querySelectorAll('.lrn_response_wrapper ul li .lrn_contentWrapper')
         clearInterval(myVar);
         for(let i=0;i<options.length;i++){
@@ -57,6 +57,8 @@ class QuestionBox  extends Component{
             options[i].removeChild(thumbIcon);
           };
         }
+      }else{
+        console.log("not Found");
       }
     })
   }
