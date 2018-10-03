@@ -20,7 +20,7 @@ constructor(props){
 
     this.props.booklist.Books.map((book,index)=> {
       rows.push(
-         <ProdctRow bookname = {book.bookname} key  = {book._id} index = {index} bookid = {book._id}
+         <ProductRow bookname = {book.bookname} key  = {book._id} index = {index} bookid = {book._id}
          newBookId = {this.props.newBookId} booklist = {this.props.booklist}
           />
       )
@@ -56,7 +56,7 @@ return(
 }
 
 
-class ProdctRow extends Component{
+class ProductRow extends Component{
   constructor(props){
     super(props)
     this.handleClick = this.handleClick.bind(this)

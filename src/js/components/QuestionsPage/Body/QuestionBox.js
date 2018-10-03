@@ -36,34 +36,7 @@ class QuestionBox  extends Component{
     let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
     + this.props.data.page_no;
     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
-    let component = this;
-    var myVar = setInterval(myTimer, 500);
-    function myTimer(){
-      response_ids.map(id => {
-        var container = document.getElementById(id)
-        if(container){
-          console.log("Found");
-          var options = container.querySelectorAll('.lrn_response_wrapper ul li .lrn_contentWrapper')
-          clearInterval(myVar);
-          for(let i=0;i<options.length;i++){
-            let thumbIcon = document.createElement('i');
-            thumbIcon.className = "fa fa-thumbs-down"
-            thumbIcon.style = "margin-left : 10px;"
-            options[i].onmouseenter = function() {
-              options[i].appendChild(thumbIcon);
-            };
-            thumbIcon.onclick = function() {
-              alert("Value selected is : "+options[i].innerText)
-            }
-            options[i].onmouseleave = function() {
-              options[i].removeChild(thumbIcon);
-            };
-          }
-        }else{
-          console.log("not Found");
-        }
-      })
-    }
+
   }
 
   componentDidUpdate(prevProps, prevState) {
