@@ -39,7 +39,6 @@ return(
                 backgroundColor={'black'} // default is black
                 opacity=".4" // default is .9
                 >
-
                 <Table hover bordered>
                 <thead>
                 <tr>

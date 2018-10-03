@@ -46,8 +46,6 @@ if(count <6){
       }
     )
   }
-
-
   return mcq_questions;
 }
 var mcq_versions_question = []
@@ -61,6 +59,7 @@ var version_mcq = (json,new_category_id,reset_question) =>{
     for(let questions of group.questions_list){
       let options = [];
       let count  = 0
+      let answerBlacklisted = false;
       for(let option of questions.choices){
         if(option != null)
         {  if(count <6)
@@ -80,16 +79,28 @@ var version_mcq = (json,new_category_id,reset_question) =>{
         }
       }
       }
+
+
+      json.blacklist.Editing.map((edit)=>{
+        if(edit.from == questions.answer){
+          questions.answer = edit.to
+        }
+      })
       var min=0;
       var max=options.length;
       var random =Math.floor(Math.random() * (+max - +min)) + +min;
-      if(questions.answer != null)
+      if(questions.answer != null && !json.blacklist.Choices.includes(questions.answer))
       {    options.splice(random, 0,{
         "value":questions.answer,
         "label":questions.answer
       })}
-      if(options.length > 3)
-  {    question_array.push(
+      else{
+        answerBlacklisted =true
+      }
+      if(options.length > 3 && !answerBlacklisted)
+  {
+
+        question_array.push(
         {
           "response_id": questions._id,
           "type": "mcq",
@@ -103,7 +114,7 @@ var version_mcq = (json,new_category_id,reset_question) =>{
         }
       )}
     }
-    if(question_array.length != 0){
+    if(question_array.length != 0 ){
     mcq_versions_question.push({"group_name":group._id,
       "question_array":question_array});
     }

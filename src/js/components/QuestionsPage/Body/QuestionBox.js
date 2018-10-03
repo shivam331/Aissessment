@@ -130,7 +130,9 @@ class QuestionBox  extends Component{
   {  this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
       response_ids.push(question.response_id);
-      questions.push(
+      // loking for proper condition for this bug fixing 
+      if(this.props.data.questions[index].question_array.length)
+      {questions.push(
         <Question className = {className} key = {question.response_id} index ={index}
         virsionChangeClicked ={this.virsionChangeClicked} version_length ={this.props.data.questions[index].question_array.length}
         distractors = {question.options} blacklistDistractors = {this.props.blacklistDistractors} distractorState = {this.props.distractorState}
@@ -139,7 +141,7 @@ class QuestionBox  extends Component{
           book_id = {this.props.book_id}
           questionfetch = {this.props.questionfetch}
         />
-      );
+      );}
     })}
 
 
