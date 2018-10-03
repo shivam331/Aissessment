@@ -56,7 +56,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
   class ExportQtBtn extends Component {
     render(){
       return(
-        <button type="button" className="btn btn-outline-secondary mr-2 shadow">Export To QTI</button>
+        <Button type="button" className="btn btn-outline-secondary mr-2 shadow">Export To QTI</Button>
       );
     }
   }
@@ -64,7 +64,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
   class AddBankBtn extends Component {
     render(){
       return(
-        <button type="button" className="btn btn-outline-secondary ml-2 shadow">Add To Bank</button>
+        <Button type="button" className="btn btn-outline-secondary ml-2 shadow">Add To Bank</Button>
       );
     }
   }

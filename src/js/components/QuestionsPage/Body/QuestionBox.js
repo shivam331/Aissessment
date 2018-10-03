@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
-import { FormText,Input,Button,Row,Col  } from 'reactstrap';
+import { FormText,Input,Button,Row,Col,Label  } from 'reactstrap';
 import { fetchQuestionData,FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
 import EditDistractor from './editDistractor'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 
 const response_ids =[];
+
 class QuestionBox  extends Component{
   constructor(props){
     super(props)
@@ -35,34 +36,36 @@ class QuestionBox  extends Component{
     let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
     + this.props.data.page_no;
     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
+    let component = this;
     var myVar = setInterval(myTimer, 500);
-    function myTimer() {
-    response_ids.map(id => {
-      var container = document.getElementById(id)
-      if(container){
-        console.log("Found");
-        var options = container.querySelectorAll('.lrn_response_wrapper ul li .lrn_contentWrapper')
-        clearInterval(myVar);
-        for(let i=0;i<options.length;i++){
-          let thumbIcon = document.createElement('i');
-          thumbIcon.className = "fa fa-thumbs-down"
-          thumbIcon.style = "margin-left : 10px;"
-          options[i].onmouseenter = function() {
-            options[i].appendChild(thumbIcon);
-          };
-          thumbIcon.onclick = function() {
-            alert(options[i].innerText)
+    function myTimer(){
+      response_ids.map(id => {
+        var container = document.getElementById(id)
+        if(container){
+          console.log("Found");
+          var options = container.querySelectorAll('.lrn_response_wrapper ul li .lrn_contentWrapper')
+          clearInterval(myVar);
+          for(let i=0;i<options.length;i++){
+            let thumbIcon = document.createElement('i');
+            thumbIcon.className = "fa fa-thumbs-down"
+            thumbIcon.style = "margin-left : 10px;"
+            options[i].onmouseenter = function() {
+              options[i].appendChild(thumbIcon);
+            };
+            thumbIcon.onclick = function() {
+              alert("Value selected is : "+options[i].innerText)
+            }
+            options[i].onmouseleave = function() {
+              options[i].removeChild(thumbIcon);
+            };
           }
-          options[i].onmouseleave = function() {
-            options[i].removeChild(thumbIcon);
-          };
+        }else{
+          console.log("not Found");
         }
-      }else{
-        console.log("not Found");
-      }
-    })
+      })
+    }
   }
-  }
+
   componentDidUpdate(prevProps, prevState) {
     if(this.props.data.questions !== prevProps.data.questions || this.props.data.page_no !== prevProps.data.page_no){
       const question_data = this.props.data.questions;
@@ -105,6 +108,11 @@ class QuestionBox  extends Component{
     }
 
   }
+
+  // thumbsDown=(event)=> {
+  //   this.setState({editDistractorVisible:true})
+  // }
+
   virsionChangeClicked(index){
     if(this.props.data.questions[index].question_array.length > 1)
     {    let current_version = this.state.questions_version_set[index] + 1;
@@ -127,6 +135,7 @@ class QuestionBox  extends Component{
   }
   render(){
     const questions = [];
+
     if(this.props.data.questions.length != 0)
   {  this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
@@ -145,7 +154,7 @@ class QuestionBox  extends Component{
 
 
     if (this.props.data.error) {
-      return <p>{this.props.data.error.message}</p>;
+      return <Label>{this.props.data.error.message}</Label>;
     }
 
     if (this.props.data.loading) {
@@ -162,6 +171,7 @@ class QuestionBox  extends Component{
     if(questions.length == 0){
       return <h3>Sorry, No Question Found...</h3>
     }
+
     // <Col sm="12" md={{ size: 8, offset: 5}}>
     // <Button color="danger"  onClick={this.loadMore} className = "form-row text-center">Load More...</Button>
     // </Col>
@@ -172,9 +182,7 @@ class QuestionBox  extends Component{
       {questions}
       </Col>
       </Row>
-      <Row className = "mt-2 mb-5">
 
-      </Row>
       </div>
     )
   }
@@ -192,7 +200,6 @@ class Question extends Component{
   }
 
   render(){
-
     return(
   <div className="form-check mt-3  shadow ">
     <div className="p-2">

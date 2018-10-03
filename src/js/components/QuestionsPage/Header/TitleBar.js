@@ -3,7 +3,7 @@ import { FETCH_TITLE_SUCCESS } from "../../../Actions/HeaderActions"
 import {API} from "../../../utils/api_list"
 import {Link} from 'react-router-dom'
 import Spinner from '../../../utils/Spinner';
-import {Button, Row, Col} from 'reactstrap'
+import {Button, Row, Col,Label} from 'reactstrap'
 
 
 class TitleBar extends Component{
@@ -28,7 +28,7 @@ class TitleBar extends Component{
   }
   render(){
     if (this.props.data.error) {
-      return <p>{this.props.data.error.message}</p>;
+      return <Label>{this.props.data.error.message}</Label>;
     }
 
     if (this.props.data.loading) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGroupItem,
-Nav,NavItem,NavLink, Row, Col,Button } from 'reactstrap';
+Nav,NavItem,NavLink, Row, Col,Button, Label,Form,Input} from 'reactstrap';
 import FilterDropDown from './FilterDropDown'
 import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list"
@@ -37,19 +37,19 @@ render(){
   }
 
   return(
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <Nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <Button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
-      </button>
+      </Button>
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
+        <ListGroup className="navbar-nav mr-auto">
          {dropdown}
-        </ul>
+        </ListGroup>
        <SearchBar
         questionfetch = {this.props.questionfetch}
           book_id = {this.props.book_id} />
       </div>
-    </nav>
+    </Nav>
   );
 }
 }
@@ -76,10 +76,10 @@ class SearchBar extends Component{
 }
   render(){
     return(
-      <form className="form-inline my-2 my-lg-0">
-        <input ref={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+      <Form className="form-inline my-2 my-lg-0">
+        <Input ref={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
         <Button type ="submit" color="secondary"  onClick={this.handleSearch}>Search</Button>
-      </form>
+      </Form>
     );
   }
 }

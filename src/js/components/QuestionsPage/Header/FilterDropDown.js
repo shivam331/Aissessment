@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem,Col} from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu,ListGroup, DropdownItem,Col,Label} from 'reactstrap';
 import { FETCH_CHAPTER_SUCCESS,FETCH_QUESTION_TYPE_SUCCESS } from "../../../Actions/HeaderActions";
 import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list"
@@ -69,14 +69,14 @@ class FilterDropDown extends Component{
       )
     })
     if (this.props.data.error) {
-      return <p>{this.props.data.error.message}</p>;
+      return <Label>{this.props.data.error.message}</Label>;
     }
 
     if (this.props.data.loading) {
       return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     }
     return(
-      <li className="nav-item m-2">
+      <ListGroup className="nav-item m-2">
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
       <DropdownToggle caret>
       {( this.props.index == 0) ? this.props.questions_meta.chapter : this.props.questions_meta.questiontypes}
@@ -102,7 +102,7 @@ class FilterDropDown extends Component{
       {options}
       </DropdownMenu>
       </Dropdown>
-      </li>);
+      </ListGroup>);
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter,Table,Input,CustomInput,Alert   } from 'reactstrap'
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter,Table,Input,CustomInput,Alert ,Label  } from 'reactstrap'
 import {FETCH_QUESTION_SUCCESS } from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list";
 
@@ -9,7 +9,6 @@ class EditDistractor extends Component{
   super(props);
   this.state = {
     modal: false,
-
   };
   this.toggle = this.toggle.bind(this);
 
@@ -20,9 +19,6 @@ toggle() {
     modal: !prevState.modal
   }));
 }
-
-
-
 
   render(){
     return(
@@ -111,11 +107,11 @@ this.props.updateDistractors(data)
     });
 
     if (this.props.distractorState.error) {
-      return <p>{this.props.distractorState.error.message}</p>;
+      return <Label>{this.props.distractorState.error.message}</Label>;
     }
 
     if (this.props.distractorState.loading) {
-      return <p>Updating Distractors ...</p>;
+      return <Label>Updating Distractors ...</Label>;
     }
 
     return(<Table hover borderless>
