@@ -34,12 +34,11 @@ return(
     <OverlayLoader
                 color={'red'} // default is white
                 loader="ScaleLoader" // check below for more loaders
-                text="Loading... Please wait!"
+                text=""
                 active={this.props.booklist.loading ? true : false}
                 backgroundColor={'black'} // default is black
                 opacity=".4" // default is .9
                 >
-
                 <Table hover bordered>
                 <thead>
                 <tr>
@@ -68,7 +67,8 @@ if(this.props.bookid != this.props.booklist.currentBookId){
     this.props.newBookId(this.props.bookid)
   }
   else{
-    history.go(-1)
+    history.push('/question')
+
   }
 
 
