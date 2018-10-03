@@ -7,8 +7,6 @@ import {FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/Quest
 import EditDistractor from './editDistractor'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 
-const response_ids =[];
-
 class QuestionBox  extends Component{
   constructor(props){
     super(props)
@@ -36,36 +34,7 @@ class QuestionBox  extends Component{
     let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
     + this.props.data.page_no;
     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
-<<<<<<< HEAD
 
-=======
-    var myVar = setInterval(myTimer, 500);
-    function myTimer() {
-    response_ids.map(id => {
-      var container = document.getElementById(id)
-      if(container){
-        var options = container.querySelectorAll('.lrn_response_wrapper ul li .lrn_contentWrapper')
-        clearInterval(myVar);
-        for(let i=0;i<options.length;i++){
-          let thumbIcon = document.createElement('i');
-          thumbIcon.className = "fa fa-thumbs-down"
-          thumbIcon.style = "margin-left : 10px;"
-          options[i].onmouseenter = function() {
-            options[i].appendChild(thumbIcon);
-          };
-          thumbIcon.onclick = function() {
-            alert(options[i].innerText)
-          }
-          options[i].onmouseleave = function() {
-            options[i].removeChild(thumbIcon);
-          };
-        }
-      }else{
-        console.log("not Found");
-      }
-    })
-  }
->>>>>>> dca06d1b79a2d190dd333b03c2130f1bf8bb3251
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -141,8 +110,7 @@ class QuestionBox  extends Component{
     if(this.props.data.questions.length != 0)
   {  this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
-      response_ids.push(question.response_id);
-      // loking for proper condition for this bug fixing 
+      // loking for proper condition for this bug fixing
       if(this.props.data.questions[index].question_array.length)
       {questions.push(
         <Question className = {className} key = {question.response_id} index ={index}
@@ -200,7 +168,6 @@ class Question extends Component{
   versionChange(e){
     e.preventDefault()
     this.props.virsionChangeClicked(this.props.index)
-
   }
 
   render(){
