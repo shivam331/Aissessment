@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import BookListTable from './BookListTable'
 import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
+import {newChapter,newType} from "../../Actions/QuestionBoxActions"
 import history from '../../utils/history'
 import {
   Redirect
@@ -15,39 +16,51 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    fetchBookList,
-    setCurrentBookId,
+  fetchBookList,
+  setCurrentBookId,
+  newChapter,
+  newType
 }
 
 class BooksList  extends Component {
 
-  componentWillMount() {
-
-    this.props.setCurrentBookId()
+  componentWillUpdate(nextProps, nextState) {
 
 
-  }
-  componentWillReceiveProps(newProps){
-    console.log(newProps.data.user);
-    console.log(newProps.booklist.currentBookId);
-    if(!newProps.data.user){
-        history.replace('/')
+    if(nextProps.data.user && nextProps.booklist.currentBookId){
+
     }
 
-    if(newProps.data.user && newProps.booklist.currentBookId){
-  history.replace('/question')
-}
   }
+
+  componentWillReceiveProps(nextProps){
+
+    if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId){
+      this.props.newChapter("All Chapters");
+      this.props.newType("Example")
+       history.push('/question')
+    }
+
+  }
+
+  componentWillMount() {
+  //  this.props.setCurrentBookId()
+  if(!this.props.data.user){
+    history.replace('/')
+  }
+
+  }
+
 
 
   render(){
 
     return (
-<BookListTable
-booklist ={this.props.booklist}
-  fetchBookList = {this.props.fetchBookList}
-  newBookId = {this.props.setCurrentBookId}
-/>
+      <BookListTable
+      booklist ={this.props.booklist}
+      fetchBookList = {this.props.fetchBookList}
+      newBookId = {this.props.setCurrentBookId}
+      />
 
     )
   }

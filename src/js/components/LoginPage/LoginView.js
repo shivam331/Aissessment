@@ -50,6 +50,7 @@ class LoginView extends Component {
   }
 
   render() {
+
     const { email, password } = this.state;
     if (this.props.userdetails.error) {
       return <Label>{this.props.userdetails.error.message}</Label>;

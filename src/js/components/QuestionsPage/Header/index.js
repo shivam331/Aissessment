@@ -3,30 +3,7 @@ import ReactDOM from "react-dom";
 import TitleBar from './TitleBar'
 import MenuBar from './MenuBar'
 import QuestionCatBar from './QuestionCatBar'
-import {connect} from 'react-redux';
 
-import { fetchHeaderData } from "../../../Actions/HeaderActions"
-import {fetchQuestionData,newChapter,newType,newCategory} from "../../../Actions/QuestionBoxActions"
-import {setCurrentBookId} from "../../../Actions/BookListAction"
-import {userLogOut} from "../../../Actions/loginActions"
-
-const mapStateToProps = state => {
-  return {
-    data : state.header,
-    questions_meta : state.question
-  }
-}
-
-const mapDispatchToProps = {
-    fetchHeaderData,
-    fetchQuestionData,
-    newChapter,
-    newType,
-    newCategory,
-    setCurrentBookId,
-    userLogOut
-
-}
 
 class HeaderView extends Component {
   constructor(props){
@@ -38,15 +15,15 @@ class HeaderView extends Component {
 <TitleBar
 data ={this.props.data}
 book_id = {this.props.book_id}
-headerFetch = {this.props.fetchHeaderData}
+headerFetch = {this.props.headerFetch}
 setCurrentBookId = {this.props.setCurrentBookId}
 userLogOut ={this.props.userLogOut}
 />
 
 <MenuBar
 book_id = {this.props.book_id}
-headerFetch = {this.props.fetchHeaderData}
-questionfetch = {this.props.fetchQuestionData}
+headerFetch = {this.props.headerFetch}
+questionfetch = {this.props.questionfetch}
 data ={this.props.data}
 questions_meta = {this.props.questions_meta}
 newChapter = {this.props.newChapter}
@@ -62,4 +39,4 @@ book_id = {this.props.book_id} />
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(HeaderView)
+export default (HeaderView)

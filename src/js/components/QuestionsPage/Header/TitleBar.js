@@ -4,7 +4,7 @@ import {API} from "../../../utils/api_list"
 import {Link} from 'react-router-dom'
 import Spinner from '../../../utils/Spinner';
 import {Button, Row, Col,Label} from 'reactstrap'
-
+import history from '../../../utils/history'
 
 class TitleBar extends Component{
   constructor(props){
@@ -24,7 +24,9 @@ class TitleBar extends Component{
       this.props.setCurrentBookId()
   }
   bookList(){
-  this.props.setCurrentBookId()
+history.push('/books')
+
+//  this.props.setCurrentBookId()
   }
   render(){
     if (this.props.data.error) {

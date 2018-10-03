@@ -61,32 +61,10 @@ this.updateDistarctor = this.updateDistarctor.bind(this)
     }
   }
   deleteRow(index){
- // this.setState(prevState=>{
- //  const distractortext = prevState.deleteDistractors
- //  distractortext.push(prevState.currentDistractors[index])
- //   const newDistractors = [...prevState.currentDistractors]
- //   newDistractors.splice(index,1)
- //   return {
- //     currentDistractors : newDistractors,
- //     deleteDistractors : distractortext
- //   }
- // })
-  // console.log(this.props.questionfetch);
-
  this.props.blacklistDistractors(this.state.currentDistractors[index].value)
-
-
 }
 
  updateDistarctor(newDistractor,oldDistractor){
-//    this.setState(prevState=>{
-//      const newdistractor = [...prevState.currentDistractors]
-//      newdistractor[index] = {label: updatedText,
-// value: updatedText}
-//      return {
-//        currentDistractors : newdistractor
-//      }
-//    })
 let data = {
   from : oldDistractor,
   to : newDistractor

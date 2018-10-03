@@ -18,16 +18,13 @@ const mapDispatchToProps = {
 
 
 class Login  extends Component {
-componentWillMount(){
-
-}
-
-componentWillReceiveProps(newProps){
-  if(newProps.data.user){
-  history.replace('/books')
+componentWillUpdate(nextProps, nextState) {
+  if(nextProps.data.user){
+  history.push('/books')
   }
-
 }
+
+
 
 
      // <Redirect to={'/books'} />
