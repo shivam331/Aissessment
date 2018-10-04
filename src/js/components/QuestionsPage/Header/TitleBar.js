@@ -44,8 +44,8 @@ history.push('/books')
        </Col>
        <Col xs = "3">
       <div style={{ padding: '.5rem' }}>
-      <Button className ="btn btn-danger float-right" style={{ margin: '.20rem' }} onClick = {this.logOut}>Log Out</Button>
-       <Button className ="btn btn-primary float-right" style={{ margin: '.20rem' }} onClick = {this.bookList} >Book List</Button>{' '}
+      <Button className ="btn btn-danger"  onClick = {this.logOut}>Log Out</Button>
+       <Button className ="btn btn-primary"onClick = {this.bookList} >Book List</Button>{' '}
       </div>
        </Col>
       </Row>
