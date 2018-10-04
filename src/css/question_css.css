@@ -10,3 +10,7 @@
   text-transform: uppercase
   font-family: $sans
   cursor: pointer
+
+  .pagination {
+    overflow-x:auto;
+  }

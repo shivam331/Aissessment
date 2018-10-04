@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
-import { FormText,Input,Button,Row,Col,Label  } from 'reactstrap';
+import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
 import {FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
 import EditDistractor from './editDistractor'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
+import styles from '../../../../css/question_css.css';
 
 class QuestionBox  extends Component{
   constructor(props){
@@ -20,13 +21,15 @@ class QuestionBox  extends Component{
 
   }
 
-  loadMore(e) {
+  loadMore(e,page_no) {
     e.preventDefault()
+
     if(this.props.data.current_category == 1)
-    {  let new_page_no = this.props.data.page_no + 1
+    {
+      // let new_page_no = this.props.data.page_no + 1
       let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-      + new_page_no;
-      this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,new_page_no,false);
+      + page_no;
+      this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,page_no,true);
     }
   }
 
@@ -105,13 +108,13 @@ class QuestionBox  extends Component{
     }
   }
   render(){
+    let pages =  Math.ceil(this.props.data.total/50 )
     const questions = [];
-
     if(this.props.data.questions.length != 0)
   {  this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
       // loking for proper condition for this bug fixing
-      if(this.props.data.questions[index].question_array.length)
+      if(this.props.data.questions[index])
       {questions.push(
         <Question className = {className} key = {question.response_id} index ={index}
         virsionChangeClicked ={this.virsionChangeClicked} version_length ={this.props.data.questions[index].question_array.length}
@@ -149,12 +152,45 @@ class QuestionBox  extends Component{
     // </Col>
     return(
       <div className="container">
+
+<Row>
+<Col>
+<Pagination aria-label="Page navigation">
+<PaginationItem disabled={this.props.data.page_no <= 0}>
+    <PaginationLink
+      onClick={e => this.loadMore(e, this.props.data.page_no - 1)}
+      previous
+      href="#"
+    />
+  </PaginationItem>
+
+  {[...Array(pages > 5 ? 5 : pages)].map((page, i) =>
+
+              <PaginationItem active={i === this.props.data.page_no} key={i}>
+                <PaginationLink onClick={e => this.loadMore(e, i)} href="#">
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            )}
+
+        <PaginationItem disabled={this.props.data.page_no >= pages - 1}>
+
+                 <PaginationLink
+                   onClick={e => this.loadMore(e, this.props.data.page_no + 1)}
+                   next
+                   href="#"
+                 />
+
+               </PaginationItem>
+      </Pagination>
+      </Col>
+</Row>
+
       <Row>
       <Col>
       {questions}
       </Col>
       </Row>
-
       </div>
     )
   }

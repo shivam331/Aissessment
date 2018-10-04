@@ -16,10 +16,11 @@ export const fetchQuestionBegin = () => ({
   type: FETCH_QUESTION_BEGIN
 });
 
-export const fetchQuestionSuccess = (data,action_type,new_page_no) => ({
+export const fetchQuestionSuccess = (data,action_type,new_page_no,total) => ({
   type: action_type,
   payload: { data },
-  new_page_no: new_page_no
+  new_page_no: new_page_no,
+  total : total
 });
 
 
@@ -53,8 +54,13 @@ export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,res
     .then(res => res.json())
     .then(json => {
        console.log(BASE_URL+api_link);
-      let question_list = question(category_id,json,reset_question);
-      dispatch(fetchQuestionSuccess(question_list,action_type,new_page_no));
+         let total = 0
+      let question_list = []
+      if(json.data.length != 0){
+       total = json.data[0].total
+     question_list = question(category_id,json,reset_question);
+     }
+      dispatch(fetchQuestionSuccess(question_list,action_type,new_page_no,total));
       return json.data;
     })
     .catch(error => dispatch(fetchQuestionError(error)));
