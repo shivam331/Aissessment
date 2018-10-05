@@ -77,7 +77,7 @@ class SearchBar extends Component{
   render(){
     return(
       <Form className="form-inline my-2 my-lg-0">
-        <Input ref={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+        <Input innerRef={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
         <Button type ="submit" color="secondary"  onClick={this.handleSearch}>Search</Button>
       </Form>
     );

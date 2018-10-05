@@ -17,7 +17,8 @@ const initialState = {
   page_no : 0,
   chapter : "All Chapters",
   questiontypes : "Example",
-  current_category : 1
+  current_category : 1,
+  total : 0
 };
 
 
@@ -34,7 +35,8 @@ export default function questionBoxReducer(state = initialState, action) {
     return Object.assign({}, state, {
       loading: false,
       questions: action.payload.data,
-      page_no: action.new_page_no
+      page_no: action.new_page_no,
+      total : action.total
     });
 
 

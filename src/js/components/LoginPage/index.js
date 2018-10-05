@@ -18,7 +18,7 @@ const mapDispatchToProps = {
 
 
 class Login  extends Component {
-componentWillUpdate(nextProps, nextState) {
+componentWillReceiveProps(nextProps) {
   if(nextProps.data.user){
   history.push('/books')
   }
