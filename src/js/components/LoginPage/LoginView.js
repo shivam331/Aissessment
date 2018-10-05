@@ -62,7 +62,6 @@ class LoginView extends Component {
 
 
     return (
-
       <Container className={styles.LoginView}>
         <h2>Log In</h2>
 
@@ -105,7 +104,6 @@ class LoginView extends Component {
           </Col>
       </Form>
       </Container>
-
     );
   }
 }

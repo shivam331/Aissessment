@@ -130,15 +130,7 @@ class QuestionBox  extends Component{
     }
 
     if (this.props.data.loading) {
-      return (<OverlayLoader
-            color={'red'} // default is white
-            loader="ScaleLoader" // check below for more loaders
-            text="Loading... Please wait!"
-            active={true}
-            backgroundColor={'black'} // default is black
-            opacity=".4" // default is .9
-            >
-          </OverlayLoader>);
+
     }
     if(questions.length == 0){
       return <h3>Sorry, No Question Found...</h3>
@@ -148,14 +140,23 @@ class QuestionBox  extends Component{
     // <Button color="danger"  onClick={this.loadMore} className = "form-row text-center">Load More...</Button>
     // </Col>
     return(
-      <div className="container">
-      <Row>
-      <Col>
-      {questions}
-      </Col>
-      </Row>
+      <OverlayLoader
+        color={'red'} // default is white
+        loader="ScaleLoader"
+        text="Loading... Please wait!"
+        active={this.props.data.loading ? true : false}
+        backgroundColor={'black'} // default is black
+        opacity=".4" // default is .9
+        >
 
-      </div>
+        <div className="container">
+          <Row>
+            <Col>
+              {questions}
+            </Col>
+          </Row>
+        </div>
+      </OverlayLoader>
     )
   }
 }

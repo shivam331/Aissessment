@@ -70,8 +70,6 @@ if(this.props.bookid != this.props.booklist.currentBookId){
     history.push('/question')
 
   }
-
-
   }
 
   render(){
@@ -79,7 +77,7 @@ if(this.props.bookid != this.props.booklist.currentBookId){
       <tr>
      <th scope="row">{this.props.index + 1}</th>
 <td>{this.props.bookname}</td>
-<td><a href ='' onClick={this.handleClick}>{this.props.bookid}</a></td>
+<td><a href ='' onClick={this.handleClick}>Show Problems</a></td>
       </tr>
     );
 

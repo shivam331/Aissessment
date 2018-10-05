@@ -4,9 +4,11 @@ import BookListTable from './BookListTable'
 import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
 import {newChapter,newType} from "../../Actions/QuestionBoxActions"
 import history from '../../utils/history'
+import {Button, Row, Col,Label} from 'reactstrap'
 import {
   Redirect
 } from 'react-router-dom'
+import TitleBar from '../QuestionsPage/Header/TitleBar'
 
 const mapStateToProps = state => {
   return {
@@ -23,7 +25,6 @@ const mapDispatchToProps = {
 }
 
 class BooksList  extends Component {
-
   componentWillUpdate(nextProps, nextState) {
 
 
@@ -32,7 +33,6 @@ class BooksList  extends Component {
     }
 
   }
-
   componentWillReceiveProps(nextProps){
 
     if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId){
@@ -54,7 +54,6 @@ class BooksList  extends Component {
 
 
   render(){
-
     return (
       <BookListTable
       booklist ={this.props.booklist}

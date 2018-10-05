@@ -92,7 +92,7 @@ this.props.updateDistractors(data)
       return <Label>Updating Distractors ...</Label>;
     }
 
-    return(<Table hover borderless>
+    return(<Table hover borderless striped>
     <tbody>
     {rows}
     </tbody>

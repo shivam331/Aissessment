@@ -37,15 +37,15 @@ history.push('/books')
       return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     }
     return(
-       <div style={{ padding: '.5rem' }}>
+       <div style={{ padding: '.5rem' },{backgroundColor:'#99CCCC'}}>
       <Row>
        <Col xs="9">
       <h3 className="font-weight-bold ml-5 mt-2">{this.props.data.title}</h3>
        </Col>
        <Col xs = "3">
       <div style={{ padding: '.5rem' }}>
-      <Button className ="btn btn-danger"  onClick = {this.logOut}>Log Out</Button>
-       <Button className ="btn btn-primary"onClick = {this.bookList} >Book List</Button>{' '}
+      <Button className ="btn btn-danger float-right" style={{ margin: '.20rem' }} onClick = {this.logOut}>Log Out</Button>
+       <Button className ="btn btn-primary float-right" style={{ margin: '.20rem' }} onClick = {this.bookList} >Book List</Button>{' '}
       </div>
        </Col>
       </Row>
