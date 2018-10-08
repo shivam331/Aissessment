@@ -24,13 +24,14 @@ class QuestionBox  extends Component{
   loadMore(e,page_no) {
     e.preventDefault()
 
-    if(this.props.data.current_category == 1)
+if(page_no !== this.props.data.page_no)
+{    if(this.props.data.current_category == 1)
     {
       // let new_page_no = this.props.data.page_no + 1
       let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
       + page_no;
       this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,page_no,true);
-    }
+    }}
   }
 
   componentDidMount() {
@@ -111,18 +112,26 @@ class QuestionBox  extends Component{
     let pages =  Math.ceil(this.props.data.total/50 )
     const questions = [];
     if(this.props.data.questions.length != 0)
-  {  this.state.active_question_set.map((question,index)=>{
+    {  this.state.active_question_set.map((question,index)=>{
       const className = "learnosity-response question-" + question.response_id;
       // loking for proper condition for this bug fixing
       if(this.props.data.questions[index])
       {questions.push(
-        <Question className = {className} key = {question.response_id} index ={index}
-        virsionChangeClicked ={this.virsionChangeClicked} version_length ={this.props.data.questions[index].question_array.length}
-        distractors = {question.options} blacklistDistractors = {this.props.blacklistDistractors} distractorState = {this.props.distractorState}
+        <Question className = {className}
+        key = {question.response_id}
+        index ={index}
+        virsionChangeClicked ={this.virsionChangeClicked}
+        version_length ={this.props.data.questions[index].question_array.length}
+        distractors = {question.options}
+        blacklistDistractors = {this.props.blacklistDistractors}
+        distractorState = {this.props.distractorState}
         updateDistractors = {this.props.updateDistractors}
         data ={this.props.data}
-          book_id = {this.props.book_id}
-          questionfetch = {this.props.questionfetch}
+        book_id = {this.props.book_id}
+        questionfetch = {this.props.questionfetch}
+        question_id = {question.response_id}
+        submitfeedback = {this.props.submitfeedback}
+          feedbackState = {this.props.feedbackState}
         />
       );}
     })}
@@ -132,18 +141,8 @@ class QuestionBox  extends Component{
       return <Label>{this.props.data.error.message}</Label>;
     }
 
-    if (this.props.data.loading) {
-      return (<OverlayLoader
-            color={'red'} // default is white
-            loader="ScaleLoader" // check below for more loaders
-            text="Loading... Please wait!"
-            active={true}
-            backgroundColor={'black'} // default is black
-            opacity=".4" // default is .9
-            >
-          </OverlayLoader>);
-    }
-    if(questions.length == 0){
+
+    if(questions.length == 0 && !this.props.data.loading){
       return <h3>Sorry, No Question Found...</h3>
     }
 
@@ -152,7 +151,15 @@ class QuestionBox  extends Component{
     // </Col>
     return(
       <div className="container">
-
+      <OverlayLoader
+            color={'red'} // default is white
+            loader="ScaleLoader" // check below for more loaders
+            text="Loading... Please wait!"
+            active={this.props.data.loading}
+            backgroundColor={'black'} // default is black
+            opacity=".4" // default is .9
+            >
+                </OverlayLoader>
 <Row>
 <Col>
 <Pagination aria-label="Page navigation">
@@ -174,7 +181,6 @@ class QuestionBox  extends Component{
             )}
 
         <PaginationItem disabled={this.props.data.page_no >= pages - 1}>
-
                  <PaginationLink
                    onClick={e => this.loadMore(e, this.props.data.page_no + 1)}
                    next
@@ -222,7 +228,9 @@ class Question extends Component{
                  book_id = {this.props.book_id}
                  questionfetch = {this.props.questionfetch}
                />
-                  <DownVoteBtn />
+                  <DownVoteBtn question_id = {this.props.question_id}
+                  submitfeedback = {this.props.submitfeedback}
+                    feedbackState = {this.props.feedbackState}/>
 
       </div>
     </div>

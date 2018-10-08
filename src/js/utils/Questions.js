@@ -1,53 +1,53 @@
-var  mcq_questions = []
-var old_category_id = 1;
-var mcq = (json,new_category_id,reset_question) =>{
-  if(reset_question){
-    mcq_questions = []
-  }
-  if(mcq_questions.length !== 0 && (old_category_id !== new_category_id)){
-    //  return mcq_questions;
-  }
-  old_category_id = new_category_id;
-  let data = json.data;
-
-  for(let questions of data){
-    let options = [];
-      let count  = 0
-    for(let option of questions.choices){
-      if(option != null)
-      {
-if(count <6){
-        options.push({
-        "value":option,
-        "label":option
-      })
-    }
-    count = count +1;
-    }
-    }
-    var min=0;
-    var max=options.length;
-    var random =Math.floor(Math.random() * (+max - +min)) + +min;
-    if(questions.answer != null)
-    {    options.splice(random, 0,{
-      "value":questions.answer,
-      "label":questions.answer
-    })}
-    mcq_questions.push(
-      {
-        "response_id": questions._id,
-        "type": "mcq",
-        "stimulus" : questions.question,
-        "options" :options,
-        "valid_responses" : [
-          {"value" : questions.answer, "score": 1}
-        ],
-
-      }
-    )
-  }
-  return mcq_questions;
-}
+// var  mcq_questions = []
+// var old_category_id = 1;
+// var mcq = (json,new_category_id,reset_question) =>{
+//   if(reset_question){
+//     mcq_questions = []
+//   }
+//   if(mcq_questions.length !== 0 && (old_category_id !== new_category_id)){
+//     //  return mcq_questions;
+//   }
+//   old_category_id = new_category_id;
+//   let data = json.data;
+//
+//   for(let questions of data){
+//     let options = [];
+//       let count  = 0
+//     for(let option of questions.choices){
+//       if(option != null)
+//       {
+// if(count <6){
+//         options.push({
+//         "value":option,
+//         "label":option
+//       })
+//     }
+//     count = count +1;
+//     }
+//     }
+//     var min=0;
+//     var max=options.length;
+//     var random =Math.floor(Math.random() * (+max - +min)) + +min;
+//     if(questions.answer != null)
+//     {    options.splice(random, 0,{
+//       "value":questions.answer,
+//       "label":questions.answer
+//     })}
+//     mcq_questions.push(
+//       {
+//         "response_id": questions._id,
+//         "type": "mcq",
+//         "stimulus" : questions.question,
+//         "options" :options,
+//         "valid_responses" : [
+//           {"value" : questions.answer, "score": 1}
+//         ],
+//
+//       }
+//     )
+//   }
+//   return mcq_questions;
+// }
 var mcq_versions_question = []
 var version_mcq = (json,new_category_id,reset_question) =>{
   if(reset_question){
@@ -299,4 +299,4 @@ const question = (category_id,json,reset_question) => {
 
   }
 };
-export {mcq_questions,matching_questions,question,mcq}
+export {matching_questions,question}

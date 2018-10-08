@@ -7,8 +7,10 @@ import {fetchQuestionData,newChapter,newType,newCategory} from "../../Actions/Qu
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
+import {submitfeedback} from "../../Actions/FeedBackAction"
 import history from '../../utils/history'
-// var book_id =15;
+
+
 const mapStateToProps = state => {
   return {
     userdetails :state.login,
@@ -16,6 +18,7 @@ const mapStateToProps = state => {
     data : state.header,
     questions_meta : state.question,
     distractorState : state.blacklistDistractor,
+    feedbackState : state.feedback
 
   }
 }
@@ -29,7 +32,8 @@ const mapDispatchToProps = {
   setCurrentBookId,
   userLogOut,
   blacklistDistractors,
-  updateDistractors
+  updateDistractors,
+  submitfeedback
 
 }
 
@@ -62,8 +66,6 @@ class QuestionPage extends Component{
 
   render()
   {
-    // console.log("this is question");
-    // console.log(this.props);
     return (
       <div>
       <HeaderView
@@ -87,6 +89,8 @@ class QuestionPage extends Component{
         distractorState = {this.props.distractorState}
         updateDistractors = {this.props.updateDistractors}
         data = {this.props.questions_meta}
+        submitfeedback = {this.props.submitfeedback}
+        feedbackState = {this.props.feedbackState}
         />}
         </div>
       );

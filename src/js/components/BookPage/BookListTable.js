@@ -39,16 +39,16 @@ return(
                 backgroundColor={'black'} // default is black
                 opacity=".4" // default is .9
                 >
-                <Table hover bordered>
-                <thead>
-                <tr>
-                <th>SNO.</th>
-                <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
-                <th></th>
-                </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-                </Table>
+        <Table hover bordered>
+          <thead>
+            <tr>
+              <th>SNO.</th>
+              <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
+              <th></th>
+            </tr>
+          </thead>
+            <tbody>{rows}</tbody>
+      </Table>
    </OverlayLoader>
  )
   }
