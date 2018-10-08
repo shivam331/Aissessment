@@ -54,6 +54,7 @@ var version_mcq = (json,new_category_id,reset_question) =>{
     mcq_versions_question = []
   }
   if(json.data.length!= 0){
+    console.log(json.data);
   let data = json.data[0].data;
  data.forEach((group)=>{
     let question_array =[]

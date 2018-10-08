@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
-  Button, FormText,Alert
+  Button, FormText, FormFeedback,
 } from 'reactstrap';
 
 import styles from './loginForm.css';
@@ -56,22 +56,16 @@ class LoginView extends Component {
       return <Label>{this.props.userdetails.error.message}</Label>;
     }
 
-    // if (this.props.userdetails.loading) {
-    //   return <Label>Signing In ...</Label>;
-    // }
-
-
+    if (this.props.userdetails.loading) {
+      return <Label>Signing In ...</Label>;
+    }
 
 
     return (
+
       <Container className={styles.LoginView}>
-
-
         <h2>Log In</h2>
 
-                <Alert color="danger" isOpen = {this.props.userdetails.user === ""}>
-                Invalid Email Id or Password !
-                </Alert>
         <Form className={styles.form} onSubmit={ (e) => this.submitForm(e) }>
         <Col>
             <FormGroup>
@@ -107,10 +101,11 @@ class LoginView extends Component {
             </FormGroup>
           </Col >
           <Col sm="12" md={{ size: 4, offset: 5 }}>
-          <Button color="primary" type = "submit">Submit</Button>
+          <Button color="primary">Submit</Button>
           </Col>
       </Form>
       </Container>
+
     );
   }
 }

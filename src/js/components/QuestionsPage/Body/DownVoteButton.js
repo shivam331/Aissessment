@@ -36,7 +36,7 @@ class DownVoteBtn extends Component {
   render() {
     const title_mssg = "Please tell us more about why this question doesn't work"
     return (
-      <  div className = "col-8-md px-2" >
+      <div className = "col-8-md px-2" >
       <a href = "#" onClick = {this.toggle}
       className = "fa fa-thumbs-down" > < /a>
       <  Modal isOpen = {this.state.modal}  toggle = {this.toggle}

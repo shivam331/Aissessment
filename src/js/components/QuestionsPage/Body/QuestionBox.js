@@ -132,17 +132,18 @@ class QuestionBox  extends Component{
       return <Label>{this.props.data.error.message}</Label>;
     }
 
-    if (this.props.data.loading) {
-      <OverlayLoader
+    if(this.props.data.loading){
+      return <OverlayLoader
         color={'red'} // default is white
         loader="ScaleLoader"
         text="Loading... Please wait!"
-        active={this.props.data.loading ? true : false}
+        active= {true}
         backgroundColor={'black'} // default is black
         opacity=".4" // default is .9
         >
         </OverlayLoader>
     }
+
     if(questions.length == 0){
       return <h3>Sorry, No Question Found...</h3>
     }
@@ -151,47 +152,55 @@ class QuestionBox  extends Component{
     // <Button color="danger"  onClick={this.loadMore} className = "form-row text-center">Load More...</Button>
     // </Col>
     return(
-      <div className="container">
+      // <OverlayLoader
+      //   color={'red'} // default is white
+      //   loader="ScaleLoader"
+      //   text="Loading... Please wait!"
+      //   active= {this.props.data.loading ? true :false}
+      //   backgroundColor={'black'} // default is black
+      //   opacity=".4" // default is .9
+      //   >
+        <div className="container">
 
-<Row>
-<Col>
-<Pagination aria-label="Page navigation">
-<PaginationItem disabled={this.props.data.page_no <= 0}>
-    <PaginationLink
-      onClick={e => this.loadMore(e, this.props.data.page_no - 1)}
-      previous
-      href="#"
-    />
-  </PaginationItem>
+          <Row>
+            <Col sm="12" md={{ size: 8, offset: 4 }}>
+              <Pagination aria-label="Page navigation">
+                <PaginationItem disabled={this.props.data.page_no <= 0}>
+                  <PaginationLink
+                    onClick={e => this.loadMore(e, this.props.data.page_no - 1)}
+                    previous
+                    href="#"
+                    />
+                </PaginationItem>
 
-  {[...Array(pages > 5 ? 5 : pages)].map((page, i) =>
+                {[...Array(pages > 5 ? 5 : pages)].map((page, i) =>
 
-              <PaginationItem active={i === this.props.data.page_no} key={i}>
-                <PaginationLink onClick={e => this.loadMore(e, i)} href="#">
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            )}
+                  <PaginationItem active={i === this.props.data.page_no} key={i}>
+                    <PaginationLink onClick={e => this.loadMore(e, i)} href="#">
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
 
-        <PaginationItem disabled={this.props.data.page_no >= pages - 1}>
+                <PaginationItem disabled={this.props.data.page_no >= pages - 1}>
 
-                 <PaginationLink
-                   onClick={e => this.loadMore(e, this.props.data.page_no + 1)}
-                   next
-                   href="#"
-                 />
+                  <PaginationLink
+                    onClick={e => this.loadMore(e, this.props.data.page_no + 1)}
+                    next
+                    href="#"
+                    />
 
-               </PaginationItem>
-      </Pagination>
-      </Col>
-</Row>
-
-      <Row>
-      <Col>
-      {questions}
-      </Col>
-      </Row>
-      </div>
+                </PaginationItem>
+              </Pagination>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {questions}
+            </Col>
+          </Row>
+        </div>
+      // </OverlayLoader>
     )
   }
 }
