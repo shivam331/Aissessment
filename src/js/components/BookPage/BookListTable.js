@@ -42,8 +42,8 @@ return(
                 <Table hover bordered>
                 <thead>
                 <tr>
-                <th>SNO.</th>
                 <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
+                <th></th>
                 <th></th>
                 </tr>
                 </thead>
@@ -75,9 +75,9 @@ if(this.props.bookid != this.props.booklist.currentBookId){
   render(){
     return (
       <tr>
-     <th scope="row">{this.props.index + 1}</th>
 <td>{this.props.bookname}</td>
-<td><a href ='' onClick={this.handleClick}>Show Problems</a></td>
+<td><a href ='' onClick="">Rank Key Phrases</a></td>
+<td><a href ='' onClick={this.handleClick}>View Problems</a></td>
       </tr>
     );
 

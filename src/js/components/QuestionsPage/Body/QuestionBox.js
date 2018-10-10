@@ -5,6 +5,7 @@ import {API} from "../../../utils/api_list";
 import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
 import {FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
 import EditDistractor from './editDistractor'
+import EditQuestion from './editQuestion'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import styles from '../../../../css/question_css.css';
 
@@ -173,11 +174,11 @@ class QuestionBox  extends Component{
                     />
                 </PaginationItem>
 
-                {[...Array(pages > 5 ? 5 : pages)].map((page, i) =>
+                {[...Array(pages > 5 && this.props.data.page_no < 5 ? 5 : pages > 5 && this.props.data.page_no >= 5 ?this.props.data.page_no+1 : pages)].map((page, i) =>
 
                   <PaginationItem active={i === this.props.data.page_no} key={i}>
                     <PaginationLink onClick={e => this.loadMore(e, i)} href="#">
-                      {i + 1}
+                    {i+1}
                     </PaginationLink>
                   </PaginationItem>
                 )}
@@ -231,7 +232,8 @@ class Question extends Component{
                  book_id = {this.props.book_id}
                  questionfetch = {this.props.questionfetch}
                />
-                  <DownVoteBtn />
+             <EditQuestion />
+             <DownVoteBtn />
 
       </div>
     </div>

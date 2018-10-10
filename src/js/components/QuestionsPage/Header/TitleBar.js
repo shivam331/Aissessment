@@ -37,7 +37,7 @@ history.push('/books')
       return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     }
     return(
-       <div style={{ padding: '.5rem' },{backgroundColor:'#99CCCC'}}>
+       <div style={{ padding: '.5rem' }}>
       <Row>
        <Col xs="9">
       <h3 className="font-weight-bold ml-5 mt-2">{this.props.data.title}</h3>
