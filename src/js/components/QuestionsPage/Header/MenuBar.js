@@ -4,8 +4,14 @@ Nav,NavItem,NavLink, Row, Col,Button, Label,Form,Input} from 'reactstrap';
 import FilterDropDown from './FilterDropDown'
 import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list"
+import Switch from "react-switch";
 
-
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  UncontrolledDropdown} from 'reactstrap';
 
 var dropdown_list = [{"name" : "All Chapters","options":["All Chapters"]},
 {"name" : "All Question Types","options":["All Question Types"]}]
@@ -13,9 +19,23 @@ var dropdown_list = [{"name" : "All Chapters","options":["All Chapters"]},
 class MenuBar  extends Component {
   constructor(props){
     super(props)
+    this.rankKeyPhrases = this.rankKeyPhrases.bind(this)
+    this.state = {
+      isOpen: false
+    };
+    this.toggle = this.toggle.bind(this);
   }
   componentDidMount(){
   }
+rankKeyPhrases(){
+console.log("#####");
+}
+
+  toggle() {
+  this.setState({
+    isOpen: !this.state.isOpen
+  });
+}
 render(){
   const dropdown = [];
   if(this.props.book_id){
@@ -37,20 +57,85 @@ render(){
   }
 
   return(
-    <Nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </Button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ListGroup className="navbar-nav mr-auto">
-         {dropdown}
-        </ListGroup>
+    <Navbar color="dark" light expand="md">
+      <NavbarToggler onClick={this.toggle} />
+      <Collapse isOpen={this.state.isOpen} navbar>
+      <Nav  navbar>
+           {dropdown}
+     <NavItem className = {"m-2"}>
+      <Button color="secondary" onClick = {this.rankKeyPhrases}>Rank Key Phrases</Button>
+     </NavItem >
+     <NavItem className = {"m-2"}>
+       <label htmlFor="icon-switch">
+         <Switch
+           checked={!this.state.isOpen}
+           onChange={this.toggle}
+           height={40}
+           width={90}
+           offColor="#6c757d"
+           onColor="#6c757d"
+           uncheckedIcon={
+             <div
+               style={{
+                 display: "flex",
+                 justifyContent: "center",
+                 alignItems: "center",
+                 height: "100%",
+                 fontSize: 12,
+                 color: "White",
+                 paddingRight: 2
+               }}
+               >
+               Saved
+             </div>
+           }
+           checkedIcon={
+             <div
+               style={{
+                 display: "flex",
+                 justifyContent: "center",
+                 alignItems: "center",
+                 height: "100%",
+                 fontSize: 12,
+                 color: "White",
+                 paddingRight: 2
+               }}
+               >
+               Editing
+             </div>
+           }
+           className="react-switch"
+           id="icon-switch"
+           />
+       </label>
+     </NavItem>
+       </Nav>
+       <div className="ml-auto" >
        <SearchBar
         questionfetch = {this.props.questionfetch}
-          book_id = {this.props.book_id} />
-      </div>
-    </Nav>
-  );
+        book_id = {this.props.book_id} />
+        </div >
+      </Collapse>
+    </Navbar>
+
+
+  )
+
+  // return(
+  //   <Nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+  //     <Button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  //       <span className="navbar-toggler-icon"></span>
+  //     </Button>
+  //     <div className="collapse navbar-collapse" id="navbarSupportedContent">
+  //       <ListGroup className="navbar-nav mr-auto">
+  //        {dropdown}
+  //       </ListGroup>
+  //      <SearchBar
+  //       questionfetch = {this.props.questionfetch}
+  //         book_id = {this.props.book_id} />
+  //     </div>
+  //   </Nav>
+  // );
 }
 }
 
@@ -76,7 +161,7 @@ class SearchBar extends Component{
 }
   render(){
     return(
-      <Form className="form-inline my-2 my-lg-0">
+      <Form className="form-inline ">
         <Input innerRef={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
         <Button type ="submit" color="secondary"  onClick={this.handleSearch}>Search</Button>
       </Form>

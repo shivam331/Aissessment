@@ -13,5 +13,6 @@ export const API = {
 "LOGIN" : "login",
 "BOOKS" :"books",
 "BLACKLIST_DISTRACTORS" : "addBlacklist/",
-"UPDATE_DISTRACTORS" : "updateDistractors/"
+"UPDATE_DISTRACTORS" : "updateDistractors/",
+"SUBMIT_FEEDBACK" : "submitfeedback"
 }

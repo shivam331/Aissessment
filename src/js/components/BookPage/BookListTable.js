@@ -51,9 +51,8 @@ return(
                 </Table>
    </OverlayLoader>
  )
-  }
 }
-
+}
 
 class ProductRow extends Component{
   constructor(props){
