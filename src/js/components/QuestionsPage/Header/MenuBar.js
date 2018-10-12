@@ -83,7 +83,7 @@ render(){
                  height: "100%",
                  fontSize: 12,
                  color: "White",
-                 paddingRight: 2
+                 padding: 2
                }}
                >
                Saved
@@ -98,7 +98,7 @@ render(){
                  height: "100%",
                  fontSize: 12,
                  color: "White",
-                 paddingRight: 2
+                 padding: 2
                }}
                >
                Editing
