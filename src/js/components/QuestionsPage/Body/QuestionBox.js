@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
+import {initOptions,callbacks,initOption} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
 import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
@@ -229,7 +229,7 @@ class QuestionBox  extends Component{
                   book_id = {this.props.book_id}
                   questionfetch = {this.props.questionfetch}
                   />
-                <EditQuestion />
+                <EditQuestion className={this.props.className}/>
                 <DownVoteBtn question_id = {this.props.question_id}
                   submitfeedback = {this.props.submitfeedback}
                   feedbackState = {this.props.feedbackState}/>
