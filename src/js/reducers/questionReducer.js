@@ -5,7 +5,8 @@ import {
   LOAD_MORE_QUESTION,
   CHANGE_CHAPTER,
   CHANGE_QUESTION_TYPE,
-  CHANGE_QUESTION_CATEGORY
+  CHANGE_QUESTION_CATEGORY,
+  CHANGE_VIEW_MODE
 } from '../Actions/QuestionBoxActions';
 // import {CHANGE_BOOK_ID} from '../Actions/BookListAction'
 
@@ -18,7 +19,8 @@ const initialState = {
   chapter : "All Chapters",
   questiontypes : "Example",
   current_category : 1,
-  total : 0
+  total : 0,
+  editingMode: true
 };
 
 
@@ -67,6 +69,12 @@ export default function questionBoxReducer(state = initialState, action) {
     return Object.assign({},state,{
       page_no : 0,
       questiontypes : action.questiontype,
+      // questions: []
+    })
+    case CHANGE_VIEW_MODE:
+    return  Object.assign({},state,{
+      page_no : 0,
+      editingMode : action.editingMode,
       // questions: []
     })
 

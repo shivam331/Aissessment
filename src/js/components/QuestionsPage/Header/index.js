@@ -30,6 +30,7 @@ questions_meta = {this.props.questions_meta}
 newChapter = {this.props.newChapter}
 newType ={this.props.newType}
 showQuestions ={this.props.showQuestions}
+newMode = {this.props.newMode}
 />
 
 {this.props.showQuestions &&<QuestionCatBar

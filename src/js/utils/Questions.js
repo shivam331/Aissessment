@@ -77,7 +77,71 @@ var version_mcq = (json,new_category_id,reset_question) =>{
   return mcq_versions_question;
 
 }
+var savedQuestion = []
+var savedQuestionParsing = (json,reset_question) =>{
 
+  if(reset_question){
+    savedQuestion = []
+  }
+
+  if(json.data.length!= 0){
+  let data = json.data[0].data;
+ data.forEach((group)=>{
+    let question_array =[]
+    for(let questions of group.questions_list){
+      let options = [];
+      let count  = 0
+      for(let option of questions.choices){
+        if(option != null)
+        {  if(count <6)
+          {
+            options.push({
+          "value":option,
+          "label":option
+        })
+        count = count +1
+        }
+      }
+      }
+
+      var min=0;
+      var max=options.length;
+      var random =Math.floor(Math.random() * (+max - +min)) + +min;
+      if(questions.answer != null)
+      {    options.splice(random, 0,{
+        "value":questions.answer,
+        "label":questions.answer
+      })}
+      if(options.length > 3 )
+  {
+
+        question_array.push(
+        {
+          "response_id": questions.combine_problem_id,
+          "type": "mcq",
+          "stimulus" : questions.question,
+          "options" :options,
+          "valid_responses" : [
+            {"value" : questions.answer, "score": 1}
+          ],
+          "instant_feedback": true
+
+        }
+      )}
+
+    }
+
+    if(question_array.length != 0 ){
+    savedQuestion.push({"group_name":group._id,
+      "question_array":question_array});
+    }
+
+  })}
+
+
+
+     return savedQuestion
+}
 
 var rankingQuestions = [
   {
@@ -411,8 +475,10 @@ const question = (category_id,json,reset_question) => {
     return fill_blanks_quetions;
     break;
     case 5:
-
     return rankingQuestions;
+
+    case 6:
+    return savedQuestionParsing(json,reset_question)
     default:
     console.log("Invalid Question Id");
 

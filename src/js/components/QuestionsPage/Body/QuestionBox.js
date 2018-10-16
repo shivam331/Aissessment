@@ -19,9 +19,7 @@ class QuestionBox  extends Component{
       active_question_set : [],
       questions_version_set : []
     }
-
   }
-
   loadMore(e,page_no) {
     e.preventDefault()
 

@@ -26,15 +26,34 @@ class MenuBar  extends Component {
    editing :true
  };
   }
-  componentDidMount(){
+  componentWillReceiveProps(nextProps){
+
+
+    if(this.props.questions_meta.editingMode != nextProps.questions_meta.editingMode){
+      let api = ""
+      if(nextProps.questions_meta.editingMode){
+         api = API.QUESTIONS+this.props.book_id+"/" + nextProps.questions_meta.chapter+ "/" + nextProps.questions_meta.questiontypes
+        + "/"+ + nextProps.questions_meta.page_no;
+            this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+      }
+      else{
+      api = API.SAVED_QUESTION_LIST
+          this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
+    }
+      // let api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" +this.search.current.value;
+
+    }
   }
 rankKeyPhrases(){
   // this.props.setShowQuestion()
 }
 modeChange(){
+
   this.setState(prevState =>({
     editing: !prevState.editing,
-  }))
+  }),()=>{
+    this.props.newMode(!this.props.questions_meta.editingMode)
+  })
 }
   toggle() {
 
@@ -75,7 +94,7 @@ render(){
      <NavItem className = {"m-2"}>
      <Switch
           onChange={this.modeChange}
-          checked={this.state.editing}
+          checked={this.props.questions_meta.editingMode}
           width = {90}
           height = {35}
           aria-labelledby	= {"abc"}
