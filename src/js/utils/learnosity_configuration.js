@@ -21,51 +21,6 @@ var initEditorOption = {
                 "configuration": {
                     "consumer_key": 'twRp5spenrCfVAa6'
         },
-        "label_bundle": {
-       // question attributes
-       "stimulus": "Compose question",
-       "options": "Options",
-       "validation.alt_responses.score": "Points",
-   },
-   "question_type_templates": {
-       "mcq": [{
-           "name": "MCQ - Custom Style",
-           "reference": "customMCQ",
-           "group_reference": "mcq",
-           "description": "Multiple Choice question with block style and predefined options.",
-           "defaults": {
-               "options": [{
-                   "label": "Dublin",
-                   "value": "1"
-               }, {
-                   "label": "Bristol",
-                   "value": "2"
-               }, {
-                   "label": "Liverpool",
-                   "value": "3"
-               }, {
-                   "label": "London",
-                   "value": "4"
-               }],
-               // A newly added option will have the default label "New Label"
-               "options[]": "New Label",
-               "ui_style": {
-                   "type": "block",
-                   "columns": 1,
-                   "choice_label": "upper-alpha"
-               }
-           }
-       }]
-   },
-   "ui": {
-       "layout": {
-           "global_template": "edit_preview",
-           "responsive_edit_mode": {
-               "enabled": true,  // Not necessary as it is enabled by default
-               "breakpoint": 800 // If the container width becomes less than 800px then switch to edit layout
-           }
-       }
-   },
    "widget_type": "response"
       }
 const callbacks = {

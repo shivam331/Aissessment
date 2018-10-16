@@ -28,11 +28,6 @@ class MenuBar  extends Component {
   componentDidMount(){
 
   }
-  componentDidUpdate(){
-
-    // {!this.state.isOpen && console.log(document.getElementById('checked-editing').innerText)}
-    // {this.state.isOpen && console.log(document.getElementById('unchecked-saved').innerText)}
-  }
 
 rankKeyPhrases(){
 console.log("#####");
