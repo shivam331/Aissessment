@@ -69,7 +69,6 @@ class QuestionBox  extends Component{
         let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
         + this.props.data.page_no;
         this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,newProps.data.current_category,0,true);
-
       }
     }
 
@@ -218,7 +217,8 @@ class QuestionBox  extends Component{
           <div className="form-check mt-3  shadow ">
             <div className="p-2">
               <Input type="checkbox" />
-              <span className= {this.props.className}></span>
+            <span className = {this.props.className}></span>
+              </div>
               <div className="row col-md-12">
                 <div className = "col-2-md">
                   <Button color="link" disabled={this.props.version_length > 1 ? false :true} onClick ={this.versionChange}>View Other Versions</Button>
@@ -234,7 +234,6 @@ class QuestionBox  extends Component{
                   submitfeedback = {this.props.submitfeedback}
                   feedbackState = {this.props.feedbackState}/>
 
-              </div>
             </div>
           </div>
         );

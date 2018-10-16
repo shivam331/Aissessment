@@ -25,7 +25,6 @@ class EditQuestion extends Component{
 
   initialisation(){
     questionEditorApp = LearnosityQuestionEditor.init(initEditorOption,callbacks);
-
   }
 
   render(){

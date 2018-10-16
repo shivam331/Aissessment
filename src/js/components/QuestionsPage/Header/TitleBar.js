@@ -29,18 +29,19 @@ history.push('/books')
 //  this.props.setCurrentBookId()
   }
   render(){
-    if (this.props.data.error) {
-      return <Label>{this.props.data.error.message}</Label>;
-    }
-
-    if (this.props.data.loading) {
-      return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
-    }
+    // if (this.props.data.error) {
+    //   return <Label>{this.props.data.error.message}</Label>;
+    // }
+    //
+    // if (this.props.data.loading) {
+    //   return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
+    // }
+    var name="Welcome " + this.props.name
     return(
        <div style={{ padding: '.5rem' }}>
       <Row>
        <Col xs="9">
-      <h3 className="font-weight-bold ml-5 mt-2">{this.props.data.title}</h3>
+      <h3 className="font-weight-bold ml-5 mt-2">{this.props.book_id ? this.props.data.title : name}</h3>
        </Col>
        <Col xs = "3">
       <div style={{ padding: '.5rem' }}>

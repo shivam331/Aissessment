@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import TitleBar from './TitleBar'
-import MenuBar from './MenuBar'
+import {MenuBar} from './MenuBar'
 import QuestionCatBar from './QuestionCatBar'
 
 
@@ -32,7 +32,8 @@ newType ={this.props.newType}/>
 <QuestionCatBar
 newCategory = {this.props.newCategory}
 oncatchange = {this.props.oncatchange}
-book_id = {this.props.book_id} />
+book_id = {this.props.book_id}
+/>
 </div>
 )
   }

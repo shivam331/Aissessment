@@ -5,6 +5,9 @@ import QuestionBox from './QuestionBox'
 
 
 class QuestionView  extends Component {
+  constructor(props){
+    super(props)
+  }
   render(){
     return (
 <QuestionBox
@@ -16,7 +19,7 @@ data ={this.props.data}
   updateDistractors = {this.props.updateDistractors}
   submitfeedback = {this.props.submitfeedback}
   feedbackState = {this.props.feedbackState}
-/>
+  />
 
     )
   }

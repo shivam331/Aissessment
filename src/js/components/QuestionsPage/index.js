@@ -19,7 +19,6 @@ const mapStateToProps = state => {
     questions_meta : state.question,
     distractorState : state.blacklistDistractor,
     feedbackState : state.feedback
-
   }
 }
 
@@ -38,6 +37,9 @@ const mapDispatchToProps = {
 }
 
 class QuestionPage extends Component{
+  constructor(props){
+    super(props);
+  }
   componentWillUpdate(nextProps, nextState) {
 
 
@@ -66,6 +68,7 @@ class QuestionPage extends Component{
 
   render()
   {
+
     return (
       <div>
       <HeaderView
