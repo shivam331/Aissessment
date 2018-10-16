@@ -43,8 +43,8 @@ return(
                 <thead>
                 <tr>
                 <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
-                <th></th>
-                <th></th>
+                <th>Ranking</th>
+                <th>Problems</th>
                 </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -59,14 +59,19 @@ class ProductRow extends Component{
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
-
   handleClick(e){
     e.preventDefault()
-if(this.props.bookid != this.props.booklist.currentBookId){
-    this.props.newBookId(this.props.bookid)
+    let currentStatus ;
+    if(e.target.id == 1){
+          currentStatus  = true
+    }
+    else{
+currentStatus = false    }
+if(this.props.bookid != this.props.booklist.currentBookId || this.props.booklist.showQuestions != currentStatus ){
+    this.props.newBookId(this.props.bookid,currentStatus)
   }
   else{
-    history.push('/question')
+     history.push('/question')
 
   }
   }
@@ -75,8 +80,8 @@ if(this.props.bookid != this.props.booklist.currentBookId){
     return (
       <tr>
 <td>{this.props.bookname}</td>
-<td><a href ='' onClick="">Rank Key Phrases</a></td>
-<td><a href ='' onClick={this.handleClick}>View Problems</a></td>
+<td><a href ='' onClick="" id = "2">Rank KeyPhrases</a></td>
+<td><a href ='' onClick={this.handleClick} id = "1">View Problems</a></td>
       </tr>
     );
 

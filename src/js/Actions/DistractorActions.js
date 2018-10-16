@@ -28,7 +28,7 @@ export const addDistractorsFailure = error => ({
 
 
 
-export const blacklistDistractors = (distractor) =>{
+export const blacklistDistractors = (distractor,book_id) =>{
   return dispatch => {
     dispatch(addDistractorsBegin());
     return   fetch(BASE_URL+API.BLACKLIST_DISTRACTORS, {
@@ -37,7 +37,7 @@ export const blacklistDistractors = (distractor) =>{
         "Content-Type": "application/json; charset=utf-8",
         // "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify({distractor:distractor})
+      body: JSON.stringify({distractors:distractor,book_id:book_id})
     })    .then(handleErrors)
     .then(res => res.json())
     .then(json => {

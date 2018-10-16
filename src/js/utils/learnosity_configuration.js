@@ -13,7 +13,9 @@ var initOptions = learnositySdk.init(
   {
     "type":       "local_practice",
     "state":      "initial",
-    "questions":  ""
+    "questions":  "",
+      "renderSaveButton" : true,
+       "renderSubmitButton" : true,
   }
 );
 
@@ -33,7 +35,7 @@ const callbacks = {
 
 
   readyListener: function() {
-  //  console.log("Learnosity Questions API is ready");
+   // console.log("Learnosity Questions API is ready");
   },
 
   labelBundle: {
@@ -55,4 +57,45 @@ const callbacks = {
     console.log("Save progress - ", progress);
   }
 };
+<<<<<<< HEAD
 export {initOptions,callbacks,initEditorOption};
+=======
+
+
+
+var initOptionsEditor = {
+    "assetRequest": function(mediaRequested, returnType, callback, attributes) {
+        // Do something.
+    },
+    "configuration" : {
+        "consumer_key": "twRp5spenrCfVAa6",
+    },
+   "widget_json" : "",
+
+};
+
+
+
+var hook = ".learnosity_questioneditor";
+
+var callbacksEditor = {
+    "readyListener": function () {
+return true
+        // Question Editor API sucessfully loaded according to pased init options
+        // we can now reliably start calling public methods and listen to events
+        // questionEditorApp.on("widget:ready", function () {
+            // widget has changed, probably as a result of calling setWidget()
+        // });
+    },
+    "errorListener": function (e) {
+        //callback to occur on error
+        console.log("Error code ", e.code);
+        console.log("Error message ", e.message);
+        console.log("Error name ", e.name);
+        console.log("Error name ", e.title);
+    }
+};
+
+
+export {initOptions,callbacks,initOptionsEditor,callbacksEditor,hook};
+>>>>>>> aa77b2c429f473caf3208fe6e4ec62e4a28dc9fe

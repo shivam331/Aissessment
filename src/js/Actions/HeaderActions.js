@@ -1,12 +1,12 @@
 import {BASE_URL} from "../utils/api_list";
 
-
 export const FETCH_TITLE_BEGIN   = 'FETCH_TITLE_BEGIN';
 export const FETCH_TITLE_SUCCESS = 'FETCH_TITLE_SUCCESS';
 export const FETCH_TITLE_FAILURE = 'FETCH_TITLE_FAILURE';
 export const FETCH_CHAPTER_SUCCESS = 'FETCH_CHAPTER_SUCCESS'
 export const FETCH_QUESTION_TYPE_SUCCESS = "FETCH_QUESTION_TYPE_SUCCESS"
 export const CHANGE_QUESTION_CATEGORY = "CHANGE_QUESTION_CATEGORY"
+
 
 
 export const fetchTitleBegin = () => ({
@@ -39,6 +39,8 @@ export const fetchHeaderData = (api_link,action_type) =>{
     .catch(error => dispatch(fetchTitleError(error)));
   };
 }
+
+
 
 
 

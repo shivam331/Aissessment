@@ -6,6 +6,7 @@ import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list"
 import Switch from "react-switch";
 
+
 import {
   Collapse,
   Navbar,
@@ -19,26 +20,34 @@ var dropdown_list = [{"name" : "All Chapters","options":["All Chapters"]},
 class MenuBar  extends Component {
   constructor(props){
     super(props)
-    this.rankKeyPhrases = this.rankKeyPhrases.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.state={
-      isOpen:false
-    }
+      this.rankKeyPhrases = this.rankKeyPhrases.bind(this);
+      this.toggle = this.toggle.bind(this);
+      this.modeChange = this.modeChange.bind(this)
+    this.state = {
+   isOpen: false,
+   editing :true
+ };
   }
   componentDidMount(){
 
   }
 
 rankKeyPhrases(){
-console.log("#####");
+  // this.props.setShowQuestion()
 }
+modeChange(){
+  this.setState(prevState =>({
+    editing: !prevState.editing,
+  }))
+}
+  toggle() {
 
-toggle() {
   this.setState({
     isOpen: !this.state.isOpen
   });
 }
 render(){
+  const borderRadiusStyle = { borderRadius: 2 }
   const dropdown = [];
   if(this.props.book_id){
     dropdown_list.map((dropdownData,index)=>{
@@ -57,18 +66,19 @@ render(){
       );
     });
   }
+  // <NavItem className = {"m-2"}>
+  //  <Button color="secondary" onClick = {this.rankKeyPhrases}>{this.props.showQuestions? "Questions":"RankKeyPhrases"}</Button>
+  // </NavItem >
   return(
     <Navbar color="dark" light expand="md">
       <NavbarToggler onClick={this.toggle} />
       <Collapse isOpen={this.state.isOpen} navbar>
       <Nav navbar>
            {dropdown}
-     <NavItem className = {"m-2"}>
-      <Button color="secondary" onClick = {this.rankKeyPhrases}>Rank Key Phrases</Button>
-     </NavItem >
+
      <NavItem className = {"m-2"}>
        <ToggleBar />
-     </NavItem>
+       </NavItem>
        </Nav>
        <div className="ml-auto" >
        <SearchBar

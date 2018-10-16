@@ -5,6 +5,7 @@ import {loginReducer} from './loginReducer'
 import {BookListReducer} from './BookListReducer'
 import {blacklistDistractorsReducer} from './DistractorReducer'
 import {feedbackReducer} from './feedbackReducer'
+import {saveQuestionReducer} from './saveQuestionReducer'
 
 export default combineReducers({
   question : questionReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   login : loginReducer,
   booklist : BookListReducer,
   blacklistDistractor : blacklistDistractorsReducer,
-  feedback : feedbackReducer
+  feedback : feedbackReducer,
+  saveQuestion : saveQuestionReducer
 })

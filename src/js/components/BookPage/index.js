@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import BookListTable from './BookListTable'
 import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
+import {userLogOut} from "../../Actions/loginActions"
 import {newChapter,newType} from "../../Actions/QuestionBoxActions"
 import history from '../../utils/history'
-import {Button, Row, Col,Label} from 'reactstrap'
-import {userLogOut} from "../../Actions/loginActions"
+import {Button, Row, Col,Label,Container} from 'reactstrap'
+import TitleBar from '../Reusable/TitleBar'
 import {
   Redirect
 } from 'react-router-dom'
-import TitleBar from '../QuestionsPage/Header/TitleBar'
 
 const mapStateToProps = state => {
   return {
@@ -36,14 +36,12 @@ class BooksList  extends Component {
 
   }
   componentWillReceiveProps(nextProps){
-
-    if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId){
+    if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId
+      || this.props.booklist.showQuestions !== nextProps.booklist.showQuestions){
       this.props.newChapter("All Chapters");
       this.props.newType("Example")
        history.push('/question')
-    }
-
-  }
+     }}
 
   componentWillMount() {
   //  this.props.setCurrentBookId()

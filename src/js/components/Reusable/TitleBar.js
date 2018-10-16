@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { FETCH_TITLE_SUCCESS } from "../../../Actions/HeaderActions"
-import {API} from "../../../utils/api_list"
+import { FETCH_TITLE_SUCCESS } from "../../Actions/HeaderActions"
+import {API} from "../../utils/api_list"
 import {Link} from 'react-router-dom'
-import Spinner from '../../../utils/Spinner';
+import Spinner from '../../utils/Spinner';
 import {Button, Row, Col,Label} from 'reactstrap'
-import history from '../../../utils/history'
+import history from '../../utils/history'
 
 class TitleBar extends Component{
   constructor(props){
@@ -19,14 +19,12 @@ class TitleBar extends Component{
     }
   }
   logOut(){
-
     this.props.userLogOut()
       this.props.setCurrentBookId()
   }
   bookList(){
 history.push('/books')
 
-//  this.props.setCurrentBookId()
   }
   render(){
     // if (this.props.data.error) {
@@ -46,7 +44,7 @@ history.push('/books')
        <Col xs = "3">
       <div style={{ padding: '.5rem' }}>
       <Button className ="btn btn-danger float-right" style={{ margin: '.20rem' }} onClick = {this.logOut}>Log Out</Button>
-       <Button className ="btn btn-primary float-right" style={{ margin: '.20rem' }} onClick = {this.bookList} >Book List</Button>{' '}
+       {this.props.book_id && <Button className ="btn btn-primary float-right" style={{ margin: '.20rem' }} onClick = {this.bookList} >Book List</Button>}{' '}
       </div>
        </Col>
       </Row>

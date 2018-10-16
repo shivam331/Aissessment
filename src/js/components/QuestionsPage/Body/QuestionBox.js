@@ -8,6 +8,7 @@ import EditDistractor from './editDistractor'
 import EditQuestion from './editQuestion'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import styles from '../../../../css/question_css.css';
+import SaveQuestion from './SaveQuestion'
 
 class QuestionBox  extends Component{
   constructor(props){
@@ -64,83 +65,86 @@ class QuestionBox  extends Component{
       }
     }
     componentWillReceiveProps(newProps){
-
       if( this.props.data.current_category !== newProps.data.current_category){
         let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
         + this.props.data.page_no;
         this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,newProps.data.current_category,0,true);
       }
+
+  }
+
+  initialisation(newVersionClicked,newVersionQuestion){
+    if(newVersionClicked){
+      initOptions.questions =[newVersionQuestion]
+    }
+    else
+    {    initOptions.questions = this.state.active_question_set}
+    if(initOptions.questions.length != 0){
+      LearnosityApp.init(initOptions,callbacks);
     }
 
-    initialisation(newVersionClicked,newVersionQuestion){
-      if(newVersionClicked){
-        initOptions.questions =[newVersionQuestion]
-      }
-      else
-      {    initOptions.questions = this.state.active_question_set}
-      if(initOptions.questions.length != 0){
-        LearnosityApp.init(initOptions,callbacks);
-      }
+  }
 
+  // thumbsDown=(event)=> {
+  //   this.setState({editDistractorVisible:true})
+  // }
+
+  virsionChangeClicked(index){
+    if(this.props.data.questions[index].question_array.length > 1)
+    {    let current_version = this.state.questions_version_set[index] + 1;
+      current_version = current_version%this.props.data.questions[index].question_array.length
+
+      const aqs = [...this.state.active_question_set];
+      const newVersionQuestion =  this.props.data.questions[index].question_array[current_version];
+      aqs[index] = newVersionQuestion
+      const questions_version_set = this.state.questions_version_set
+      questions_version_set[index] = questions_version_set[index]+1;
+
+
+      this.setState(prevState=>({
+        active_question_set :prevState.active_question_set = aqs,
+        questions_version_set:prevState.questions_version_set =questions_version_set
+      }),() => {
+        this.initialisation(true,newVersionQuestion)
+      })
     }
+  }
+  render(){
+    let pages =  Math.ceil(this.props.data.total/50 )
+    const questions = [];
+    if(this.props.data.questions.length != 0)
+    {  this.state.active_question_set.map((question,index)=>{
+      const className = "learnosity-response question-" + question.response_id;
+      // loking for proper condition for this bug fixing
+      if(this.props.data.questions[index])
+      {questions.push(
+        <Question className = {className}
+        key = {question.response_id}
+        index ={index}
+        virsionChangeClicked ={this.virsionChangeClicked}
+        version_length ={this.props.data.questions[index].question_array.length}
+        distractors = {question.options}
+        blacklistDistractors = {this.props.blacklistDistractors}
+        distractorState = {this.props.distractorState}
+        updateDistractors = {this.props.updateDistractors}
+        data ={this.props.data}
+        book_id = {this.props.book_id}
+        questionfetch = {this.props.questionfetch}
+        question_id = {question.response_id}
+        submitfeedback = {this.props.submitfeedback}
+          feedbackState = {this.props.feedbackState}
+          question = {question}
+          saveQuestion = {this.props.saveQuestion}
+            saveQuestionState = {this.props.saveQuestionState}
 
-    // thumbsDown=(event)=> {
-    //   this.setState({editDistractorVisible:true})
-    // }
-
-    virsionChangeClicked(index){
-      if(this.props.data.questions[index].question_array.length > 1)
-      {    let current_version = this.state.questions_version_set[index] + 1;
-        current_version = current_version%this.props.data.questions[index].question_array.length
-
-        const aqs = [...this.state.active_question_set];
-        const newVersionQuestion =  this.props.data.questions[index].question_array[current_version];
-        aqs[index] = newVersionQuestion
-        const questions_version_set = this.state.questions_version_set
-        questions_version_set[index] = questions_version_set[index]+1;
+        />
+      );}
+    })}
 
 
-        this.setState(prevState=>({
-          active_question_set :prevState.active_question_set = aqs,
-          questions_version_set:prevState.questions_version_set =questions_version_set
-        }),() => {
-          this.initialisation(true,newVersionQuestion)
-        })
-      }
+    if (this.props.data.error) {
+      return <Label>{this.props.data.error.message}</Label>;
     }
-    render(){
-      let pages =  Math.ceil(this.props.data.total/50 )
-      const questions = [];
-      if(this.props.data.questions.length != 0)
-      {  this.state.active_question_set.map((question,index)=>{
-        const className = "learnosity-response question-" + question.response_id;
-        // loking for proper condition for this bug fixing
-        if(this.props.data.questions[index])
-        {questions.push(
-          <Question className = {className}
-            key = {question.response_id}
-            index ={index}
-            virsionChangeClicked ={this.virsionChangeClicked}
-            version_length ={this.props.data.questions[index].question_array.length}
-            distractors = {question.options}
-            blacklistDistractors = {this.props.blacklistDistractors}
-            distractorState = {this.props.distractorState}
-            updateDistractors = {this.props.updateDistractors}
-            data ={this.props.data}
-            book_id = {this.props.book_id}
-            questionfetch = {this.props.questionfetch}
-            question_id = {question.response_id}
-            submitfeedback = {this.props.submitfeedback}
-            feedbackState = {this.props.feedbackState}
-            />
-        );}
-      })}
-
-
-      if (this.props.data.error) {
-        return <Label>{this.props.data.error.message}</Label>;
-        }
-
 
         if(questions.length == 0 && !this.props.data.loading){
           return <h3>Sorry, No Question Found...</h3>
