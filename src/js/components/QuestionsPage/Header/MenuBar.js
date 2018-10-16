@@ -202,4 +202,4 @@ class SearchBar extends Component{
 }
 
 
-export {MenuBar};
+export default MenuBar;

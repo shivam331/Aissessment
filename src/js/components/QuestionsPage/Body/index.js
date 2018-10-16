@@ -6,9 +6,6 @@ import RankKeyPhrases from './rankKeyPhrases'
 
 
 class QuestionView  extends Component {
-  constructor(props){
-    super(props)
-  }
   render(){
 
     if(!this.props.showQuestions){
@@ -31,14 +28,10 @@ data ={this.props.data}
   updateDistractors = {this.props.updateDistractors}
   submitfeedback = {this.props.submitfeedback}
   feedbackState = {this.props.feedbackState}
-<<<<<<< HEAD
-  />
-=======
   saveQuestion = {this.props.saveQuestion}
   saveQuestionState = {this.props.saveQuestionState}
 
 />
->>>>>>> aa77b2c429f473caf3208fe6e4ec62e4a28dc9fe
 
     )
   }

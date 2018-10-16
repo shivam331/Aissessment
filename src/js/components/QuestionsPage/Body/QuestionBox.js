@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import {initOptions,callbacks,initOption} from "../../../utils/learnosity_configuration";
+import {initOptions,callbacks,initOptionsEditor,callbacksEditor,hook} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
 import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
 import {FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
 import EditDistractor from './editDistractor'
-import EditQuestion from './editQuestion'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import styles from '../../../../css/question_css.css';
 import SaveQuestion from './SaveQuestion'
@@ -233,7 +232,14 @@ class QuestionBox  extends Component{
                   book_id = {this.props.book_id}
                   questionfetch = {this.props.questionfetch}
                   />
-                <EditQuestion className={this.props.className}/>
+                  <SaveQuestion
+                   question = {this.props.question}
+                   saveQuestion = {this.props.saveQuestion}
+                   data ={this.props.data}
+                     book_id = {this.props.book_id}
+                     saveQuestionState = {this.props.saveQuestionState}
+
+                 />
                 <DownVoteBtn question_id = {this.props.question_id}
                   submitfeedback = {this.props.submitfeedback}
                   feedbackState = {this.props.feedbackState}/>

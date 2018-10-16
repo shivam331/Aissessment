@@ -19,12 +19,6 @@ var initOptions = learnositySdk.init(
   }
 );
 
-var initEditorOption = {
-                "configuration": {
-                    "consumer_key": 'twRp5spenrCfVAa6'
-        },
-   "widget_type": "response"
-      }
 const callbacks = {
   errorListener: function(e) {
     // Adds a listener to all error codes.
@@ -57,11 +51,6 @@ const callbacks = {
     console.log("Save progress - ", progress);
   }
 };
-<<<<<<< HEAD
-export {initOptions,callbacks,initEditorOption};
-=======
-
-
 
 var initOptionsEditor = {
     "assetRequest": function(mediaRequested, returnType, callback, attributes) {
@@ -98,4 +87,3 @@ return true
 
 
 export {initOptions,callbacks,initOptionsEditor,callbacksEditor,hook};
->>>>>>> aa77b2c429f473caf3208fe6e4ec62e4a28dc9fe
