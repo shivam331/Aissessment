@@ -11,7 +11,6 @@ class EditDistractor extends Component{
       modal: false,
     };
     this.toggle = this.toggle.bind(this);
-
   }
   toggle() {
 
@@ -61,7 +60,7 @@ class ModalBodyContent extends Component{
     }
   }
   deleteRow(index){
-    this.props.blacklistDistractors(this.state.currentDistractors[index].value)
+    this.props.blacklistDistractors(this.state.currentDistractors[index].value,this.props.book_id)
   }
 
   updateDistarctor(newDistractor,oldDistractor){
@@ -129,8 +128,6 @@ class ModalBodyContent extends Component{
 
       }
     }
-
-
 
     render(){
       return(

@@ -35,7 +35,7 @@ return dispatch => {
   })    .then(handleErrors)
   .then(res => res.json())
   .then(json => {
-     console.log(json);
+
     dispatch(saveFeedbackSuccess(json.status));
      return json.status;
   })

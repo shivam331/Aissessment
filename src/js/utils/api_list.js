@@ -14,5 +14,6 @@ export const API = {
 "BOOKS" :"books",
 "BLACKLIST_DISTRACTORS" : "addBlacklist/",
 "UPDATE_DISTRACTORS" : "updateDistractors/",
-"SUBMIT_FEEDBACK" : "submitfeedback"
+"SUBMIT_FEEDBACK" : "submitfeedback",
+"SAVE_QUESTION" : "saveQuestion"
 }

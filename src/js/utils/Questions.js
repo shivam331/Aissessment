@@ -1,53 +1,4 @@
-// var  mcq_questions = []
-// var old_category_id = 1;
-// var mcq = (json,new_category_id,reset_question) =>{
-//   if(reset_question){
-//     mcq_questions = []
-//   }
-//   if(mcq_questions.length !== 0 && (old_category_id !== new_category_id)){
-//     //  return mcq_questions;
-//   }
-//   old_category_id = new_category_id;
-//   let data = json.data;
-//
-//   for(let questions of data){
-//     let options = [];
-//       let count  = 0
-//     for(let option of questions.choices){
-//       if(option != null)
-//       {
-// if(count <6){
-//         options.push({
-//         "value":option,
-//         "label":option
-//       })
-//     }
-//     count = count +1;
-//     }
-//     }
-//     var min=0;
-//     var max=options.length;
-//     var random =Math.floor(Math.random() * (+max - +min)) + +min;
-//     if(questions.answer != null)
-//     {    options.splice(random, 0,{
-//       "value":questions.answer,
-//       "label":questions.answer
-//     })}
-//     mcq_questions.push(
-//       {
-//         "response_id": questions._id,
-//         "type": "mcq",
-//         "stimulus" : questions.question,
-//         "options" :options,
-//         "valid_responses" : [
-//           {"value" : questions.answer, "score": 1}
-//         ],
-//
-//       }
-//     )
-//   }
-//   return mcq_questions;
-// }
+
 var mcq_versions_question = []
 var version_mcq = (json,new_category_id,reset_question) =>{
   if(reset_question){
@@ -81,7 +32,6 @@ var version_mcq = (json,new_category_id,reset_question) =>{
       }
       }
 
-
       json.blacklist.Editing.map((edit)=>{
         if(edit.from == questions.answer){
           questions.answer = edit.to
@@ -114,7 +64,9 @@ var version_mcq = (json,new_category_id,reset_question) =>{
 
         }
       )}
+
     }
+
     if(question_array.length != 0 ){
     mcq_versions_question.push({"group_name":group._id,
       "question_array":question_array});
@@ -125,6 +77,170 @@ var version_mcq = (json,new_category_id,reset_question) =>{
   return mcq_versions_question;
 
 }
+
+
+var rankingQuestions = [
+  {
+    "response_id": "60007",
+    "type": "rating",
+      "stimulus" : "The student needs to fill in the blanks ",
+      "ui_style": {
+        "fontsize": "large"
+      },
+    "options" : [
+        {
+            "value": 10,
+            "label": "1",
+            "tint": "#ff121c",
+            "description": "Unsatisfactory"
+        }, {
+            "value": 20,
+            "label": "2",
+            "tint": "#ff9104",
+            "description": "Satisfactory"
+        }, {
+            "value": 30,
+            "label": "3",
+            "tint": "#fdff30",
+            "description": "Good"
+        }, {
+            "value": 40,
+            "label": "4",
+            "tint": "#cffa2e",
+            "description": "Excellent"
+        }
+    ],
+    // "initial_value" : 30
+},
+{
+  "response_id": "60008",
+  "type": "rating",
+    "stimulus" : "The student needs to fill in the blanks ",
+    "ui_style": {
+      "fontsize": "large"
+    },
+  "options" : [
+      {
+          "value": 10,
+          "label": "1",
+          "tint": "#ff121c",
+          "description": "Unsatisfactory"
+      }, {
+          "value": 20,
+          "label": "2",
+          "tint": "#ff9104",
+          "description": "Satisfactory"
+      }, {
+          "value": 30,
+          "label": "3",
+          "tint": "#fdff30",
+          "description": "Good"
+      }, {
+          "value": 40,
+          "label": "4",
+          "tint": "#cffa2e",
+          "description": "Excellent"
+      }
+  ],
+  // "initial_value" : 30
+},
+{
+  "response_id": "60009",
+  "type": "rating",
+    "stimulus" : "The student needs to fill in the blanks ",
+    "ui_style": {
+      "fontsize": "large"
+    },
+  "options" : [
+      {
+          "value": 10,
+          "label": "1",
+          "tint": "#ff121c",
+          "description": "Unsatisfactory"
+      }, {
+          "value": 20,
+          "label": "2",
+          "tint": "#ff9104",
+          "description": "Satisfactory"
+      }, {
+          "value": 30,
+          "label": "3",
+          "tint": "#fdff30",
+          "description": "Good"
+      }, {
+          "value": 40,
+          "label": "4",
+          "tint": "#cffa2e",
+          "description": "Excellent"
+      }
+  ],
+  // "initial_value" : 30
+},
+{
+  "response_id": "60010",
+  "type": "rating",
+    "stimulus" : "The student needs to fill in the blanks ",
+    "ui_style": {
+      "fontsize": "large"
+    },
+  "options" : [
+      {
+          "value": 10,
+          "label": "1",
+          "tint": "#ff121c",
+          "description": "Unsatisfactory"
+      }, {
+          "value": 20,
+          "label": "2",
+          "tint": "#ff9104",
+          "description": "Satisfactory"
+      }, {
+          "value": 30,
+          "label": "3",
+          "tint": "#fdff30",
+          "description": "Good"
+      }, {
+          "value": 40,
+          "label": "4",
+          "tint": "#cffa2e",
+          "description": "Excellent"
+      }
+  ],
+  // "initial_value" : 30
+},
+{
+  "response_id": "60011",
+  "type": "rating",
+    "stimulus" : "The student needs to fill in the blanks ",
+    "ui_style": {
+      "fontsize": "large"
+    },
+  "options" : [
+      {
+          "value": 10,
+          "label": "1",
+          "tint": "#ff121c",
+          "description": "Unsatisfactory"
+      }, {
+          "value": 20,
+          "label": "2",
+          "tint": "#ff9104",
+          "description": "Satisfactory"
+      }, {
+          "value": 30,
+          "label": "3",
+          "tint": "#fdff30",
+          "description": "Good"
+      }, {
+          "value": 40,
+          "label": "4",
+          "tint": "#cffa2e",
+          "description": "Excellent"
+      }
+  ],
+  // "initial_value" : 30
+}
+]
 
 var matching_questions = [
   {
@@ -294,6 +410,9 @@ const question = (category_id,json,reset_question) => {
     case 4:
     return fill_blanks_quetions;
     break;
+    case 5:
+
+    return rankingQuestions;
     default:
     console.log("Invalid Question Id");
 

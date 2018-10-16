@@ -5,7 +5,7 @@ export const FETCH_BOOKLIST_BEGIN   = 'FETCH_BOOKLIST_BEGIN';
 export const FETCH_BOOKLIST_SUCCESS = 'FETCH_BOOKLIST_SUCCESS';
 export const FETCH_BOOKLIST_FAILURE = 'FETCH_BOOKLIST_FAILURE';
 export const CHANGE_BOOK_ID = 'CHANGE_BOOK_ID'
-
+export const SHOW_QUESTIONS  = "SHOW_QUESTIONS"
 
 export const fetchBooksBegin = () => ({
   type: FETCH_BOOKLIST_BEGIN
@@ -21,10 +21,12 @@ export const fetchBooksFailure = (error) => ({
   payload: { error }
 });
 
-export const changeCurrentBook = bookid =>({
+export const changeCurrentBook = (bookid,showQuestions) =>({
   type : CHANGE_BOOK_ID,
-  bookid : bookid
+  bookid : bookid,
+  showQuestions:showQuestions
 })
+
 
 export const fetchBookList = () =>{
   return dispatch => {
@@ -41,8 +43,10 @@ export const fetchBookList = () =>{
 }
 
 
-export var setCurrentBookId = (bookid) =>{
+
+
+export var setCurrentBookId = (bookid,showQuestions) =>{
   return dispatch => {
-    dispatch(changeCurrentBook(bookid))
+    dispatch(changeCurrentBook(bookid,showQuestions))
   }
 }

@@ -8,18 +8,19 @@ import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
 import {submitfeedback} from "../../Actions/FeedBackAction"
+import {saveQuestion} from "../../Actions/SaveQuestionAction"
 import history from '../../utils/history'
 
 
 const mapStateToProps = state => {
   return {
     userdetails :state.login,
-    book_id :state.booklist.currentBookId,
+    bookPageState :state.booklist,
     data : state.header,
     questions_meta : state.question,
     distractorState : state.blacklistDistractor,
-    feedbackState : state.feedback
-
+    feedbackState : state.feedback,
+    saveQuestionState : state.saveQuestion
   }
 }
 
@@ -33,7 +34,8 @@ const mapDispatchToProps = {
   userLogOut,
   blacklistDistractors,
   updateDistractors,
-  submitfeedback
+  submitfeedback,
+  saveQuestion
 
 }
 
@@ -55,9 +57,8 @@ class QuestionPage extends Component{
   componentWillMount(){
     if(!this.props.userdetails.user){
       history.replace('/')
-    //  history.push('/')
     }
-    if(!this.props.book_id)
+    if(!this.props.bookPageState.currentBookId)
     {
       history.push('/books')
     }
@@ -66,10 +67,11 @@ class QuestionPage extends Component{
 
   render()
   {
+
     return (
       <div>
       <HeaderView
-      book_id = {this.props.book_id}
+      book_id = {this.props.bookPageState.currentBookId}
       headerFetch = {this.props.fetchHeaderData}
       setCurrentBookId = {this.props.setCurrentBookId}
       userLogOut ={this.props.userLogOut}
@@ -80,10 +82,12 @@ class QuestionPage extends Component{
       newType ={this.props.newType}
       newCategory = {this.props.newCategory}
       oncatchange = {this.props.oncatchange}
+      showQuestions={this.props.bookPageState.showQuestions}
+      user = {this.props.userdetails.user}
       />
 
-      { this.props.book_id && <QuestionView
-        book_id = {this.props.book_id}
+      { this.props.bookPageState.currentBookId && <QuestionView
+        book_id = {this.props.bookPageState.currentBookId}
         questionfetch = {this.props.fetchQuestionData}
         blacklistDistractors = {this.props.blacklistDistractors}
         distractorState = {this.props.distractorState}
@@ -91,6 +95,9 @@ class QuestionPage extends Component{
         data = {this.props.questions_meta}
         submitfeedback = {this.props.submitfeedback}
         feedbackState = {this.props.feedbackState}
+        showQuestions={this.props.bookPageState.showQuestions}
+        saveQuestion = {this.props.saveQuestion}
+        saveQuestionState = {this.props.saveQuestionState}
         />}
         </div>
       );

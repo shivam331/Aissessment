@@ -3,7 +3,8 @@ import {
   FETCH_TITLE_SUCCESS,
   FETCH_CHAPTER_SUCCESS,
   FETCH_QUESTION_TYPE_SUCCESS,
-  FETCH_TITLE_FAILURE
+  FETCH_TITLE_FAILURE,
+  SHOW_QUESTIONS
 } from '../Actions/HeaderActions';
 
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
   loading: false,
   error: null,
   chapters : ["All Chapters"],
-  questionstype : ["All Question Types"]
+  questionstype : ["All Question Types"],
 };
 
 export default function titleReducer(state = initialState, action) {
@@ -45,6 +46,8 @@ export default function titleReducer(state = initialState, action) {
       error: action.payload.error,
       title: ""
     });
+
+
 
 
     default:

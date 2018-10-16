@@ -39,12 +39,12 @@ return(
                 backgroundColor={'black'} // default is black
                 opacity=".4" // default is .9
                 >
-        <Table hover bordered>
+        <Table hover bordered className ="px-3">
           <thead>
             <tr>
-              <th>SNO.</th>
+              <th>Problems</th>
+              <th>Ranking</th>
               <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
-              <th></th>
             </tr>
           </thead>
             <tbody>{rows}</tbody>
@@ -60,14 +60,19 @@ class ProductRow extends Component{
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
-
   handleClick(e){
     e.preventDefault()
-if(this.props.bookid != this.props.booklist.currentBookId){
-    this.props.newBookId(this.props.bookid)
+    let currentStatus ;
+    if(e.target.id == 1){
+          currentStatus  = true
+    }
+    else{
+currentStatus = false    }
+if(this.props.bookid != this.props.booklist.currentBookId || this.props.booklist.showQuestions != currentStatus ){
+    this.props.newBookId(this.props.bookid,currentStatus)
   }
   else{
-    history.push('/question')
+     history.push('/question')
 
   }
 
@@ -77,9 +82,10 @@ if(this.props.bookid != this.props.booklist.currentBookId){
   render(){
     return (
       <tr>
-     <th scope="row">{this.props.index + 1}</th>
+<td><a href ='' onClick={this.handleClick} id = "1">{this.props.bookid}</a></td>
+<td><a href ='' onClick={this.handleClick} id = "2">Rank KeyPhrases</a></td>
+
 <td>{this.props.bookname}</td>
-<td><a href ='' onClick={this.handleClick}>{this.props.bookid}</a></td>
       </tr>
     );
 

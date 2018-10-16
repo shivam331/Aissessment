@@ -7,6 +7,7 @@ import {FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/Quest
 import EditDistractor from './editDistractor'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import styles from '../../../../css/question_css.css';
+import SaveQuestion from './SaveQuestion'
 
 class QuestionBox  extends Component{
   constructor(props){
@@ -132,6 +133,10 @@ if(page_no !== this.props.data.page_no)
         question_id = {question.response_id}
         submitfeedback = {this.props.submitfeedback}
           feedbackState = {this.props.feedbackState}
+          question = {question}
+          saveQuestion = {this.props.saveQuestion}
+            saveQuestionState = {this.props.saveQuestionState}
+
         />
       );}
     })}
@@ -160,11 +165,11 @@ if(page_no !== this.props.data.page_no)
             opacity=".4" // default is .9
             >
                 </OverlayLoader>
-<Row>
-<Col>
-<Pagination aria-label="Page navigation">
-<PaginationItem disabled={this.props.data.page_no <= 0}>
-    <PaginationLink
+      <Row>
+      <Col>
+      <Pagination aria-label="Page navigation">
+      <PaginationItem disabled={this.props.data.page_no <= 0}>
+      <PaginationLink
       onClick={e => this.loadMore(e, this.props.data.page_no - 1)}
       previous
       href="#"
@@ -228,10 +233,17 @@ class Question extends Component{
                  book_id = {this.props.book_id}
                  questionfetch = {this.props.questionfetch}
                />
+               <SaveQuestion
+                 question = {this.props.question}
+                 saveQuestion = {this.props.saveQuestion}
+                 data ={this.props.data}
+                   book_id = {this.props.book_id}
+                   saveQuestionState = {this.props.saveQuestionState}
+
+               />
                   <DownVoteBtn question_id = {this.props.question_id}
                   submitfeedback = {this.props.submitfeedback}
                     feedbackState = {this.props.feedbackState}/>
-
       </div>
     </div>
   </div>

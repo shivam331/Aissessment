@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import BookListTable from './BookListTable'
 import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
+import {userLogOut} from "../../Actions/loginActions"
 import {newChapter,newType} from "../../Actions/QuestionBoxActions"
 import history from '../../utils/history'
+import TitleBar from '../Reusable/TitleBar'
+import {Row, Col,Container} from 'reactstrap'
 import {
   Redirect
 } from 'react-router-dom'
@@ -19,7 +22,8 @@ const mapDispatchToProps = {
   fetchBookList,
   setCurrentBookId,
   newChapter,
-  newType
+  newType,
+  userLogOut
 }
 
 class BooksList  extends Component {
@@ -34,14 +38,12 @@ class BooksList  extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-
-    if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId){
+    if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId
+      || this.props.booklist.showQuestions !== nextProps.booklist.showQuestions){
       this.props.newChapter("All Chapters");
       this.props.newType("Example")
        history.push('/question')
-    }
-
-  }
+     }}
 
   componentWillMount() {
   //  this.props.setCurrentBookId()
@@ -56,11 +58,19 @@ class BooksList  extends Component {
   render(){
 
     return (
+      <div>
+      <TitleBar
+      user = {this.props.data.user}
+      setCurrentBookId = {this.props.setCurrentBookId}
+      userLogOut ={this.props.userLogOut}
+      />
+
       <BookListTable
       booklist ={this.props.booklist}
       fetchBookList = {this.props.fetchBookList}
       newBookId = {this.props.setCurrentBookId}
       />
+      </div>
 
     )
   }
