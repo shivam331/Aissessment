@@ -33,9 +33,37 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
         </Nav>
         </Col>
         <Col xs="3">
+         <MenuCatButtons />
         </Col>
         </Row>
         </div>
+      );
+    }
+  }
+
+  class MenuCatButtons extends Component{
+    render(){
+      return(
+        <div  className = "d-inline-block float-right " >
+        <ExportQtBtn />
+        <AddBankBtn  />
+        </div>
+      );
+    }
+  }
+
+  class ExportQtBtn extends Component {
+    render(){
+      return(
+        <Button type="button" className="btn btn-outline-secondary mr-2 shadow">Export To QTI</Button>
+      );
+    }
+  }
+
+  class AddBankBtn extends Component {
+    render(){
+      return(
+        <Button type="button" className="btn btn-outline-secondary ml-2 shadow">Add To Bank</Button>
       );
     }
   }

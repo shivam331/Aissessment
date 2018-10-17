@@ -41,11 +41,18 @@ class SaveQuestion extends Component{
     finalQuestion.options.map((option)=>{
       choices.push(option.label)
     })
+    let answer = ""
+  if(finalQuestion.validation.valid_response.value.length != 0){
+    answer = finalQuestion.validation.valid_response.value[0]
+  }
+  else{
+    answer = finalQuestion.valid_responses[0].value
+  }
     let finalData = {
       combine_problem_id : finalQuestion.response_id,
       question:finalQuestion.stimulus,
       choices:choices,
-      answer:finalQuestion.valid_responses[0].value,
+      answer:answer,
       chapter : this.props.data.chapter,
       questType : this.props.data.questiontypes,
       book_id :this.props.book_id

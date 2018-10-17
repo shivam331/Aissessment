@@ -42,7 +42,6 @@ export const userlogin = (credentials) =>{
     .then(json => {
       let user = json.data.email
       let name = json.data.name
-      console.log("name-------------  "+name);
       if (json.data.email === undefined) {
         user = ""
       }

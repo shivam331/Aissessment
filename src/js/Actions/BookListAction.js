@@ -35,6 +35,7 @@ export const fetchBookList = () =>{
     .then(handleErrors)
     .then(res => res.json())
     .then(json => {
+      console.log(BASE_URL+API.BOOKS);
       dispatch(fetchBooksSuccess(json.data));
       //return json.data;
     })

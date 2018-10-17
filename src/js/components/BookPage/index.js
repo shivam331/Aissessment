@@ -5,7 +5,7 @@ import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {newChapter,newType} from "../../Actions/QuestionBoxActions"
 import history from '../../utils/history'
-import {Button, Row, Col,Label,Container} from 'reactstrap'
+import {Row, Col,Container} from 'reactstrap'
 import TitleBar from '../Reusable/TitleBar'
 import {
   Redirect

@@ -41,12 +41,8 @@ const mapDispatchToProps = {
 }
 
 class QuestionPage extends Component{
-  constructor(props){
-    super(props);
-  }
-  componentWillUpdate(nextProps, nextState) {
 
-  }
+  
   componentWillUnmount() {
        this.props.newMode(true)
     }

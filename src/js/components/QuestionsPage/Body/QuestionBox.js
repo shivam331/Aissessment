@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {initOptions,callbacks,initOptionsEditor,callbacksEditor,hook} from "../../../utils/learnosity_configuration";
+import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
 import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
@@ -84,14 +84,17 @@ let api  = ""
 
     if(this.state.active_question_set !== prevState.active_question_set){
     }
-
-    // if( this.props.data.current_category !== newProps.data.current_category){
-    //   let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-    //   + this.props.data.page_no;
-    //   this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,newProps.data.current_category,0,true);
-    //
-    // }
   }
+
+  componentWillReceiveProps(newProps){
+
+  // if( this.props.data.current_category !== newProps.data.current_category){
+  //   let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
+  //   + this.props.data.page_no;
+  //   this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,newProps.data.current_category,0,true);
+  //
+  // }
+}
 
   initialisation(newVersionClicked,newVersionQuestion){
     if(newVersionClicked){
@@ -185,7 +188,7 @@ let api  = ""
               >
             </OverlayLoader>
             <Row>
-              <Col  sm="12" md={{ size: 8, offset: 4 }}>
+              <Col  sm="12">
                 <Pagination aria-label="Page navigation">
                   <PaginationItem disabled={this.props.data.page_no <= 0}>
                     <PaginationLink

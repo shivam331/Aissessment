@@ -20,7 +20,6 @@ var dropdown_list = [{"name" : "All Chapters","options":["All Chapters"]},
 class MenuBar  extends Component {
   constructor(props){
     super(props)
-      this.rankKeyPhrases = this.rankKeyPhrases.bind(this);
       this.toggle = this.toggle.bind(this);
       this.modeChange = this.modeChange.bind(this)
     this.state = {
@@ -52,12 +51,12 @@ rankKeyPhrases(){
   // this.props.setShowQuestion()
 }
 modeChange(){
-
-  this.setState(prevState =>({
-    editing: !prevState.editing,
-  }),()=>{
-    this.props.newMode(!this.props.questions_meta.editingMode)
-  })
+  this.props.newMode(!this.props.questions_meta.editingMode)
+  // this.setState(prevState =>({
+  //   editing: !prevState.editing,
+  // }),()=>{
+  //   this.props.newMode(!this.props.questions_meta.editingMode)
+  // })
 }
   toggle() {
 
@@ -96,13 +95,53 @@ render(){
            {dropdown}
 
      <NavItem className = {"m-2"}>
-       <ToggleBar />
+     <Switch
+    disabled = {this.props.questions_meta.loading}
+         onChange={this.modeChange}
+         checked={this.props.questions_meta.editingMode}
+         width = {90}
+         height = {35}
+         id="normal-switch"
+         offColor="#6c757d"
+        onColor="#6c757d"
+         uncheckedIcon={
+           <div
+             style={{
+               display: "flex",
+               justifyContent: "center",
+               alignItems: "center",
+               height: "100%",
+               fontSize: 12,
+               color: "White",
+               padding: 2
+             }}
+             >
+             Saved
+           </div>
+         }
+         checkedIcon={
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+              fontSize: 12,
+              color: "White",
+              padding: 2
+            }}
+            >
+            Editing
+          </div>
+        }
+       />
        </NavItem>
        </Nav>
        <div className="ml-auto" >
        <SearchBar
         questionfetch = {this.props.questionfetch}
-        book_id = {this.props.book_id}/>
+        book_id = {this.props.book_id}
+        questions_meta = {this.props.questions_meta}/>
         </div >
       </Collapse>
     </Navbar>
@@ -128,67 +167,7 @@ render(){
 }
 }
 
-class ToggleBar extends Component{
-  constructor(props) {
-  super(props);
-  this.toggle = this.toggle.bind(this);
-  this.state={
-    isOpen:false
-  }
-  }
 
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-  render(){
-    return(
-      <label htmlFor="icon-switch">
-        <Switch
-          checked={!this.state.isOpen}
-          onChange={this.toggle}
-          height={40}
-          width={90}
-          offColor="#6c757d"
-          onColor="#6c757d"
-          uncheckedIcon={
-            <div id="unchecked-saved"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                fontSize: 12,
-                color: "White",
-                padding: 2
-              }}
-              >
-              Saved
-            </div>
-          }
-          checkedIcon={
-            <div id="checked-editing"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                fontSize: 12,
-                color: "White",
-                padding: 2
-              }}
-              >
-              Editing
-            </div>
-          }
-          className="react-switch"
-          id="icon-switch"
-          />
-      </label>
-    )
-  }
-}
 
 
 class SearchBar extends Component{
@@ -198,13 +177,25 @@ class SearchBar extends Component{
   this.handleSearch = this.handleSearch.bind(this);
 }
 
-  handleSearch(e) {
-
-	e.preventDefault();
+handleSearch(e) {
+  e.preventDefault();
   if(this.props.book_id && this.search.current.value != ""){
+  let api = ""
+  if(this.props.questions_meta.editingMode){
     let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
   this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
   }
+  else{
+    let api = API.SEARCH_SAVED_QUESTION+this.props.book_id+"/" +this.search.current.value;
+    this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
+}
+
+
+  //   let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
+  // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+  }
+
+
 
 }
   render(){
