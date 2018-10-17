@@ -33,11 +33,12 @@ class MenuBar  extends Component {
       let api = ""
       if(nextProps.questions_meta.editingMode){
          api = API.QUESTIONS+this.props.book_id+"/" + nextProps.questions_meta.chapter+ "/" + nextProps.questions_meta.questiontypes
-        + "/"+ + nextProps.questions_meta.page_no;
+        + "/"+ nextProps.questions_meta.page_no;
             this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
       }
       else{
-      api = API.SAVED_QUESTION_LIST
+      api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + nextProps.questions_meta.chapter+ "/" + nextProps.questions_meta.questiontypes
+     + "/"+ nextProps.questions_meta.page_no
           this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
     }
       // let api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" +this.search.current.value;

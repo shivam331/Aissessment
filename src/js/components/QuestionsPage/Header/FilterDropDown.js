@@ -19,14 +19,36 @@ class FilterDropDown extends Component{
   componentWillReceiveProps(newProps){
     // look for better approach rather than if else
     if(this.props.questions_meta.chapter != newProps.questions_meta.chapter && this.props.index == 0 ){
-      let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-      + "/"+ + newProps.questions_meta.page_no;
-      this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,newProps.questions_meta.page_no,true)
+
+      if(newProps.questions_meta.editingMode){
+        let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
+        + "/"+  newProps.questions_meta.page_no;
+            this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+      }
+      else{
+    let  api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
+     + "/"+  newProps.questions_meta.page_no;
+          this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
+    }
+
+      // let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
+      // + "/"+ + newProps.questions_meta.page_no;
+      // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,newProps.questions_meta.page_no,true)
     }
     else if(this.props.questions_meta.questiontypes != newProps.questions_meta.questiontypes && this.props.index == 1){
-      let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-      + "/"+ + newProps.questions_meta.page_no;
-      this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,newProps.questions_meta.page_no,true)
+      if(newProps.questions_meta.editingMode){
+        let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
+        + "/"+ newProps.questions_meta.page_no;
+            this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+      }
+      else{
+    let api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
+    + "/"+ newProps.questions_meta.page_no;
+          this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
+    }
+      // let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
+      // + "/"+ + newProps.questions_meta.page_no;
+      // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,newProps.questions_meta.page_no,true)
     }
   }
 

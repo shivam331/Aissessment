@@ -26,17 +26,41 @@ class QuestionBox  extends Component{
 if(page_no !== this.props.data.page_no)
 {    if(this.props.data.current_category == 1)
     {
-      // let new_page_no = this.props.data.page_no + 1
-      let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-      + page_no;
-      this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,page_no,true);
+      let api = ""
+      if(this.props.data.editingMode){
+         api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
+        + "/"+ this.props.data.page_no;
+            this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,page_no,true)
+      }
+      else{
+      api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
+     + "/"+ this.props.data.page_no;
+          this.props.questionfetch(api,LOAD_MORE_QUESTION,6,page_no,true)
+    }
+
+
+      // let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
+      // + page_no;
+      // this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,page_no,true);
     }}
   }
 
   componentDidMount() {
-    let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-    + this.props.data.page_no;
-    this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
+let api  = ""
+    if(this.props.data.editingMode){
+       api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
+      + "/"+ this.props.data.page_no;
+          this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true)
+    }
+    else{
+    api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
+   + "/"+ this.props.data.page_no;
+        this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,this.props.data.page_no,true)
+  }
+
+    // let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
+    // + this.props.data.page_no;
+    // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
 
   }
 
@@ -63,12 +87,12 @@ if(page_no !== this.props.data.page_no)
   }
   componentWillReceiveProps(newProps){
 
-    if( this.props.data.current_category !== newProps.data.current_category){
-      let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-      + this.props.data.page_no;
-      this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,newProps.data.current_category,0,true);
-
-    }
+    // if( this.props.data.current_category !== newProps.data.current_category){
+    //   let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
+    //   + this.props.data.page_no;
+    //   this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,newProps.data.current_category,0,true);
+    //
+    // }
   }
 
   initialisation(newVersionClicked,newVersionQuestion){

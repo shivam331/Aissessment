@@ -107,11 +107,11 @@ var savedQuestionParsing = (json,reset_question) =>{
       var min=0;
       var max=options.length;
       var random =Math.floor(Math.random() * (+max - +min)) + +min;
-      if(questions.answer != null)
-      {    options.splice(random, 0,{
-        "value":questions.answer,
-        "label":questions.answer
-      })}
+      // if(questions.answer != null)
+      // {    options.splice(random, 0,{
+      //   "value":questions.answer,
+      //   "label":questions.answer
+      // })}
       if(options.length > 3 )
   {
 
