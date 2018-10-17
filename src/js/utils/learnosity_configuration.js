@@ -52,8 +52,6 @@ const callbacks = {
   }
 };
 
-
-
 var initOptionsEditor = {
     "assetRequest": function(mediaRequested, returnType, callback, attributes) {
         // Do something.

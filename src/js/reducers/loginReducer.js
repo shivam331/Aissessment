@@ -7,8 +7,10 @@ import {USER_SIGNIN_BEGIN,
   // loading: (authCache && JSON.parse(authCache).user) || false
 
 const authCache = localStorage.getItem('auth')
+const authName = localStorage.getItem('authName')
 const initialState = {
   user:  authCache && JSON.parse(authCache).user,
+  name: authName && JSON.parse(authName).name,
   loading: false,
   error: null,
 }
@@ -25,7 +27,8 @@ export  const  loginReducer = (state = initialState, action) =>{
     case USER_SIGNIN_SUCCESS:
     return Object.assign({}, state, {
       loading: false,
-      user: action.payload.user
+      user: action.payload.user,
+      name: action.payload.name
     });
 
     case USER_SIGNIN_FAILURE:

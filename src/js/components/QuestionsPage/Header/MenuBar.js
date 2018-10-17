@@ -20,6 +20,8 @@ var dropdown_list = [{"name" : "All Chapters","options":["All Chapters"]},
 class MenuBar  extends Component {
   constructor(props){
     super(props)
+      this.rankKeyPhrases = this.rankKeyPhrases.bind(this);
+      this.toggle = this.toggle.bind(this);
       this.modeChange = this.modeChange.bind(this)
     this.state = {
    isOpen: false,
@@ -45,6 +47,7 @@ class MenuBar  extends Component {
 
     }
   }
+
 rankKeyPhrases(){
   // this.props.setShowQuestion()
 }
@@ -89,31 +92,23 @@ render(){
     <Navbar color="dark" light expand="md">
       <NavbarToggler onClick={this.toggle} />
       <Collapse isOpen={this.state.isOpen} navbar>
-      <Nav  navbar>
+      <Nav navbar>
            {dropdown}
 
      <NavItem className = {"m-2"}>
-     <Switch
-          onChange={this.modeChange}
-          checked={this.props.questions_meta.editingMode}
-          width = {90}
-          height = {35}
-          aria-labelledby	= {"abc"}
-          aria-label	 ={"EEEEEEEEE"}
-          id="normal-switch"
-        />
-     </NavItem >
+       <ToggleBar />
+       </NavItem>
        </Nav>
        <div className="ml-auto" >
        <SearchBar
         questionfetch = {this.props.questionfetch}
-        book_id = {this.props.book_id} />
-              </div >
+        book_id = {this.props.book_id}/>
+        </div >
       </Collapse>
     </Navbar>
 
-
   )
+
 
   // return(
   //   <Nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -133,14 +128,75 @@ render(){
 }
 }
 
+class ToggleBar extends Component{
+  constructor(props) {
+  super(props);
+  this.toggle = this.toggle.bind(this);
+  this.state={
+    isOpen:false
+  }
+  }
 
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+  render(){
+    return(
+      <label htmlFor="icon-switch">
+        <Switch
+          checked={!this.state.isOpen}
+          onChange={this.toggle}
+          height={40}
+          width={90}
+          offColor="#6c757d"
+          onColor="#6c757d"
+          uncheckedIcon={
+            <div id="unchecked-saved"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: 12,
+                color: "White",
+                padding: 2
+              }}
+              >
+              Saved
+            </div>
+          }
+          checkedIcon={
+            <div id="checked-editing"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: 12,
+                color: "White",
+                padding: 2
+              }}
+              >
+              Editing
+            </div>
+          }
+          className="react-switch"
+          id="icon-switch"
+          />
+      </label>
+    )
+  }
+}
 
 
 class SearchBar extends Component{
   constructor(props) {
   super(props);
   this.search = React.createRef();
-  this.handleSearch = this.handleSearch.bind(this);}
+  this.handleSearch = this.handleSearch.bind(this);
+}
 
   handleSearch(e) {
 
@@ -150,15 +206,16 @@ class SearchBar extends Component{
   this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
   }
 
-
-
 }
   render(){
     return(
-      <Form className="form-inline ">
-        <Input innerRef={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-        <Button type ="submit" color="secondary"  onClick={this.handleSearch}>Search</Button>
-      </Form>
+      <div>
+       <Form className="form-inline ">
+          <Input innerRef={this.search} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+          <Button type ="submit" color="secondary"  onClick={this.handleSearch}>Search</Button>
+        </Form>
+      </div>
+
     );
   }
 }

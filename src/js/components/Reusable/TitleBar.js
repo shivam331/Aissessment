@@ -34,17 +34,17 @@ history.push('/books')
     // if (this.props.data.loading) {
     //   return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     // }
+    var name="Welcome " + this.props.name
     return(
        <div style={{ padding: '.5rem' }}>
       <Row>
        <Col xs="9">
-      <h3 className="font-weight-bold ml-5 mt-2">{this.props.book_id? this.props.data.title : "AIssessment"}</h3>
+      <h3 className="font-weight-bold ml-5 mt-2">{this.props.book_id ? this.props.data.title : name}</h3>
        </Col>
        <Col xs = "3">
-      <div style={{ padding: '.5rem' }} >
-      {this.props.book_id &&
-       <Button className ="btn btn-primary"onClick = {this.bookList} >Book List</Button>}{'    '}
-       <Button className ="btn btn-danger"  onClick = {this.logOut}>Log Out</Button>
+      <div style={{ padding: '.5rem' }}>
+      <Button className ="btn btn-danger float-right" style={{ margin: '.20rem' }} onClick = {this.logOut}>Log Out</Button>
+       {this.props.book_id && <Button className ="btn btn-primary float-right" style={{ margin: '.20rem' }} onClick = {this.bookList} >Book List</Button>}{' '}
       </div>
        </Col>
       </Row>

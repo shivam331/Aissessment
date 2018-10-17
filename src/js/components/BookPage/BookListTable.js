@@ -39,21 +39,20 @@ return(
                 backgroundColor={'black'} // default is black
                 opacity=".4" // default is .9
                 >
-        <Table hover bordered className ="px-3">
-          <thead>
-            <tr>
-              <th>Problems</th>
-              <th>Ranking</th>
-              <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
-            </tr>
-          </thead>
-            <tbody>{rows}</tbody>
-      </Table>
+                <Table hover bordered>
+                <thead>
+                <tr>
+                <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
+                <th>Ranking</th>
+                <th>Problems</th>
+                </tr>
+                </thead>
+                <tbody>{rows}</tbody>
+                </Table>
    </OverlayLoader>
  )
-  }
 }
-
+}
 
 class ProductRow extends Component{
   constructor(props){
@@ -75,17 +74,14 @@ if(this.props.bookid != this.props.booklist.currentBookId || this.props.booklist
      history.push('/question')
 
   }
-
-
   }
 
   render(){
     return (
       <tr>
-<td><a href ='' onClick={this.handleClick} id = "1">{this.props.bookid}</a></td>
-<td><a href ='' onClick={this.handleClick} id = "2">Rank KeyPhrases</a></td>
-
 <td>{this.props.bookname}</td>
+<td><a href ='' onClick={this.handleClick} id = "2">Rank KeyPhrases</a></td>
+<td><a href ='' onClick={this.handleClick} id = "1">View Problems</a></td>
       </tr>
     );
 

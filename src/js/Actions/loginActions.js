@@ -11,9 +11,9 @@ export const userLoginBegin = () => ({
   type: USER_SIGNIN_BEGIN
 });
 
-export const userLoginSuccess = (user) => ({
+export const userLoginSuccess = (user,name) => ({
   type: USER_SIGNIN_SUCCESS,
-  payload: { user }
+  payload: { user,name }
 });
 
 export const userLoginFailure = (error) => ({
@@ -41,11 +41,14 @@ export const userlogin = (credentials) =>{
     .then(res => res.json())
     .then(json => {
       let user = json.data.email
+      let name = json.data.name
+      console.log("name-------------  "+name);
       if (json.data.email === undefined) {
         user = ""
       }
       localStorage.setItem('auth',JSON.stringify({user}));
-      dispatch(userLoginSuccess(user));
+      localStorage.setItem('authName',JSON.stringify({name}));
+      dispatch(userLoginSuccess(user,name));
     //  return json.data;
     })
     .catch(error => dispatch(userLoginFailure(error)));
@@ -54,6 +57,7 @@ export const userlogin = (credentials) =>{
 
 export const userLogOut = () =>{
   localStorage.setItem('auth',JSON.stringify({}));
+  localStorage.setItem('authName',JSON.stringify({}));
   return dispatch=>
 {  dispatch(userLogOutSuccess())}
 }

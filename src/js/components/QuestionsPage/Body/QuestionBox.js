@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
+import {initOptions,callbacks,initOptionsEditor,callbacksEditor,hook} from "../../../utils/learnosity_configuration";
 import DownVoteBtn from "./DownVoteButton";
 import {API} from "../../../utils/api_list";
 import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
@@ -84,8 +84,6 @@ let api  = ""
 
     if(this.state.active_question_set !== prevState.active_question_set){
     }
-  }
-  componentWillReceiveProps(newProps){
 
     // if( this.props.data.current_category !== newProps.data.current_category){
     //   let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
@@ -168,109 +166,109 @@ let api  = ""
       return <Label>{this.props.data.error.message}</Label>;
     }
 
+        if(questions.length == 0 && !this.props.data.loading){
+          return <h3>Sorry, No Question Found...</h3>
+        }
 
-    if(questions.length == 0 && !this.props.data.loading){
-      return <h3>Sorry, No Question Found...</h3>
+        // <Col sm="12" md={{ size: 8, offset: 5}}>
+        // <Button color="danger"  onClick={this.loadMore} className = "form-row text-center">Load More...</Button>
+        // </Col>
+        return(
+          <div className="container">
+            <OverlayLoader
+              color={'red'} // default is white
+              loader="ScaleLoader" // check below for more loaders
+              text="Loading... Please wait!"
+              active={this.props.data.loading}
+              backgroundColor={'black'} // default is black
+              opacity=".4" // default is .9
+              >
+            </OverlayLoader>
+            <Row>
+              <Col  sm="12" md={{ size: 8, offset: 4 }}>
+                <Pagination aria-label="Page navigation">
+                  <PaginationItem disabled={this.props.data.page_no <= 0}>
+                    <PaginationLink
+                      onClick={e => this.loadMore(e, this.props.data.page_no - 1)}
+                      previous
+                      href="#"
+                      />
+                  </PaginationItem>
+
+                  {[...Array(pages > 5 ? 5 : pages)].map((page, i) =>
+
+                    <PaginationItem active={i === this.props.data.page_no} key={i}>
+                      <PaginationLink onClick={e => this.loadMore(e, i)} href="#">
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )}
+
+                  <PaginationItem disabled={this.props.data.page_no >= pages - 1}>
+                    <PaginationLink
+                      onClick={e => this.loadMore(e, this.props.data.page_no + 1)}
+                      next
+                      href="#"
+                      />
+
+                  </PaginationItem>
+                </Pagination>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                {questions}
+              </Col>
+            </Row>
+          </div>
+        )
+      }
     }
 
-    // <Col sm="12" md={{ size: 8, offset: 5}}>
-    // <Button color="danger"  onClick={this.loadMore} className = "form-row text-center">Load More...</Button>
-    // </Col>
-    return(
-      <div className="container">
-      <OverlayLoader
-            color={'red'} // default is white
-            loader="ScaleLoader" // check below for more loaders
-            text="Loading... Please wait!"
-            active={this.props.data.loading}
-            backgroundColor={'black'} // default is black
-            opacity=".4" // default is .9
-            >
-                </OverlayLoader>
-      <Row>
-      <Col>
-      <Pagination aria-label="Page navigation">
-      <PaginationItem disabled={this.props.data.page_no <= 0}>
-      <PaginationLink
-      onClick={e => this.loadMore(e, this.props.data.page_no - 1)}
-      previous
-      href="#"
-    />
-  </PaginationItem>
+    class Question extends Component{
+      constructor(props){
+        super(props)
+        this.versionChange = this.versionChange.bind(this)
+      }
+      versionChange(e){
+        e.preventDefault()
+        this.props.virsionChangeClicked(this.props.index)
+      }
 
-  {[...Array(pages > 5 ? 5 : pages)].map((page, i) =>
+      render(){
+        return(
+          <div className="form-check mt-3  shadow ">
+            <div className="p-2">
+              <Input type="checkbox" />
+            <span className = {this.props.className}></span>
+              </div>
+              <div className="row col-md-12">
+                <div className = "col-2-md">
+                  <Button color="link" disabled={this.props.version_length > 1 ? false :true} onClick ={this.versionChange}>View Other Versions</Button>
+                </div>
+                <EditDistractor distractors = {this.props.distractors} blacklistDistractors = {this.props.blacklistDistractors}
+                  distractorState = {this.props.distractorState} updateDistractors = {this.props.updateDistractors}
+                  data ={this.props.data}
+                  book_id = {this.props.book_id}
+                  questionfetch = {this.props.questionfetch}
+                  />
+                  <SaveQuestion
+                   question = {this.props.question}
+                   saveQuestion = {this.props.saveQuestion}
+                   data ={this.props.data}
+                     book_id = {this.props.book_id}
+                     saveQuestionState = {this.props.saveQuestionState}
 
-              <PaginationItem active={i === this.props.data.page_no} key={i}>
-                <PaginationLink onClick={e => this.loadMore(e, i)} href="#">
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            )}
-
-        <PaginationItem disabled={this.props.data.page_no >= pages - 1}>
-                 <PaginationLink
-                   onClick={e => this.loadMore(e, this.props.data.page_no + 1)}
-                   next
-                   href="#"
                  />
-
-               </PaginationItem>
-      </Pagination>
-      </Col>
-</Row>
-
-      <Row>
-      <Col>
-      {questions}
-      </Col>
-      </Row>
-      </div>
-    )
-  }
-}
-
-class Question extends Component{
-  constructor(props){
-    super(props)
-    this.versionChange = this.versionChange.bind(this)
-  }
-  versionChange(e){
-    e.preventDefault()
-    this.props.virsionChangeClicked(this.props.index)
-  }
-
-  render(){
-    return(
-  <div className="form-check mt-3  shadow ">
-    <div className="p-2">
-       <Input type="checkbox" />
-       <span className= {this.props.className}></span>
-          <div className="row col-md-12">
-             <div className = "col-2-md">
-               <Button color="link" disabled={this.props.version_length > 1 ? false :true} onClick ={this.versionChange}>View Other Versions</Button>
-             </div>
-               <EditDistractor distractors = {this.props.distractors} blacklistDistractors = {this.props.blacklistDistractors}
-               distractorState = {this.props.distractorState} updateDistractors = {this.props.updateDistractors}
-               data ={this.props.data}
-                 book_id = {this.props.book_id}
-                 questionfetch = {this.props.questionfetch}
-               />
-               <SaveQuestion
-                 question = {this.props.question}
-                 saveQuestion = {this.props.saveQuestion}
-                 data ={this.props.data}
-                   book_id = {this.props.book_id}
-                   saveQuestionState = {this.props.saveQuestionState}
-
-               />
-                  <DownVoteBtn question_id = {this.props.question_id}
+                <DownVoteBtn question_id = {this.props.question_id}
                   submitfeedback = {this.props.submitfeedback}
-                    feedbackState = {this.props.feedbackState}/>
-      </div>
-    </div>
-  </div>
-    );
-  }
-}
+                  feedbackState = {this.props.feedbackState}/>
 
-export default QuestionBox;
+            </div>
+          </div>
+        );
+      }
+    }
+
+    export default QuestionBox;

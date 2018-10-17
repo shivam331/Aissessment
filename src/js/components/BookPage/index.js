@@ -5,8 +5,8 @@ import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {newChapter,newType} from "../../Actions/QuestionBoxActions"
 import history from '../../utils/history'
+import {Button, Row, Col,Label,Container} from 'reactstrap'
 import TitleBar from '../Reusable/TitleBar'
-import {Row, Col,Container} from 'reactstrap'
 import {
   Redirect
 } from 'react-router-dom'
@@ -27,7 +27,6 @@ const mapDispatchToProps = {
 }
 
 class BooksList  extends Component {
-
   componentWillUpdate(nextProps, nextState) {
 
 
@@ -36,7 +35,6 @@ class BooksList  extends Component {
     }
 
   }
-
   componentWillReceiveProps(nextProps){
     if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId
       || this.props.booklist.showQuestions !== nextProps.booklist.showQuestions){
@@ -56,22 +54,21 @@ class BooksList  extends Component {
 
 
   render(){
-
     return (
       <div>
       <TitleBar
-      user = {this.props.data.user}
-      setCurrentBookId = {this.props.setCurrentBookId}
-      userLogOut ={this.props.userLogOut}
-      />
+        user = {this.props.data.user}
+        name = {this.props.data.name}
+        setCurrentBookId = {this.props.setCurrentBookId}
+        userLogOut = {this.props.userLogOut}
+        />
 
       <BookListTable
       booklist ={this.props.booklist}
       fetchBookList = {this.props.fetchBookList}
       newBookId = {this.props.setCurrentBookId}
       />
-      </div>
-
+    </div>
     )
   }
 }

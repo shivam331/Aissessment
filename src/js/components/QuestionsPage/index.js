@@ -41,13 +41,11 @@ const mapDispatchToProps = {
 }
 
 class QuestionPage extends Component{
+  constructor(props){
+    super(props);
+  }
   componentWillUpdate(nextProps, nextState) {
 
-
-    // if(!nextProps.book_id){
-    //   history.push('/books')
-    //   // history.replace('/books')
-    // }
   }
   componentWillUnmount() {
        this.props.newMode(true)
