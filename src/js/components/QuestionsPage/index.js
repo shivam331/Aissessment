@@ -3,7 +3,7 @@ import HeaderView from "./Header";
 import QuestionView from './Body'
 import {connect} from 'react-redux';
 import { fetchHeaderData } from "../../Actions/HeaderActions"
-import {fetchQuestionData,newChapter,newType,newCategory} from "../../Actions/QuestionBoxActions"
+import {fetchQuestionData,newChapter,newType,newCategory,newMode} from "../../Actions/QuestionBoxActions"
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
@@ -35,7 +35,8 @@ const mapDispatchToProps = {
   blacklistDistractors,
   updateDistractors,
   submitfeedback,
-  saveQuestion
+  saveQuestion,
+  newMode
 
 }
 
@@ -46,7 +47,9 @@ class QuestionPage extends Component{
   componentWillUpdate(nextProps, nextState) {
 
   }
-
+  componentWillUnmount() {
+       this.props.newMode(true)
+    }
   componentWillReceiveProps(nextProps){
     if(!nextProps.userdetails.user){
       history.replace('/')
@@ -82,6 +85,7 @@ class QuestionPage extends Component{
       oncatchange = {this.props.oncatchange}
       showQuestions={this.props.bookPageState.showQuestions}
       user = {this.props.userdetails.user}
+      newMode = {this.props.newMode}
       />
 
       { this.props.bookPageState.currentBookId && <QuestionView

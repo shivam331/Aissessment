@@ -10,6 +10,7 @@ export const LOAD_MORE_QUESTION = 'LOAD_MORE_QUESTION';
 export const CHANGE_CHAPTER = "CHANGE_CHAPTER"
 export const CHANGE_QUESTION_TYPE = "CHANGE_QUESTION_TYPE"
 export const CHANGE_QUESTION_CATEGORY = "CHANGE_QUESTION_CATEGORY"
+export const CHANGE_VIEW_MODE = "CHANGE_VIEW_MODE"
 
 
 export const fetchQuestionBegin = () => ({
@@ -44,6 +45,10 @@ export const changeCategory = category_id =>({
   category_id : category_id
 })
 
+const changeMode = (mode) =>({
+  type :CHANGE_VIEW_MODE,
+  editingMode : mode
+})
 
 
 export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,reset_question) =>{
@@ -82,5 +87,11 @@ export var newType = (questiontype) =>{
 export var newCategory = category_id =>{
   return dispatch => {
     dispatch(changeCategory(category_id))
+  }
+}
+
+export var newMode = (editingMode) =>{
+  return dispatch =>{
+    dispatch(changeMode(editingMode))
   }
 }

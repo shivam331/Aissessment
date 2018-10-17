@@ -70,7 +70,7 @@ this.initialisation()
              </OverlayLoader>
       <Row className="mt-2">
        <Col >
-         <p className="text-primary mt-2">Total KeyPhraes: {this.state.totalKeyphrases}</p>
+         <p className="text-primary mt-2">Total KeyPhrases: {this.state.totalKeyphrases}</p>
        </Col>
       </Row>
        <Row>
