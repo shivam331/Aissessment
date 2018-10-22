@@ -1,0 +1,16 @@
+.load-more
+  display: block
+  border: 0
+  margin: 1em auto
+  padding: .75em 1em
+  font-size: 1em
+  background-color: #c34d41
+  color: #fff
+  font-weight: 500
+  text-transform: uppercase
+  font-family: $sans
+  cursor: pointer
+
+  .pagination {
+    overflow-x:auto;
+  }
