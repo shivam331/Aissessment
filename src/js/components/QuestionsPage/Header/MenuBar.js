@@ -3,6 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
 Nav,NavItem,NavLink, Row, Col,Button, Label,Form,Input} from 'reactstrap';
 import FilterDropDown from './FilterDropDown'
 import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
+import {FETCH_KEYPHRASES_SUCCESS} from "../../../Actions/KeyPhrasesAction"
 import {API} from "../../../utils/api_list"
 import Switch from "react-switch";
 
@@ -91,7 +92,9 @@ render(){
     <Navbar color="dark" light expand="md">
       <NavbarToggler onClick={this.toggle} />
       <Collapse isOpen={this.state.isOpen} navbar>
+        {this.props.showQuestions &&
       <Nav navbar>
+
            {dropdown}
 
      <NavItem className = {"m-2"}>
@@ -136,12 +139,16 @@ render(){
         }
        />
        </NavItem>
+
        </Nav>
+     }
        <div className="ml-auto" >
        <SearchBar
         questionfetch = {this.props.questionfetch}
         book_id = {this.props.book_id}
-        questions_meta = {this.props.questions_meta}/>
+        questions_meta = {this.props.questions_meta}
+        fetchKeyPhrases = {this.props.fetchKeyPhrases}
+        showQuestions ={this.props.showQuestions}/>
         </div >
       </Collapse>
     </Navbar>
@@ -180,7 +187,9 @@ class SearchBar extends Component{
 handleSearch(e) {
   e.preventDefault();
   if(this.props.book_id && this.search.current.value != ""){
-  let api = ""
+
+  if(this.props.showQuestions){
+
   if(this.props.questions_meta.editingMode){
     let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
   this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
@@ -189,8 +198,11 @@ handleSearch(e) {
     let api = API.SEARCH_SAVED_QUESTION+this.props.book_id+"/" +this.search.current.value;
     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
 }
-
-
+}
+else{
+  let api = API.SEARCH_KEYPHRASES+this.props.book_id+"/" +this.search.current.value;
+this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,5,0,true)
+}
   //   let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
   // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
   }

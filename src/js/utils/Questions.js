@@ -1,11 +1,11 @@
 
 var mcq_versions_question = []
 var version_mcq = (json,new_category_id,reset_question) =>{
+
   if(reset_question){
     mcq_versions_question = []
   }
   if(json.data.length!= 0){
-    console.log(json.data);
   let data = json.data[0].data;
  data.forEach((group)=>{
     let question_array =[]
@@ -51,6 +51,7 @@ var version_mcq = (json,new_category_id,reset_question) =>{
       }
       if(options.length > 3 && !answerBlacklisted)
   {
+     let chapter = questions.crumb.split(">")[1];
 
         question_array.push(
         {
@@ -58,6 +59,8 @@ var version_mcq = (json,new_category_id,reset_question) =>{
           "type": "mcq",
           "stimulus" : questions.question,
           "options" :options,
+          "chapter":chapter,
+          "questionType":questions.type,
           "valid_responses" : [
             {"value" : questions.answer, "score": 1}
           ],
@@ -80,7 +83,6 @@ var version_mcq = (json,new_category_id,reset_question) =>{
 }
 var savedQuestion = []
 var savedQuestionParsing = (json,reset_question) =>{
-
   if(reset_question){
     savedQuestion = []
   }
@@ -108,11 +110,7 @@ var savedQuestionParsing = (json,reset_question) =>{
       var min=0;
       var max=options.length;
       var random =Math.floor(Math.random() * (+max - +min)) + +min;
-      // if(questions.answer != null)
-      // {    options.splice(random, 0,{
-      //   "value":questions.answer,
-      //   "label":questions.answer
-      // })}
+
       if(options.length > 3 )
   {
 
@@ -143,6 +141,57 @@ var savedQuestionParsing = (json,reset_question) =>{
 
      return savedQuestion
 }
+ const options  =  [
+    {
+        "value": 1,
+        "label": "1",
+        "tint": "#ff121c",
+        "description": "Unsatisfactory"
+    }, {
+        "value": 2,
+        "label": "2",
+        "tint": "#ff9104",
+        "description": "Satisfactory"
+    }, {
+        "value": 3,
+        "label": "3",
+        "tint": "#fdff30",
+        "description": "Good"
+    }, {
+        "value": 4,
+        "label": "4",
+        "tint": "#cffa2e",
+        "description": "Excellent"
+    },
+    {
+        "value": 5,
+        "label": "5",
+        "tint": "#008000",
+        "description": "Perfect"
+    }
+]
+var keyPhraseData = []
+var rankingKeyPhrasesParsing = (json,reset_question) =>{
+  // console.log(json);
+  if(reset_question){
+    keyPhraseData = []
+  }
+
+json.data[0].data.map((data)=>{
+keyPhraseData.push({
+  "keyPhrase" : data.phrase,
+  "response_id": data._id,
+  "type": "rating",
+  "stimulus" : data.mentions[0],
+   "options" : options
+})
+})
+
+return keyPhraseData
+}
+
+
+
 
 var rankingQuestions = [
   {
@@ -154,22 +203,22 @@ var rankingQuestions = [
       },
     "options" : [
         {
-            "value": 10,
+            "value": 1,
             "label": "1",
             "tint": "#ff121c",
             "description": "Unsatisfactory"
         }, {
-            "value": 20,
+            "value": 2,
             "label": "2",
             "tint": "#ff9104",
             "description": "Satisfactory"
         }, {
-            "value": 30,
+            "value": 3,
             "label": "3",
             "tint": "#fdff30",
             "description": "Good"
         }, {
-            "value": 40,
+            "value": 4,
             "label": "4",
             "tint": "#cffa2e",
             "description": "Excellent"
@@ -459,12 +508,9 @@ const question = (category_id,json,reset_question) => {
   switch (category_id) {
     case 1:
  return version_mcq(json,category_id,reset_question)
-//    return mcq(json,category_id,reset_question);
-
     break;
 
     case 2:
-
     return matching_questions;
     break;
 
@@ -476,7 +522,8 @@ const question = (category_id,json,reset_question) => {
     return fill_blanks_quetions;
     break;
     case 5:
-    return rankingQuestions;
+    return rankingKeyPhrasesParsing(json, reset_question)
+    // return rankingQuestions;
 
     case 6:
     return savedQuestionParsing(json,reset_question)

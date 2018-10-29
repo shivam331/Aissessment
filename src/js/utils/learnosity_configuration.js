@@ -29,6 +29,7 @@ const callbacks = {
 
 
   readyListener: function() {
+  
    // console.log("Learnosity Questions API is ready");
   },
 

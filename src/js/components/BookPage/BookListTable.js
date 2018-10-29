@@ -79,7 +79,7 @@ if(this.props.bookid != this.props.booklist.currentBookId || this.props.booklist
   render(){
     return (
       <tr>
-      <td><a href ='' onClick={this.handleClick} id = "1">View Questions</a></td>
+      <td><a href ='' onClick={this.handleClick} id = "1">{this.props.bookid}</a></td>
       <td><a href ='' onClick={this.handleClick} id = "2">Rank KeyPhrases</a></td>
       <td>{this.props.bookname}</td>
       </tr>

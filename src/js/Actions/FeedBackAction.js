@@ -23,7 +23,6 @@ export const SAVE_FEEDBACK_FAILURE = 'SAVE_FEEDBACK_FAILURE';
 });
 
 export const submitfeedback = (feedback) =>{
-  console.log(feedback);
 return dispatch => {
   dispatch(saveFeedbackBegin())
   return   fetch(BASE_URL+API.SUBMIT_FEEDBACK, {

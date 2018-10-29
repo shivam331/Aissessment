@@ -43,7 +43,7 @@ export const blacklistDistractors = (distractor,book_id) =>{
     .then(json => {
        console.log(json);
       dispatch(addDistractorsSuccess(json.status));
-      return json.data;
+      return json.status;
     })
     .catch(error => dispatch(addDistractorsFailure(error)));
   };
@@ -62,10 +62,21 @@ export const updateDistractors = (data) =>{
     })    .then(handleErrors)
     .then(res => res.json())
     .then(json => {
-       console.log(json);
+
       dispatch(updateDistractorSuccess(json.status));
       return json.data;
     })
     .catch(error => dispatch(addDistractorsFailure(error)));
   };
+}
+
+export const fetchBlacklistedDistractors = () =>{
+
+return  fetch(BASE_URL+ API.BLACKLISTED_DISTRACTORS)
+  .then(handleErrors)
+  .then(res => res.json())
+  .then(json => {
+    return json;
+  })
+  .catch(error => console.log(error));
 }

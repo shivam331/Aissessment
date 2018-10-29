@@ -31,6 +31,7 @@ newChapter = {this.props.newChapter}
 newType ={this.props.newType}
 showQuestions ={this.props.showQuestions}
 newMode = {this.props.newMode}
+fetchKeyPhrases = {this.props.fetchKeyPhrases}
 />
 
 {this.props.showQuestions &&<QuestionCatBar

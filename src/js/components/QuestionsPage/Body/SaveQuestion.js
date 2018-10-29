@@ -30,6 +30,7 @@ class SaveQuestion extends Component{
 }
 
   initialisation(){
+
     initOptionsEditor.widget_json = this.props.question
   editor =    LearnosityQuestionEditor.init(initOptionsEditor,hook, callbacksEditor);
   }
@@ -48,13 +49,14 @@ class SaveQuestion extends Component{
   else{
     answer = finalQuestion.valid_responses[0].value
   }
+  
     let finalData = {
       combine_problem_id : finalQuestion.response_id,
       question:finalQuestion.stimulus,
       choices:choices,
       answer:answer,
-      chapter : this.props.data.chapter,
-      questType : this.props.data.questiontypes,
+      chapter : this.props.question.chapter,
+      questType : this.props.question.questionType,
       book_id :this.props.book_id
     }
 

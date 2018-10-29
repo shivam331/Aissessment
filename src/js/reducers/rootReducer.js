@@ -6,6 +6,7 @@ import {BookListReducer} from './BookListReducer'
 import {blacklistDistractorsReducer} from './DistractorReducer'
 import {feedbackReducer} from './feedbackReducer'
 import {saveQuestionReducer} from './saveQuestionReducer'
+import {keyPhraseReducer} from './KeyPhrasesReducer'
 
 export default combineReducers({
   question : questionReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   booklist : BookListReducer,
   blacklistDistractor : blacklistDistractorsReducer,
   feedback : feedbackReducer,
-  saveQuestion : saveQuestionReducer
+  saveQuestion : saveQuestionReducer,
+  keyPhrase : keyPhraseReducer
 })

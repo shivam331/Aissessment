@@ -9,7 +9,7 @@ import {
   CHANGE_VIEW_MODE
 } from '../Actions/QuestionBoxActions';
 // import {CHANGE_BOOK_ID} from '../Actions/BookListAction'
-
+const modeCache = localStorage.getItem('editingMode')
 const initialState = {
   // current_book_id : "",
   questions: [],
@@ -20,7 +20,7 @@ const initialState = {
   questiontypes : "Example",
   current_category : 1,
   total : 0,
-  editingMode: true
+  editingMode:  modeCache && JSON.parse(modeCache).status
 };
 
 
@@ -72,6 +72,7 @@ export default function questionBoxReducer(state = initialState, action) {
       // questions: []
     })
     case CHANGE_VIEW_MODE:
+    localStorage.setItem('editingMode',JSON.stringify({status:action.editingMode}))
     return  Object.assign({},state,{
       page_no : 0,
       editingMode : action.editingMode,

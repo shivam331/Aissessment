@@ -38,8 +38,8 @@ class BooksList  extends Component {
   componentWillReceiveProps(nextProps){
     if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId
       || this.props.booklist.showQuestions !== nextProps.booklist.showQuestions){
-      this.props.newChapter("All Chapters");
-      this.props.newType("Example")
+      // this.props.newChapter("All Chapters");
+      // this.props.newType("Example")
        history.push('/question')
      }}
 

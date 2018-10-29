@@ -6,9 +6,10 @@ import { fetchHeaderData } from "../../Actions/HeaderActions"
 import {fetchQuestionData,newChapter,newType,newCategory,newMode} from "../../Actions/QuestionBoxActions"
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
-import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
+import {blacklistDistractors,updateDistractors,fetchBlacklistedDistractors} from "../../Actions/DistractorActions"
 import {submitfeedback} from "../../Actions/FeedBackAction"
 import {saveQuestion} from "../../Actions/SaveQuestionAction"
+import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState} from "../../Actions/KeyPhrasesAction"
 import history from '../../utils/history'
 
 
@@ -20,7 +21,8 @@ const mapStateToProps = state => {
     questions_meta : state.question,
     distractorState : state.blacklistDistractor,
     feedbackState : state.feedback,
-    saveQuestionState : state.saveQuestion
+    saveQuestionState : state.saveQuestion,
+    keyPhrasesState : state.keyPhrase
   }
 }
 
@@ -36,15 +38,21 @@ const mapDispatchToProps = {
   updateDistractors,
   submitfeedback,
   saveQuestion,
-  newMode
+  newMode,
+  fetchKeyPhrases,
+  saveKeyphraseRating,
+  resetKeyphrasesState
 
 }
 
 class QuestionPage extends Component{
 
-  
+
   componentWillUnmount() {
        this.props.newMode(true)
+       this.props.newChapter("All Chapters");
+       this.props.newType("Example")
+       this.props.resetKeyphrasesState()
     }
   componentWillReceiveProps(nextProps){
     if(!nextProps.userdetails.user){
@@ -82,6 +90,7 @@ class QuestionPage extends Component{
       showQuestions={this.props.bookPageState.showQuestions}
       user = {this.props.userdetails.user}
       newMode = {this.props.newMode}
+      fetchKeyPhrases = {this.props.fetchKeyPhrases}
       />
 
       { this.props.bookPageState.currentBookId && <QuestionView
@@ -96,6 +105,10 @@ class QuestionPage extends Component{
         showQuestions={this.props.bookPageState.showQuestions}
         saveQuestion = {this.props.saveQuestion}
         saveQuestionState = {this.props.saveQuestionState}
+        fetchKeyPhrases = {this.props.fetchKeyPhrases}
+        keyPhrasesState = {this.props.keyPhrasesState}
+        saveKeyphraseRating  = {this.props.saveKeyphraseRating}
+        fetchBlacklistedDistractors = {fetchBlacklistedDistractors}
         />}
         </div>
       );

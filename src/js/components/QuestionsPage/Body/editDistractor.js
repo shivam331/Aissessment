@@ -10,7 +10,8 @@ class EditDistractor extends Component{
     this.state = {
       modal: false,
     };
-    this.toggle = this.toggle.bind(this);
+    this.toggle = this.toggle.bind(this)
+
   }
   toggle() {
 
@@ -31,6 +32,7 @@ class EditDistractor extends Component{
       data ={this.props.data}
       book_id = {this.props.book_id}
       questionfetch = {this.props.questionfetch}
+      question = {this.props.question}
       />
       </ModalBody>
       <ModalFooter>
@@ -56,11 +58,17 @@ class ModalBodyContent extends Component{
     if(this.props.distractorState.status != prevProps.distractorState.status && this.props.distractorState.status == "success"){
       let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
       + this.props.data.page_no;
-      this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
+       this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
     }
   }
   deleteRow(index){
+
     this.props.blacklistDistractors(this.state.currentDistractors[index].value,this.props.book_id)
+    .then(status =>{
+      if(status == "success"){
+     localStorage.setItem('edited_question',JSON.stringify(this.props.question.response_id));
+      }
+    })
   }
 
   updateDistarctor(newDistractor,oldDistractor){

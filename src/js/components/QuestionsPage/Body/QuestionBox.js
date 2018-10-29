@@ -9,6 +9,8 @@ import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import styles from '../../../../css/question_css.css';
 import SaveQuestion from './SaveQuestion'
 
+
+
 class QuestionBox  extends Component{
   constructor(props){
     super(props)
@@ -17,8 +19,10 @@ class QuestionBox  extends Component{
     this.virsionChangeClicked =this.virsionChangeClicked.bind(this);
     this.state = {
       active_question_set : [],
-      questions_version_set : []
+      questions_version_set : [],
+      currentYoffset : 0
     }
+
   }
   loadMore(e,page_no) {
     e.preventDefault()
@@ -29,12 +33,12 @@ if(page_no !== this.props.data.page_no)
       let api = ""
       if(this.props.data.editingMode){
          api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
-        + "/"+ this.props.data.page_no;
+        + "/"+ page_no;
             this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,page_no,true)
       }
       else{
       api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
-     + "/"+ this.props.data.page_no;
+     + "/"+ page_no;
           this.props.questionfetch(api,LOAD_MORE_QUESTION,6,page_no,true)
     }
 
@@ -46,6 +50,7 @@ if(page_no !== this.props.data.page_no)
   }
 
   componentDidMount() {
+
 let api  = ""
     if(this.props.data.editingMode){
        api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
@@ -58,15 +63,15 @@ let api  = ""
         this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,this.props.data.page_no,true)
   }
 
-    // let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-    // + this.props.data.page_no;
-    // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
+
 
   }
 
   componentDidUpdate(prevProps, prevState) {
+
     if(this.props.data.questions !== prevProps.data.questions || this.props.data.page_no !== prevProps.data.page_no){
       const question_data = this.props.data.questions;
+
       var active_question_set = []
       var questions_version_set = []
       question_data.map((group)=>{
@@ -87,7 +92,6 @@ let api  = ""
   }
 
   componentWillReceiveProps(newProps){
-
   // if( this.props.data.current_category !== newProps.data.current_category){
   //   let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
   //   + this.props.data.page_no;
@@ -104,13 +108,14 @@ let api  = ""
     {    initOptions.questions = this.state.active_question_set}
     if(initOptions.questions.length != 0){
       LearnosityApp.init(initOptions,callbacks);
+      // scrollToElement("5bc56ab504ce63201c9f450b");
+
+
     }
 
   }
 
-  // thumbsDown=(event)=> {
-  //   this.setState({editDistractorVisible:true})
-  // }
+
 
   virsionChangeClicked(index){
     if(this.props.data.questions[index].question_array.length > 1)
@@ -158,7 +163,7 @@ let api  = ""
           feedbackState = {this.props.feedbackState}
           question = {question}
           saveQuestion = {this.props.saveQuestion}
-            saveQuestionState = {this.props.saveQuestionState}
+          saveQuestionState = {this.props.saveQuestionState}
 
         />
       );}
@@ -234,11 +239,13 @@ let api  = ""
         super(props)
         this.versionChange = this.versionChange.bind(this)
       }
+      componentDidMount(){
+        console.log("did mount");
+      }
       versionChange(e){
         e.preventDefault()
         this.props.virsionChangeClicked(this.props.index)
       }
-
       render(){
         return(
           <div className="form-check mt-3  shadow ">
@@ -250,11 +257,14 @@ let api  = ""
                 <div className = "col-2-md">
                   <Button color="link" disabled={this.props.version_length > 1 ? false :true} onClick ={this.versionChange}>View Other Versions</Button>
                 </div>
-                <EditDistractor distractors = {this.props.distractors} blacklistDistractors = {this.props.blacklistDistractors}
-                  distractorState = {this.props.distractorState} updateDistractors = {this.props.updateDistractors}
+                <EditDistractor distractors = {this.props.distractors}
+                   blacklistDistractors = {this.props.blacklistDistractors}
+                  distractorState = {this.props.distractorState}
+                 updateDistractors = {this.props.updateDistractors}
                   data ={this.props.data}
                   book_id = {this.props.book_id}
                   questionfetch = {this.props.questionfetch}
+                  question = {this.props.question}
                   />
                   <SaveQuestion
                    question = {this.props.question}

@@ -12,9 +12,10 @@ class QuestionView  extends Component {
 
     return(
       <RankKeyPhrases
-        data ={this.props.data}
+        data ={this.props.keyPhrasesState}
         book_id = {this.props.book_id}
-        questionfetch = {this.props.questionfetch}
+        fetchKeyPhrases = {this.props.fetchKeyPhrases}
+        saveKeyphraseRating  = {this.props.saveKeyphraseRating}
       />
     )}
     else{
@@ -30,7 +31,8 @@ data ={this.props.data}
   feedbackState = {this.props.feedbackState}
   saveQuestion = {this.props.saveQuestion}
   saveQuestionState = {this.props.saveQuestionState}
-  
+  fetchBlacklistedDistractors = {this.props.fetchBlacklistedDistractors}
+
 />
 
     )
