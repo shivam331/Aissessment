@@ -3,10 +3,10 @@ import HeaderView from "./Header";
 import QuestionView from './Body'
 import {connect} from 'react-redux';
 import { fetchHeaderData } from "../../Actions/HeaderActions"
-import {fetchQuestionData,newChapter,newType,newCategory,newMode} from "../../Actions/QuestionBoxActions"
+import {fetchQuestionData,newChapter,newType,newCategory,newMode,pagesContext} from "../../Actions/QuestionBoxActions"
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
-import {blacklistDistractors,updateDistractors,fetchBlacklistedDistractors} from "../../Actions/DistractorActions"
+import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
 import {submitfeedback} from "../../Actions/FeedBackAction"
 import {saveQuestion} from "../../Actions/SaveQuestionAction"
 import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState} from "../../Actions/KeyPhrasesAction"
@@ -91,6 +91,7 @@ class QuestionPage extends Component{
       user = {this.props.userdetails.user}
       newMode = {this.props.newMode}
       fetchKeyPhrases = {this.props.fetchKeyPhrases}
+      pagesContext = {pagesContext}
       />
 
       { this.props.bookPageState.currentBookId && <QuestionView
@@ -108,7 +109,7 @@ class QuestionPage extends Component{
         fetchKeyPhrases = {this.props.fetchKeyPhrases}
         keyPhrasesState = {this.props.keyPhrasesState}
         saveKeyphraseRating  = {this.props.saveKeyphraseRating}
-        fetchBlacklistedDistractors = {fetchBlacklistedDistractors}
+        pagesContext = {pagesContext}
         />}
         </div>
       );

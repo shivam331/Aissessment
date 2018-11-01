@@ -1,6 +1,6 @@
 import {question} from "../utils/Questions"
 import handleErrors from './HeaderActions'
-import {BASE_URL} from "../utils/api_list";
+import {BASE_URL,API} from "../utils/api_list";
 
 
 export const FETCH_QUESTION_BEGIN   = 'FETCH_QUESTION_BEGIN';
@@ -70,6 +70,17 @@ export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,res
     })
     .catch(error => dispatch(fetchQuestionError(error)));
   };
+}
+
+export const pagesContext = (book_id) =>{
+
+return  fetch(BASE_URL+ API.CONTEXT + book_id)
+  .then(handleErrors)
+  .then(res => res.json())
+  .then(json => {
+    return json;
+  })
+  .catch(error => console.log(error));
 }
 
 export var newChapter = (chapter) =>{

@@ -31,7 +31,7 @@ data ={this.props.data}
   feedbackState = {this.props.feedbackState}
   saveQuestion = {this.props.saveQuestion}
   saveQuestionState = {this.props.saveQuestionState}
-  fetchBlacklistedDistractors = {this.props.fetchBlacklistedDistractors}
+  pagesContext = {this.props.pagesContext}
 
 />
 

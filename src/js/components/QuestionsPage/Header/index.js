@@ -37,7 +37,10 @@ fetchKeyPhrases = {this.props.fetchKeyPhrases}
 {this.props.showQuestions &&<QuestionCatBar
 newCategory = {this.props.newCategory}
 oncatchange = {this.props.oncatchange}
-book_id = {this.props.book_id} />}
+book_id = {this.props.book_id}
+pagesContext = {this.props.pagesContext}
+data ={this.props.data}
+/>}
 </div>
 )
   }

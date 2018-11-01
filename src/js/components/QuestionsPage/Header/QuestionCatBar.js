@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import QuestTypes from './QuestionTypes';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGroupItem,
+import BookViewer from './BookViewer'
+import {Modal, ModalHeader, ModalBody, ModalFooter,
   Nav, Row, Col,Button } from 'reactstrap';
 
   // var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice"},{"id" : 2,"category":"association","category_name":"Matching"},
@@ -13,6 +14,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
       super(props)
     }
     render(){
+
       const quest_types = [];
       question_types.forEach((type,index)=>{
         quest_types.push(
@@ -27,13 +29,16 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
       return(
         <div className = " mx-3 my-3">
         <Row>
-        <Col xs="9">
+        <Col xs="6">
         <Nav >
         {quest_types}
         </Nav>
         </Col>
-        <Col xs="3">
-         <MenuCatButtons />
+        <Col xs="6">
+         <MenuCatButtons
+         pagesContext = {this.props.pagesContext}
+         book_id = {this.props.book_id}
+         data ={this.props.data} />
         </Col>
         </Row>
         </div>
@@ -45,13 +50,17 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
     render(){
       return(
         <div  className = "d-inline-block float-right " >
-        <ExportQtBtn />
-        <AddBankBtn  />
+        <BookViewer
+       pagesContext = {this.props.pagesContext}
+       book_id = {this.props.book_id}
+       data ={this.props.data}
+       />
         </div>
       );
     }
   }
-
+  // <ExportQtBtn />
+  // <AddBankBtn  />
   class ExportQtBtn extends Component {
     render(){
       return(
@@ -67,5 +76,6 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
       );
     }
   }
+
 
   export default QuestionCatBar

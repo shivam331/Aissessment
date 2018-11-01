@@ -69,14 +69,3 @@ export const updateDistractors = (data) =>{
     .catch(error => dispatch(addDistractorsFailure(error)));
   };
 }
-
-export const fetchBlacklistedDistractors = () =>{
-
-return  fetch(BASE_URL+ API.BLACKLISTED_DISTRACTORS)
-  .then(handleErrors)
-  .then(res => res.json())
-  .then(json => {
-    return json;
-  })
-  .catch(error => console.log(error));
-}

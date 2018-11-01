@@ -21,5 +21,6 @@ export const API = {
 "KEYPHRASES_LIST" : "keyphrases/",
 "SAVE_KEYPHRASES_RATING" : "saveRating",
 "SEARCH_KEYPHRASES" : "searchKeyPhrases/",
-"BLACKLISTED_DISTRACTORS" : "blacklists"
+"CONTEXT" : "pageContext/"
+
 }
