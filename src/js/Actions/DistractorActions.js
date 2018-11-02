@@ -64,7 +64,7 @@ export const updateDistractors = (data) =>{
     .then(json => {
 
       dispatch(updateDistractorSuccess(json.status));
-      return json.data;
+      return json.status;
     })
     .catch(error => dispatch(addDistractorsFailure(error)));
   };

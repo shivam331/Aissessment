@@ -11,9 +11,10 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  UncontrolledAlert,
+  Input
 } from 'reactstrap'
+import {notify} from 'react-notify-toast';
+
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 var modal_checkbox_text = ["The question did not make sense", "The distractors were inappropriate for the question stem",
 "There was a formatting issue in the question stem or distractors", "The distractors weren't similar enough to each other"
@@ -62,6 +63,10 @@ class DownVoteBtn extends Component {
         this.setState({
           modal: !this.state.modal
         });
+        if(status == "success"){
+          let myColor = { background: '#228B22', text: "#FFFFFF" };
+  notify.show("Feedback Saved successfully!", "custom", 5000, myColor);
+        }
       })
 
 

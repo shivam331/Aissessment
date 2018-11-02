@@ -2,11 +2,12 @@ var Learnosity = require('learnosity-sdk-nodejs');
 var learnositySdk = new Learnosity();
   // "domain":       "aissessment.paperscorer.com",
 
+
 var initOptions = learnositySdk.init(
   "questions",
   {
     "consumer_key": "twRp5spenrCfVAa6",
-    "domain":       "localhost",
+    "domain":       "aissessment.paperscorer.com",
     "user_id":      "demo_student"
   },
   "4QxI9yDD15X65SLyOnnUgd8TVL90Wj7aA4tJ37W5",
@@ -29,7 +30,7 @@ const callbacks = {
 
 
   readyListener: function() {
-  
+  // scrollToElement('#5bc4542304ce63170dd44aec');
    // console.log("Learnosity Questions API is ready");
   },
 

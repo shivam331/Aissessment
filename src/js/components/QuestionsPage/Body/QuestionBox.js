@@ -23,7 +23,6 @@ class QuestionBox  extends Component{
       questions_version_set : [],
       context : []
     }
-
   }
   loadMore(e,page_no) {
     e.preventDefault()
@@ -134,6 +133,7 @@ class QuestionBox  extends Component{
       {    initOptions.questions = this.state.active_question_set}
       if(initOptions.questions.length != 0){
         LearnosityApp.init(initOptions,callbacks);
+
         // scrollToElement("5bc56ab504ce63201c9f450b");
 
 
@@ -265,17 +265,30 @@ class QuestionBox  extends Component{
     constructor(props){
       super(props)
       this.versionChange = this.versionChange.bind(this)
+      this.index = React.createRef();
     }
     versionChange(e){
       e.preventDefault()
       this.props.virsionChangeClicked(this.props.index)
     }
+    componentDidMount(){
+      const myDomNode = this.index.current
+       const edited_question = sessionStorage.getItem("edited_question");
+
+      if(this.props.className == "learnosity-response question-" + edited_question )
+      {
+
+         myDomNode.scrollIntoView()
+         sessionStorage.removeItem("edited_question")
+
+      }
+    }
     render(){
       return(
-        <div className="form-check mt-3  shadow ">
+        <div className="form-check mt-3  shadow " >
         <div className="p-2">
         <Input type="checkbox" />
-        <span className = {this.props.className}></span>
+        <span className = {this.props.className} ref = {this.index}></span>
         </div>
         <div className="row col-md-12">
         <div className = "col-2-md">

@@ -11,7 +11,7 @@ import {submitfeedback} from "../../Actions/FeedBackAction"
 import {saveQuestion} from "../../Actions/SaveQuestionAction"
 import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState} from "../../Actions/KeyPhrasesAction"
 import history from '../../utils/history'
-
+import Notifications from 'react-notify-toast';
 
 const mapStateToProps = state => {
   return {
@@ -75,6 +75,7 @@ class QuestionPage extends Component{
 
     return (
       <div>
+       <Notifications />
       <HeaderView
       book_id = {this.props.bookPageState.currentBookId}
       headerFetch = {this.props.fetchHeaderData}

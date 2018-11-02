@@ -3,7 +3,7 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter,Table,Input,CustomInp
 import {FETCH_QUESTION_SUCCESS } from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list";
 import {initOptionsEditor,callbacksEditor,hook} from "../../../utils/learnosity_configuration";
-
+import Notifications, {notify} from 'react-notify-toast';
 
 
 var editor;
@@ -49,7 +49,7 @@ class SaveQuestion extends Component{
   else{
     answer = finalQuestion.valid_responses[0].value
   }
-  
+
     let finalData = {
       combine_problem_id : finalQuestion.response_id,
       question:finalQuestion.stimulus,
@@ -61,7 +61,9 @@ class SaveQuestion extends Component{
     }
 
     this.props.saveQuestion(finalData)
-     .then(status =>  this.toggle())
+     .then(status =>
+       this.toggle()
+     )
 
   }
 

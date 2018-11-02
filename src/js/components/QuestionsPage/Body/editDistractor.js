@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter,Table,Input,CustomInput,Alert ,Label  } from 'reactstrap'
 import {FETCH_QUESTION_SUCCESS } from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list";
+import {notify} from 'react-notify-toast';
 
 
 class EditDistractor extends Component{
@@ -66,7 +67,9 @@ class ModalBodyContent extends Component{
     this.props.blacklistDistractors(this.state.currentDistractors[index].value,this.props.book_id)
     .then(status =>{
       if(status == "success"){
-     localStorage.setItem('edited_question',JSON.stringify(this.props.question.response_id));
+        let myColor = { background: '#228B22', text: "#FFFFFF" };
+notify.show("Distractor BlackListed successfully!", "custom", 5000, myColor);
+     sessionStorage.setItem('edited_question',this.props.question.response_id);
       }
     })
   }
@@ -77,6 +80,13 @@ class ModalBodyContent extends Component{
       to : newDistractor
     }
     this.props.updateDistractors(data)
+    .then(status =>{
+      if(status == "success"){
+        let myColor = { background: '#228B22', text: "#FFFFFF" };
+notify.show("Distractor Updated successfully!", "custom", 5000, myColor);
+     sessionStorage.setItem('edited_question',this.props.question.response_id);
+      }
+    })
   }
 
 
