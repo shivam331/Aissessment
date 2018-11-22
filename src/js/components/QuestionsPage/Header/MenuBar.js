@@ -29,8 +29,7 @@ class MenuBar  extends Component {
  };
   }
   componentWillReceiveProps(nextProps){
-
-
+    if(this.props.showQuestions){
     if(this.props.questions_meta.editingMode != nextProps.questions_meta.editingMode){
       let api = ""
       if(nextProps.questions_meta.editingMode){
@@ -47,17 +46,26 @@ class MenuBar  extends Component {
 
     }
   }
+  else{
+if(this.props.questions_meta.editingMode != nextProps.questions_meta.editingMode){
+  let api = ""
+  if(nextProps.questions_meta.editingMode){
+   api = API.KEYPHRASES_LIST + nextProps.book_id + "/"+ nextProps.questions_meta.page_no;
+    this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,5,nextProps.data.page_no,true);
+  }
+  else{
+    api = API.RATED_KEYPHRASES + nextProps.book_id + "/"+ nextProps.questions_meta.page_no;
+     this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,5,nextProps.data.page_no,true);
+  }
+}
+  }
+}
 
 rankKeyPhrases(){
   // this.props.setShowQuestion()
 }
 modeChange(){
   this.props.newMode(!this.props.questions_meta.editingMode)
-  // this.setState(prevState =>({
-  //   editing: !prevState.editing,
-  // }),()=>{
-  //   this.props.newMode(!this.props.questions_meta.editingMode)
-  // })
 }
   toggle() {
 
@@ -92,10 +100,10 @@ render(){
     <Navbar color="dark" light expand="md">
       <NavbarToggler onClick={this.toggle} />
       <Collapse isOpen={this.state.isOpen} navbar>
-        {this.props.showQuestions &&
+
       <Nav navbar>
 
-           {dropdown}
+             {this.props.showQuestions && dropdown}
 
      <NavItem className = {"m-2"}>
      <Switch
@@ -141,7 +149,7 @@ render(){
        </NavItem>
 
        </Nav>
-     }
+
        <div className="ml-auto" >
        <SearchBar
         questionfetch = {this.props.questionfetch}

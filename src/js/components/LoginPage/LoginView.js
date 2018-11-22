@@ -13,6 +13,7 @@ class LoginView extends Component {
       this.state = {
       'email': '',
       'password': '',
+      'visible': false,
       validate: {
         emailState: '',
       },
@@ -31,6 +32,23 @@ class LoginView extends Component {
       this.setState({ validate })
     }
 
+componentWillReceiveProps(nextProps){
+
+  if(!nextProps.userdetails.user){
+      if(nextProps.userdetails.loading){
+        this.setState(prevState=>({
+          visible : false
+        }))
+      }
+      else{
+
+        this.setState(prevState=>({
+          visible : true
+        }))
+      }
+
+  }
+}
   handleChange(event){
     const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -65,7 +83,7 @@ class LoginView extends Component {
 
       <Container className={styles.LoginView}>
         <h2>Log In</h2>
-        <Alert color="danger" isOpen = {this.props.userdetails.user === ""}>
+        <Alert color="danger" isOpen = {this.state.visible}>
                        Invalid Email Id or Password !
                        </Alert>
         <Form className={styles.form} onSubmit={ (e) => this.submitForm(e) }>

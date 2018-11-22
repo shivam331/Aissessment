@@ -9,6 +9,7 @@ import EditDistractor from './editDistractor'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import styles from '../../../../css/question_css.css';
 import SaveQuestion from './SaveQuestion'
+import SortingDropdown from './SortingDropdown'
 
 
 
@@ -33,7 +34,7 @@ class QuestionBox  extends Component{
         let api = ""
         if(this.props.data.editingMode){
           api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
-          + "/"+ page_no;
+          + "/"+ page_no + "?sortBy="+this.props.data.sorting;
           this.props.questionfetch(api,LOAD_MORE_QUESTION,this.props.data.current_category,page_no,true)
         }
         else{
@@ -53,7 +54,7 @@ class QuestionBox  extends Component{
       let api  = ""
       if(this.props.data.editingMode){
         api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter+ "/" + this.props.data.questiontypes
-        + "/"+ this.props.data.page_no;
+        + "/"+ this.props.data.page_no + "?sortBy="+this.props.data.sorting;
         this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true)
       }
       else{
@@ -61,9 +62,6 @@ class QuestionBox  extends Component{
         + "/"+ this.props.data.page_no;
         this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,this.props.data.page_no,true)
       }
-
-
-
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -72,7 +70,7 @@ class QuestionBox  extends Component{
       && this.props.data.questions.length !== 0){
         const question_data = this.props.data.questions;
 
-
+        
         var active_question_set = []
         var questions_version_set = []
         var newContext = []
@@ -95,8 +93,11 @@ class QuestionBox  extends Component{
               let content = context.content.replace(/[’'“”""]/gi, '');
               if(content.includes(grp)){
                 var pos =  content.indexOf(grp)
+                var text = content.slice(0,pos) + "<b>" + content.slice(pos, pos+grp.length)
+                + "</b>" + content.slice(pos+grp.length)
 
-                var final =context.content.replace('/n','').slice(pos-200, pos+200);
+                var final =text.replace('/n','').slice(pos-200, pos+200 + grp.length);
+
                 newContext[index] = {
                   content:final,
                   page:context.page
@@ -105,9 +106,9 @@ class QuestionBox  extends Component{
             })
 
           })
-            this.setState(prevState=>({
-              context : prevState.context  = newContext
-            }))
+          this.setState(prevState=>({
+            context : prevState.context  = newContext
+          }))
 
         })
       }
@@ -135,8 +136,6 @@ class QuestionBox  extends Component{
         LearnosityApp.init(initOptions,callbacks);
 
         // scrollToElement("5bc56ab504ce63201c9f450b");
-
-
       }
 
     }
@@ -164,6 +163,7 @@ class QuestionBox  extends Component{
       }
     }
     render(){
+
       let pages =  Math.ceil(this.props.data.total/50 )
       const questions = [];
       if(this.props.data.questions.length != 0)
@@ -220,7 +220,7 @@ class QuestionBox  extends Component{
         >
         </OverlayLoader>
         <Row>
-        <Col  sm="12">
+        <Col  sm="9">
         <Pagination aria-label="Page navigation">
         <PaginationItem disabled={this.props.data.page_no <= 0}>
         <PaginationLink
@@ -249,8 +249,19 @@ class QuestionBox  extends Component{
         </PaginationItem>
         </Pagination>
         </Col>
+        <Col sm = "3" >
+        <div className = "inline float-right">
+        <span className = "mr-2 "><b>{'Sort By:'}</b>
+        </span>
+        <SortingDropdown
+        newSorting = {this.props.newSorting}
+        data = {this.props.data}
+        questionfetch = {this.props.questionfetch}
+        book_id = {this.props.book_id}
+        />
+        </div>
+        </Col>
         </Row>
-
         <Row>
         <Col>
         {questions}
@@ -273,13 +284,13 @@ class QuestionBox  extends Component{
     }
     componentDidMount(){
       const myDomNode = this.index.current
-       const edited_question = sessionStorage.getItem("edited_question");
+      const edited_question = sessionStorage.getItem("edited_question");
 
       if(this.props.className == "learnosity-response question-" + edited_question )
       {
 
-         myDomNode.scrollIntoView()
-         sessionStorage.removeItem("edited_question")
+        myDomNode.scrollIntoView()
+        sessionStorage.removeItem("edited_question")
 
       }
     }

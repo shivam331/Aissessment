@@ -6,7 +6,8 @@ import {
   CHANGE_CHAPTER,
   CHANGE_QUESTION_TYPE,
   CHANGE_QUESTION_CATEGORY,
-  CHANGE_VIEW_MODE
+  CHANGE_VIEW_MODE,
+  CHANGE_SORTING
 } from '../Actions/QuestionBoxActions';
 // import {CHANGE_BOOK_ID} from '../Actions/BookListAction'
 const modeCache = localStorage.getItem('editingMode')
@@ -20,7 +21,8 @@ const initialState = {
   questiontypes : "Example",
   current_category : 1,
   total : 0,
-  editingMode:  modeCache && JSON.parse(modeCache).status
+  editingMode:  modeCache && JSON.parse(modeCache).status,
+  sorting : "Default"
 };
 
 
@@ -51,7 +53,6 @@ export default function questionBoxReducer(state = initialState, action) {
     });
 
     case LOAD_MORE_QUESTION:
-
       // return Object.assign({},state)
     return Object.assign({},state,{
       loading : false,
@@ -82,6 +83,12 @@ export default function questionBoxReducer(state = initialState, action) {
     case CHANGE_QUESTION_CATEGORY:
     return Object.assign({}, state, {
       current_category : action.category_id
+    })
+
+    case CHANGE_SORTING:
+    return Object.assign({}, state, {
+      sorting : action.sortingBy,
+      page_no : 0
     })
 
 

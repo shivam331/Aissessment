@@ -3,6 +3,7 @@ import LoginView from './LoginPage'
 import QuestionPage from './QuestionsPage'
 import BookPage from './BookPage'
 import {connect} from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Router,
   Route,

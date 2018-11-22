@@ -42,9 +42,9 @@ export const userlogin = (credentials) =>{
     .then(json => {
       let user = json.data.email
       let name = json.data.name
-      if (json.data.email === undefined) {
-        user = ""
-      }
+      // if (json.data.email === undefined) {
+      //   user = ""
+      // }
       localStorage.setItem('auth',JSON.stringify({user}));
       localStorage.setItem('authName',JSON.stringify({name}));
       dispatch(userLoginSuccess(user,name));
@@ -55,8 +55,8 @@ export const userlogin = (credentials) =>{
 }
 
 export const userLogOut = () =>{
-  localStorage.setItem('auth',JSON.stringify({}));
-  localStorage.setItem('authName',JSON.stringify({}));
+  localStorage.removeItem('auth');
+  localStorage.removeItem('authName');
   return dispatch=>
 {  dispatch(userLogOutSuccess())}
 }

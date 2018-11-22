@@ -22,7 +22,7 @@ class FilterDropDown extends Component{
 
       if(newProps.questions_meta.editingMode){
         let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-        + "/"+  newProps.questions_meta.page_no;
+        + "/"+  newProps.questions_meta.page_no + "?sortBy="+newProps.questions_meta.sorting;
             this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
       }
       else{
@@ -31,14 +31,12 @@ class FilterDropDown extends Component{
           this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
     }
 
-      // let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-      // + "/"+ + newProps.questions_meta.page_no;
-      // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,newProps.questions_meta.page_no,true)
+
     }
     else if(this.props.questions_meta.questiontypes != newProps.questions_meta.questiontypes && this.props.index == 1){
       if(newProps.questions_meta.editingMode){
         let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-        + "/"+ newProps.questions_meta.page_no;
+        + "/"+ newProps.questions_meta.page_no + "?sortBy="+newProps.questions_meta.sorting;
             this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
       }
       else{
@@ -46,9 +44,7 @@ class FilterDropDown extends Component{
     + "/"+ newProps.questions_meta.page_no;
           this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
     }
-      // let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-      // + "/"+ + newProps.questions_meta.page_no;
-      // this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,newProps.questions_meta.page_no,true)
+      
     }
   }
 

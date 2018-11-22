@@ -3,13 +3,13 @@ import HeaderView from "./Header";
 import QuestionView from './Body'
 import {connect} from 'react-redux';
 import { fetchHeaderData } from "../../Actions/HeaderActions"
-import {fetchQuestionData,newChapter,newType,newCategory,newMode,pagesContext} from "../../Actions/QuestionBoxActions"
+import {fetchQuestionData,newChapter,newType,newCategory,newMode,pagesContext,newSorting} from "../../Actions/QuestionBoxActions"
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
 import {submitfeedback} from "../../Actions/FeedBackAction"
 import {saveQuestion} from "../../Actions/SaveQuestionAction"
-import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState} from "../../Actions/KeyPhrasesAction"
+import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState,keyPhrasesCount} from "../../Actions/KeyPhrasesAction"
 import history from '../../utils/history'
 import Notifications from 'react-notify-toast';
 
@@ -41,7 +41,9 @@ const mapDispatchToProps = {
   newMode,
   fetchKeyPhrases,
   saveKeyphraseRating,
-  resetKeyphrasesState
+  resetKeyphrasesState,
+  keyPhrasesCount,
+  newSorting
 
 }
 
@@ -53,6 +55,7 @@ class QuestionPage extends Component{
        this.props.newChapter("All Chapters");
        this.props.newType("Example")
        this.props.resetKeyphrasesState()
+       this.props.newSorting("Default")
     }
   componentWillReceiveProps(nextProps){
     if(!nextProps.userdetails.user){
@@ -87,12 +90,13 @@ class QuestionPage extends Component{
       newChapter = {this.props.newChapter}
       newType ={this.props.newType}
       newCategory = {this.props.newCategory}
-      oncatchange = {this.props.oncatchange}
       showQuestions={this.props.bookPageState.showQuestions}
       user = {this.props.userdetails.user}
       newMode = {this.props.newMode}
       fetchKeyPhrases = {this.props.fetchKeyPhrases}
       pagesContext = {pagesContext}
+      keyPhrasesCount = {this.props.keyPhrasesCount}
+      keyPhrasesState = {this.props.keyPhrasesState}
       />
 
       { this.props.bookPageState.currentBookId && <QuestionView
@@ -111,6 +115,8 @@ class QuestionPage extends Component{
         keyPhrasesState = {this.props.keyPhrasesState}
         saveKeyphraseRating  = {this.props.saveKeyphraseRating}
         pagesContext = {pagesContext}
+        keyPhrasesCount = {this.props.keyPhrasesCount}
+        newSorting = {this.props.newSorting}
         />}
         </div>
       );

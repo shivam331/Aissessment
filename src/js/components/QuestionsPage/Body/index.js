@@ -16,12 +16,13 @@ class QuestionView  extends Component {
         book_id = {this.props.book_id}
         fetchKeyPhrases = {this.props.fetchKeyPhrases}
         saveKeyphraseRating  = {this.props.saveKeyphraseRating}
+        questions_meta = {this.props.data}
       />
     )}
     else{
     return (
-<QuestionBox
-data ={this.props.data}
+ <QuestionBox
+ data ={this.props.data}
   book_id = {this.props.book_id}
   questionfetch = {this.props.questionfetch}
   blacklistDistractors = {this.props.blacklistDistractors}
@@ -32,6 +33,8 @@ data ={this.props.data}
   saveQuestion = {this.props.saveQuestion}
   saveQuestionState = {this.props.saveQuestionState}
   pagesContext = {this.props.pagesContext}
+  newSorting = {this.props.newSorting}
+
 
 />
 

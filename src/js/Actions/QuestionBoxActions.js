@@ -11,6 +11,7 @@ export const CHANGE_CHAPTER = "CHANGE_CHAPTER"
 export const CHANGE_QUESTION_TYPE = "CHANGE_QUESTION_TYPE"
 export const CHANGE_QUESTION_CATEGORY = "CHANGE_QUESTION_CATEGORY"
 export const CHANGE_VIEW_MODE = "CHANGE_VIEW_MODE"
+export const CHANGE_SORTING = "CHANGE_SORTING"
 
 
 export const fetchQuestionBegin = () => ({
@@ -50,6 +51,10 @@ const changeMode = (mode) =>({
   editingMode : mode
 })
 
+const changeSorting = sortingBy =>({
+  type : CHANGE_SORTING,
+  sortingBy : sortingBy
+})
 
 export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,reset_question) =>{
   return dispatch => {
@@ -73,7 +78,6 @@ export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,res
 }
 
 export const pagesContext = (book_id) =>{
-
 return  fetch(BASE_URL+ API.CONTEXT + book_id)
   .then(handleErrors)
   .then(res => res.json())
@@ -104,5 +108,10 @@ export var newCategory = category_id =>{
 export var newMode = (editingMode) =>{
   return dispatch =>{
     dispatch(changeMode(editingMode))
+  }
+}
+export const newSorting = (sortingBy) =>{
+  return dispatch =>{
+    dispatch(changeSorting(sortingBy))
   }
 }

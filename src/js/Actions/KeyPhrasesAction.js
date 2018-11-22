@@ -10,6 +10,7 @@ export const SAVE_KEYPHRASES_RATING_SUCCESS = "SAVE_KEYPHRASES_RATING_SUCCESS"
 export const SAVE_KEYPHRASES_RATING_FAILURE = "SAVE_KEYPHRASES_RATING_FAILURE"
 export const LOAD_MORE_KEYPHRASES = "LOAD_MORE_KEYPHRASES"
 export const RESET_KEYPHRASES_STATE = "RESET_KEYPHRASES_STATE"
+export const FETCH_KEYPHRASES_COUNT_SUCCESS =  "FETCH_KEYPHRASES_COUNT_SUCCESS"
 
  const fetchKeyPhrasesBegin = () => ({
   type: FETCH_KEYPHRASES_BEGIN
@@ -43,6 +44,11 @@ const saveKeyPhrasesFailed = (err) =>({
 
 const resetState = () =>({
   type : RESET_KEYPHRASES_STATE
+})
+
+const fetchKeyPhraseCountSuccess = (data) =>({
+  type : FETCH_KEYPHRASES_COUNT_SUCCESS,
+  payload : {data}
 })
 
 export var fetchKeyPhrases = (api_link,action_type,category_id,new_page_no,reset_question) =>{
@@ -79,6 +85,23 @@ export var saveKeyphraseRating = (data) =>{
     .catch(error => dispatch(saveKeyPhrasesFailed(error)));
   }
 }
+
+export var keyPhrasesCount = (book_id) =>{
+
+  return dispatch => {
+    dispatch(fetchKeyPhrasesBegin());
+    return fetch(BASE_URL+API.KEYPHRASES_COUNT + book_id)
+    .then(handleErrors)
+    .then(res => res.json())
+    .then(json => {
+      dispatch(fetchKeyPhraseCountSuccess(json.data))
+      // return json
+    })
+    .catch(error => dispatch(fetchKeyPhrasesError(error)));
+  }
+
+}
+
 
 export var resetKeyphrasesState = () =>{
   return dispatch=>{

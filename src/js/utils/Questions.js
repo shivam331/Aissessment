@@ -120,6 +120,8 @@ var savedQuestionParsing = (json,reset_question) =>{
           "type": "mcq",
           "stimulus" : questions.question,
           "options" :options,
+          "chapter":questions.chapter,
+          "questionType":questions.type,
           "valid_responses" : [
             {"value" : questions.answer, "score": 1}
           ],
@@ -178,12 +180,16 @@ var rankingKeyPhrasesParsing = (json,reset_question) =>{
   }
 
 json.data[0].data.map((data)=>{
-keyPhraseData.push({
+  var pos =  data.mentions[0].indexOf(data.phrase)
+  var text = data.mentions[0].slice(0,pos) + "<b>" + data.mentions[0].slice(pos, pos+data.phrase.length)
+  + "</b>" + data.mentions[0].slice(pos+data.phrase.length)
+  keyPhraseData.push({
   "keyPhrase" : data.phrase,
   "response_id": data._id,
   "type": "rating",
-  "stimulus" : data.mentions[0],
-   "options" : options
+  "stimulus" : text,
+   "options" : options,
+   "initial_value" : data.rating
 })
 })
 

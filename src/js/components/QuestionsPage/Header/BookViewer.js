@@ -32,7 +32,7 @@ render()
   }
 
    return(
-       <div>
+       <div className = "d-inline-block float-right ">
     <Button type="button" className="btn btn-outline-secondary shadow" onClick = {this.toggle}>Book Viewer</Button>
     <Modal isOpen={this.state.modal} size  = "lg" toggle={this.toggle} className={this.props.className}>
        <ModalHeader toggle={this.toggle}>{this.props.data.title}</ModalHeader>

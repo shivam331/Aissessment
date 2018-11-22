@@ -28,8 +28,6 @@ const mapDispatchToProps = {
 
 class BooksList  extends Component {
   componentWillUpdate(nextProps, nextState) {
-
-
     if(nextProps.data.user && nextProps.booklist.currentBookId){
 
     }

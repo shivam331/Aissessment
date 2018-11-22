@@ -3,7 +3,7 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter,Table,Input,CustomInp
 import {FETCH_QUESTION_SUCCESS } from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list";
 import {initOptionsEditor,callbacksEditor,hook} from "../../../utils/learnosity_configuration";
-import Notifications, {notify} from 'react-notify-toast';
+import  {notify} from 'react-notify-toast';
 
 
 var editor;
@@ -70,7 +70,7 @@ class SaveQuestion extends Component{
   render(){
     return(
       <div className = "col-2-md px-2">
-      <Button color="primary" size="sm"  onClick={this.toggle}>Save</Button>
+      <Button color="primary" size="sm"  onClick={this.toggle}>Edit And Save</Button>
       {this.state.modal && <Modal isOpen={this.state.modal} toggle={this.toggle} size ={"lg"} className={this.props.className}>
 
       <ModalHeader toggle={this.toggle}>Customize Questions</ModalHeader>

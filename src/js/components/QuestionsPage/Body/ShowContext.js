@@ -23,16 +23,18 @@ class ShowContext extends Component{
   render(){
 
     return(
-      <div className = "col-8-md px-2" >
-      <a href = "#"  id={"popover"+this.props.index}  onClick = {this.toggle}
+ <div className = "col-8-md px-2" >
+         <a href = {''}  id={"popover"+this.props.index} style ={{'pointerEvents': this.props.context?'auto':'none',
+   'color': this.props.context?'#007bff' :'#e1e1e1'}}  onClick = {this.toggle}
       className = "fa fa-info-circle" > < /a>
-      <Popover  placement="bottom" isOpen={this.state.popoverOpen} target={"popover"+this.props.index} toggle={this.toggle}>
+     <Popover  placement="bottom" isOpen={this.state.popoverOpen} target={"popover"+this.props.index} toggle={this.toggle}>
        <PopoverHeader>{this.props.context?this.props.context.page.replace('.txt',''):""}</PopoverHeader>
-       <PopoverBody>
-{this.props.context? this.props.context.content : "" }
+       <PopoverBody dangerouslySetInnerHTML={{ __html: this.props.context? this.props.context.content: "" }}>
        </PopoverBody>
      </Popover>
+
       </div>
+
     )
   }
 }

@@ -10,7 +10,8 @@ class QuestTypes extends Component{
     super(props)
     this.handleclick = this.handleclick.bind(this);
   }
-  handleclick() {
+  handleclick(e) {
+    e.preventDefault()
     this.props.newCategory(this.props.category_id)
 
   }

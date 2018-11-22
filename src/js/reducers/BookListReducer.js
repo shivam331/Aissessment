@@ -10,7 +10,7 @@ const initialState = {
   loading: false,
   error: null,
   currentBookId : bookCache && JSON.parse(bookCache).id,
-  showQuestions : true
+  showQuestions :  bookCache && JSON.parse(bookCache).showQuestions
 }
 
 export  const  BookListReducer = (state = initialState, action) =>{
@@ -36,7 +36,7 @@ export  const  BookListReducer = (state = initialState, action) =>{
     });
 
     case CHANGE_BOOK_ID:
-    localStorage.setItem('book',JSON.stringify({id:action.bookid}))
+    localStorage.setItem('book',JSON.stringify({id:action.bookid,showQuestions : action.showQuestions}))
     return Object.assign({}, state, {
       currentBookId : action.bookid,
       showQuestions : action.showQuestions

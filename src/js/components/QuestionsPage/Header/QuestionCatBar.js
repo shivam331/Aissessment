@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import QuestTypes from './QuestionTypes';
 import BookViewer from './BookViewer'
-import {Modal, ModalHeader, ModalBody, ModalFooter,
-  Nav, Row, Col,Button } from 'reactstrap';
+import {Nav, Row, Col,Button,Progress } from 'reactstrap';
+import {QuestionTypes} from '../../../utils/Constants'
 
   // var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice"},{"id" : 2,"category":"association","category_name":"Matching"},
   // {"id" :3,"category":"orderlist","category_name":"Sorting"}, {"id": 4,"category":"clozetext","category_name":"Fill in the blanks"}]
@@ -13,28 +13,39 @@ import {Modal, ModalHeader, ModalBody, ModalFooter,
     constructor(props){
       super(props)
     }
-    render(){
+    componentDidMount(){
+      this.props.keyPhrasesCount(this.props.book_id)
+    }
 
+
+    render(){
+      var rankedPercentage =((this.props.keyPhrasesState.keyPhrasesRanked / this.props.keyPhrasesState.total) *100).toFixed(2);
       const quest_types = [];
       question_types.forEach((type,index)=>{
         quest_types.push(
           <QuestTypes name = {type.category_name}
           key = {type.category}
           category_id = {type.id}
-          oncatchange ={this.props.oncatchange}
           newCategory = {this.props.newCategory}
+          questions_meta = {this.props.questions_meta}
           />
         );
       })
       return(
         <div className = " mx-3 my-3">
         <Row>
-        <Col xs="6">
+        <Col xs="3">
         <Nav >
         {quest_types}
         </Nav>
         </Col>
-        <Col xs="6">
+        <Col xs = "6">
+        <div className="text-center">KeyPhrases Ranked: {this.props.keyPhrasesState.keyPhrasesRanked} of {' '}
+         {this.props.keyPhrasesState.total}</div>
+        <Progress striped  color = "success" value={this.props.keyPhrasesState.keyPhrasesRanked}
+         max={this.props.keyPhrasesState.total}><font color="black">{rankedPercentage}%</font></Progress>
+        </Col>
+        <Col xs="3">
          <MenuCatButtons
          pagesContext = {this.props.pagesContext}
          book_id = {this.props.book_id}
@@ -49,13 +60,13 @@ import {Modal, ModalHeader, ModalBody, ModalFooter,
   class MenuCatButtons extends Component{
     render(){
       return(
-        <div  className = "d-inline-block float-right " >
+
         <BookViewer
        pagesContext = {this.props.pagesContext}
        book_id = {this.props.book_id}
        data ={this.props.data}
        />
-        </div>
+
       );
     }
   }

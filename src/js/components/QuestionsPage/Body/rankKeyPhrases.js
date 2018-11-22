@@ -4,7 +4,7 @@ import {API} from "../../../utils/api_list";
 import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import {FETCH_KEYPHRASES_SUCCESS,LOAD_MORE_KEYPHRASES } from "../../../Actions/KeyPhrasesAction"
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
-
+import {notify} from 'react-notify-toast';
 
 var questionApp;
 class RankKeyPhrases extends Component {
@@ -19,8 +19,14 @@ class RankKeyPhrases extends Component {
     }
   }
   componentDidMount(){
+    if(this.props.questions_meta.editingMode){
     let api = API.KEYPHRASES_LIST + this.props.book_id + "/"+ this.props.data.page_no;
     this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,5,this.props.data.page_no,true);
+  }
+  else{
+  let  api = API.RATED_KEYPHRASES + this.props.book_id + "/"+ this.props.data.page_no;
+     this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,5,this.props.data.page_no,true);
+  }
   }
   componentDidUpdate(prevProps, prevState) {
   if(this.props.data.keyPhrases !== prevProps.data.keyPhrases){
@@ -41,7 +47,7 @@ class RankKeyPhrases extends Component {
   }
   loadMore(e,page_no) {
     e.preventDefault()
-  
+
 
 if(page_no !== this.props.data.page_no)
 {
@@ -59,11 +65,14 @@ if(page_no !== this.props.data.page_no)
     }
      this.props.saveKeyphraseRating(data)
      .then(status =>{
-if(status == "success"){
+    if(status == "success"){
+      let myColor = { background: '#228B22', text: "#FFFFFF" };
+notify.show("KeyPhrase Rating Saved successfully!", "custom", 5000, myColor);
+      if(this.props.questions_meta.editingMode){
     this.setState(prevState => ({
     KeyPhraesList : prevState.KeyPhraesList.filter((e => e.keyPhrase !== keyPhrase)),
     totalKeyphrases : prevState.totalKeyphrases -1
-  }))
+  }))}
 }
      })
 

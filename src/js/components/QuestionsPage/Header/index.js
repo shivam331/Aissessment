@@ -32,14 +32,17 @@ newType ={this.props.newType}
 showQuestions ={this.props.showQuestions}
 newMode = {this.props.newMode}
 fetchKeyPhrases = {this.props.fetchKeyPhrases}
+showQuestions = {this.props.showQuestions}
 />
 
 {this.props.showQuestions &&<QuestionCatBar
 newCategory = {this.props.newCategory}
-oncatchange = {this.props.oncatchange}
 book_id = {this.props.book_id}
 pagesContext = {this.props.pagesContext}
 data ={this.props.data}
+keyPhrasesCount = {this.props.keyPhrasesCount}
+keyPhrasesState = {this.props.keyPhrasesState}
+questions_meta = {this.props.questions_meta}
 />}
 </div>
 )
