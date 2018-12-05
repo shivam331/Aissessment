@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {Button, Row, Col,Label,Container,Pagination, PaginationItem, PaginationLink } from 'reactstrap'
-import {API} from "../../../utils/api_list";
+import {API,myURL} from "../../../utils/api_list";
 import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import {FETCH_KEYPHRASES_SUCCESS,LOAD_MORE_KEYPHRASES } from "../../../Actions/KeyPhrasesAction"
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import {notify} from 'react-notify-toast';
+import {QuestionCode} from "../../../utils/Constants";
 
 var questionApp;
 class RankKeyPhrases extends Component {
@@ -19,25 +20,31 @@ class RankKeyPhrases extends Component {
     }
   }
   componentDidMount(){
-    if(this.props.questions_meta.editingMode){
-    let api = API.KEYPHRASES_LIST + this.props.book_id + "/"+ this.props.data.page_no;
-    this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,5,this.props.data.page_no,true);
+    let details = {
+      book_id : this.props.book_id,
+      page_no : this.props.keyPhrasesState.page_no
+    }
+    if(this.props.headerState.editingMode){
+      details.current_category = QuestionCode.EditingMode + QuestionCode.RankingKeyPhrases
   }
   else{
-  let  api = API.RATED_KEYPHRASES + this.props.book_id + "/"+ this.props.data.page_no;
-     this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,5,this.props.data.page_no,true);
+    details.current_category = QuestionCode.SavedMode + QuestionCode.RankingKeyPhrases
   }
+  this.props.fetchKeyPhrases(myURL(details),FETCH_KEYPHRASES_SUCCESS,details.current_category,details.page_no,true);
+
   }
+
   componentDidUpdate(prevProps, prevState) {
-  if(this.props.data.keyPhrases !== prevProps.data.keyPhrases){
+  if(this.props.keyPhrasesState.keyPhrases !== prevProps.keyPhrasesState.keyPhrases){
     this.setState(prevState=>({
-      totalKeyphrases : prevState.totalKeyphrases  = this.props.data.total,
-      KeyPhraesList:prevState.KeyPhraesList = this.props.data.keyPhrases
+      totalKeyphrases : prevState.totalKeyphrases  = this.props.keyPhrasesState.total,
+      KeyPhraesList:prevState.KeyPhraesList = this.props.keyPhrasesState.keyPhrases
     }),() => {
       this.initialisation()
     })
   }
   }
+  
   initialisation(){
     initOptions.questions = this.state.KeyPhraesList
     if(initOptions.questions.length != 0){
@@ -49,11 +56,19 @@ class RankKeyPhrases extends Component {
     e.preventDefault()
 
 
-if(page_no !== this.props.data.page_no)
+if(page_no !== this.props.keyPhrasesState.page_no)
 {
-      let api = API.KEYPHRASES_LIST + this.props.book_id + "/"+ page_no;
-
-      this.props.fetchKeyPhrases(api,LOAD_MORE_KEYPHRASES,5,page_no,true)
+  let details = {
+    book_id : this.props.book_id,
+    page_no : page_no
+  }
+      if(this.props.headerState.editingMode){
+        details.current_category = QuestionCode.EditingMode + QuestionCode.RankingKeyPhrases
+      }
+      else{
+        details.current_category = QuestionCode.SavedMode + QuestionCode.RankingKeyPhrases
+      }
+      this.props.fetchKeyPhrases(myURL(details),LOAD_MORE_KEYPHRASES,details.current_category,page_no,true)
     }
   }
   save(rank,keyPhrase){
@@ -68,7 +83,7 @@ if(page_no !== this.props.data.page_no)
     if(status == "success"){
       let myColor = { background: '#228B22', text: "#FFFFFF" };
 notify.show("KeyPhrase Rating Saved successfully!", "custom", 5000, myColor);
-      if(this.props.questions_meta.editingMode){
+      if(this.props.headerState.editingMode){
     this.setState(prevState => ({
     KeyPhraesList : prevState.KeyPhraesList.filter((e => e.keyPhrase !== keyPhrase)),
     totalKeyphrases : prevState.totalKeyphrases -1
@@ -80,7 +95,7 @@ notify.show("KeyPhrase Rating Saved successfully!", "custom", 5000, myColor);
 }
 componentWillReceiveProps(nextProps){
 
-  if(this.props.data.saveStatus != nextProps.data.saveStatus && nextProps.data.saveStatus == "success"){
+  if(this.props.keyPhrasesState.saveStatus != nextProps.keyPhrasesState.saveStatus && nextProps.keyPhrasesState.saveStatus == "success"){
 
     //   this.setState(prevState => ({
     //   KeyPhraesList : prevState.KeyPhraesList.filter((e => e !== keyPhrase)),
@@ -90,7 +105,7 @@ componentWillReceiveProps(nextProps){
 }
 
   render(){
-let pages =  Math.ceil(this.props.data.total/50 )
+let pages =  Math.ceil(this.props.keyPhrasesState.total/50 )
     const KeyPhraes = []
     this.state.KeyPhraesList.map((question,index)=>{
      if(question.response_id){
@@ -111,7 +126,7 @@ let pages =  Math.ceil(this.props.data.total/50 )
          color={'red'} // default is white
          loader="ScaleLoader" // check below for more loaders
          text="Loading... Please wait!"
-         active={this.props.data.loading}
+         active={this.props.keyPhrasesState.loading}
          backgroundColor={'black'} // default is black
          opacity=".4" // default is .9
          >
@@ -124,9 +139,9 @@ let pages =  Math.ceil(this.props.data.total/50 )
       <Row>
         <Col  sm="12">
           <Pagination aria-label="Page navigation">
-            <PaginationItem disabled={this.props.data.page_no <= 0}>
+            <PaginationItem disabled={this.props.keyPhrasesState.page_no <= 0}>
               <PaginationLink
-                onClick={e => this.loadMore(e, this.props.data.page_no - 1)}
+                onClick={e => this.loadMore(e, this.props.keyPhrasesState.page_no - 1)}
                 previous
                 href="#"
                 />
@@ -134,16 +149,16 @@ let pages =  Math.ceil(this.props.data.total/50 )
 
             {[...Array(pages > 5 ? 5 : pages)].map((page, i) =>
 
-              <PaginationItem active={i === this.props.data.page_no} key={i}>
+              <PaginationItem active={i === this.props.keyPhrasesState.page_no} key={i}>
                 <PaginationLink onClick={e => this.loadMore(e, i)} href="#">
                   {i + 1}
                 </PaginationLink>
               </PaginationItem>
             )}
 
-            <PaginationItem disabled={this.props.data.page_no >= pages - 1}>
+            <PaginationItem disabled={this.props.keyPhrasesState.page_no >= pages - 1}>
               <PaginationLink
-                onClick={e => this.loadMore(e, this.props.data.page_no + 1)}
+                onClick={e => this.loadMore(e, this.props.keyPhrasesState.page_no + 1)}
                 next
                 href="#"
                 />
@@ -179,7 +194,7 @@ render(){
     <div className = "shadow" style={{ padding: '1.5rem' }}>
 
     <div className = "pb-4">
-    <p><b>KeyPhraes: </b>{this.props.keyPhrase}</p>
+    <p><b>KeyPhrase: </b>{this.props.keyPhrase}</p>
   <p><b>Excerpt:</b>
 <span className= {this.props.className}></span>
 <Button color="secondary"  className=" float-right" onClick = {this.saveClick}>Save</Button>

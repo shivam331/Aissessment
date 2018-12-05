@@ -18,34 +18,34 @@ class FilterDropDown extends Component{
 
   componentWillReceiveProps(newProps){
     // look for better approach rather than if else
-    if(this.props.questions_meta.chapter != newProps.questions_meta.chapter && this.props.index == 0 ){
-
-      if(newProps.questions_meta.editingMode){
-        let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-        + "/"+  newProps.questions_meta.page_no + "?sortBy="+newProps.questions_meta.sorting;
-            this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
-      }
-      else{
-    let  api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-     + "/"+  newProps.questions_meta.page_no;
-          this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
-    }
-
-
-    }
-    else if(this.props.questions_meta.questiontypes != newProps.questions_meta.questiontypes && this.props.index == 1){
-      if(newProps.questions_meta.editingMode){
-        let api = API.QUESTIONS+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-        + "/"+ newProps.questions_meta.page_no + "?sortBy="+newProps.questions_meta.sorting;
-            this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
-      }
-      else{
-    let api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + newProps.questions_meta.chapter+ "/" + newProps.questions_meta.questiontypes
-    + "/"+ newProps.questions_meta.page_no;
-          this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
-    }
-      
-    }
+    // if(this.props.headerState.currentChapter != newProps.headerState.currentChapter && this.props.index == 0 ){
+    //
+    //   if(newProps.headerState.editingMode){
+    //     let api = API.QUESTIONS+this.props.book_id+"/" + newProps.headerState.currentChapter+ "/" + newProps.headerState.currentQuestiontype
+    //     + "/0"+  "?sortBy="+newProps.questionsState.sorting;
+    //     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+    //   }
+    //   else{
+    //     let  api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + newProps.headerState.currentChapter+ "/" + newProps.headerState.currentQuestiontype
+    //     + "/0" +  "?sortBy="+newProps.questionsState.sorting;
+    //     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
+    //   }
+    //
+    //
+    // }
+    // else if(this.props.headerState.currentQuestiontype != newProps.headerState.currentQuestiontype && this.props.index == 1){
+    //   if(newProps.headerState.editingMode){
+    //     let api = API.QUESTIONS+this.props.book_id+"/" + newProps.headerState.currentChapter+ "/" + newProps.headerState.currentQuestiontype
+    //     + "/0" + "?sortBy="+newProps.questionsState.sorting;
+    //     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+    //   }
+    //   else{
+    //     let api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + newProps.headerState.currentChapter+ "/" + newProps.headerState.currentQuestiontype
+    //     + "/0" +  "?sortBy="+newProps.questionsState.sorting;
+    //     this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
+    //   }
+    //
+    // }
   }
 
   componentDidMount(){
@@ -62,12 +62,12 @@ class FilterDropDown extends Component{
   handleChange(event){
     event.preventDefault();
     if(this.props.index == 0){
-      if( this.props.questions_meta.chapter != event.target.innerText)
-    {  this.props.newChapter(event.target.innerText);}
+      if( this.props.headerState.currentChapter != event.target.innerText)
+      {  this.props.newChapter(event.target.innerText);}
 
     }
     else if(this.props.index == 1){
-      if(this.props.questions_meta.questiontypes != event.target.innerText)
+      if(this.props.headerState.currentQuestiontype != event.target.innerText)
       {this.props.newType(event.target.innerText)}
     }
     //event.persist();
@@ -78,7 +78,7 @@ class FilterDropDown extends Component{
     }));
   }
   render(){
-    const list = ( this.props.index == 0) ? this.props.data.chapters : this.props.data.questionstype
+    const list = ( this.props.index == 0) ? this.props.headerState.chapters : this.props.headerState.questionstype
     const options = [];
     list.map((option)=>{
       options.push(
@@ -86,37 +86,37 @@ class FilterDropDown extends Component{
         handleChange = {this.handleChange}/>
       )
     })
-    if (this.props.data.error) {
-      return <Label>{this.props.data.error.message}</Label>;
+    if (this.props.headerState.error) {
+      return <Label>{this.props.headerState.error.message}</Label>;
     }
 
-    if (this.props.data.loading) {
+    if (this.props.headerState.loading) {
       return (<div className="spin"><Col sm="12" md={{ size: 8, offset: 2 }}> <Spinner /> </Col> </div>);
     }
     return(
       <NavItem className="m-2">
-      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-      <DropdownToggle caret>
-      {( this.props.index == 0) ? this.props.questions_meta.chapter : this.props.questions_meta.questiontypes}
+      <Dropdown  isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+      <DropdownToggle caret disabled  = {this.props.disabled}>
+      {( this.props.index == 0) ? this.props.headerState.currentChapter : this.props.headerState.currentQuestiontype}
       </DropdownToggle>
       <DropdownMenu
       modifiers={{
-    setMaxHeight: {
-      enabled: true,
-      order: 890,
-      fn: (data) => {
-        return {
-          ...data,
-          styles: {
-            ...data.styles,
-            overflow: 'auto',
-            maxHeight: 340,
+        setMaxHeight: {
+          enabled: true,
+          order: 890,
+          fn: (data) => {
+            return {
+              ...data,
+              styles: {
+                ...data.styles,
+                overflow: 'auto',
+                maxHeight: 340,
+              },
+            };
           },
-        };
-      },
-    },
-  }}
-    >
+        },
+      }}
+      >
       {options}
       </DropdownMenu>
       </Dropdown>
@@ -124,14 +124,10 @@ class FilterDropDown extends Component{
     }
   }
 
-
-  class DropDownRows extends Component{
-    render(){
-      return(
-        <DropdownItem onClick={this.props.handleChange}>{this.props.option}</DropdownItem>
-      );
-    }
+  function DropDownRows(props) {
+    return   <DropdownItem onClick={props.handleChange} >{props.option}</DropdownItem>
   }
+
 
 
   export default FilterDropDown;

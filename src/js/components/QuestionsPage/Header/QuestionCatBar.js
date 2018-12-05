@@ -14,42 +14,57 @@ import {QuestionTypes} from '../../../utils/Constants'
       super(props)
     }
     componentDidMount(){
-      this.props.keyPhrasesCount(this.props.book_id)
+      this.props.dataCount(this.props.book_id,this.props.headerState.currentChapter,this.props.headerState.currentQuestiontype)
     }
 
+  componentWillReceiveProps(nextProps){
+    if(this.props.headerState.currentChapter != nextProps.headerState.currentChapter || this.props.headerState.currentQuestiontype != nextProps.headerState.currentQuestiontype
+    || (this.props.saveQuestionState.loading != nextProps.saveQuestionState.loading && nextProps.saveQuestionState.loading == false)
+    || (this.props.keyPhrasesState.saveStatus  != nextProps.keyPhrasesState.saveStatus && nextProps.keyPhrasesState.saveStatus == "success")){
+      this.props.dataCount(this.props.book_id,nextProps.headerState.currentChapter,nextProps.headerState.currentQuestiontype)
+    }
+  }
 
     render(){
-      var rankedPercentage =((this.props.keyPhrasesState.keyPhrasesRanked / this.props.keyPhrasesState.total) *100).toFixed(2);
+      var savedPercentage = ((this.props.headerState.savedQuestion / this.props.headerState.totalQuestion) *100).toFixed(2);
+      var rankedPercentage =((this.props.headerState.rankedKeyphrases / this.props.headerState.totalKeyphrases) *100).toFixed(2);
       const quest_types = [];
-      question_types.forEach((type,index)=>{
+      this.props.showQuestions && QuestionTypes.forEach((type,index)=>{
         quest_types.push(
           <QuestTypes name = {type.category_name}
           key = {type.category}
           category_id = {type.id}
           newCategory = {this.props.newCategory}
-          questions_meta = {this.props.questions_meta}
+          headerState = {this.props.headerState}
+          questionsState = {this.props.questionsState}
+          questionfetch = {this.props.questionfetch}
+          book_id = {this.props.book_id}
           />
         );
       })
       return(
         <div className = " mx-3 my-3">
         <Row>
-        <Col xs="3">
-        <Nav >
+        <Col xs="4">
         {quest_types}
-        </Nav>
         </Col>
-        <Col xs = "6">
-        <div className="text-center">KeyPhrases Ranked: {this.props.keyPhrasesState.keyPhrasesRanked} of {' '}
-         {this.props.keyPhrasesState.total}</div>
-        <Progress striped  color = "success" value={this.props.keyPhrasesState.keyPhrasesRanked}
-         max={this.props.keyPhrasesState.total}><font color="black">{rankedPercentage}%</font></Progress>
+        <Col xs = "3">
+        <div className="text-center">KeyPhrases Ranked: {this.props.headerState.rankedKeyphrases} of {' '}
+         {this.props.headerState.totalKeyphrases}</div>
+        <Progress striped  color = "success" value={this.props.headerState.rankedKeyphrases}
+         max={this.props.headerState.totalKeyphrases}><font color="black">{rankedPercentage}%</font></Progress>
         </Col>
-        <Col xs="3">
+        <Col xs = "3">
+        <div className="text-center">Questions Saved: {this.props.headerState.savedQuestion} of {' '}
+         {this.props.headerState.totalQuestion}</div>
+        <Progress striped  color = "success" value={this.props.headerState.savedQuestion}
+         max={this.props.headerState.totalQuestion}><font color="black">{savedPercentage}%</font></Progress>
+        </Col>
+        <Col xs="2">
          <MenuCatButtons
          pagesContext = {this.props.pagesContext}
          book_id = {this.props.book_id}
-         data ={this.props.data} />
+         headerState ={this.props.headerState} />
         </Col>
         </Row>
         </div>
@@ -64,7 +79,7 @@ import {QuestionTypes} from '../../../utils/Constants'
         <BookViewer
        pagesContext = {this.props.pagesContext}
        book_id = {this.props.book_id}
-       data ={this.props.data}
+       headerState ={this.props.headerState}
        />
 
       );

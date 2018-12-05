@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import {SortingOptions} from './../../../utils/Constants'
 import { FETCH_QUESTION_SUCCESS} from "../../../Actions/QuestionBoxActions"
-import {API} from "../../../utils/api_list"
+import {API,myURL} from "../../../utils/api_list"
+import {QuestionCode} from "../../../utils/Constants"
 
 class SortingDropdown extends Component{
   constructor(props) {
@@ -19,17 +20,25 @@ class SortingDropdown extends Component{
     }));
   }
   componentWillReceiveProps(nextProps){
-    if(this.props.data.sorting != nextProps.data.sorting){
-      if(nextProps.data.editingMode){
-        let api = API.QUESTIONS+this.props.book_id+"/" + nextProps.data.chapter+ "/" + nextProps .data.questiontypes
-        + "/"+ nextProps .data.page_no + "?sortBy="+nextProps.data.sorting;
-        this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,1,0,true)
+    if(this.props.questionsState.sorting != nextProps.questionsState.sorting){
+
+      let details = {
+        book_id : this.props.book_id,
+        currentChapter : nextProps.headerState.currentChapter,
+        currentQuestiontype : nextProps.headerState.currentQuestiontype,
+        sortBy : nextProps.questionsState.sorting,
+        page_no : nextProps.questionsState.page_no
+      }
+
+      if(nextProps.headerState.editingMode){
+        details.current_category = QuestionCode.EditingMode + nextProps.headerState.current_category
       }
       else{
-        let api = API.SAVED_QUESTION_LIST+this.props.book_id+"/" + nextProps.data.chapter+ "/" + nextProps.data.questiontypes
-        + "/"+ nextProps.data.page_no;
-        this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,6,0,true)
+        details.current_category = QuestionCode.SavedMode + nextProps.headerState.current_category
       }
+      let url = myURL(details)
+      this.props.questionfetch(url,FETCH_QUESTION_SUCCESS,details.current_category,details.page_no,true)
+
     }
   }
 
@@ -53,7 +62,7 @@ class SortingDropdown extends Component{
       return(
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} size="sm"  className = "float-right">
         <DropdownToggle caret>
-        {this.props.data.sorting}
+        {this.props.questionsState.sorting}
         </DropdownToggle>
         <DropdownMenu>
         {rows}

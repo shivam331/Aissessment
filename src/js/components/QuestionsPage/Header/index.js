@@ -13,7 +13,7 @@ class HeaderView extends Component {
     return(
 <div>
 <TitleBar
-data ={this.props.data}
+headerState ={this.props.headerState}
 book_id = {this.props.book_id}
 headerFetch = {this.props.headerFetch}
 setCurrentBookId = {this.props.setCurrentBookId}
@@ -25,25 +25,29 @@ user = {this.props.user}
 book_id = {this.props.book_id}
 headerFetch = {this.props.headerFetch}
 questionfetch = {this.props.questionfetch}
-data ={this.props.data}
-questions_meta = {this.props.questions_meta}
+headerState ={this.props.headerState}
+questionsState = {this.props.questionsState}
 newChapter = {this.props.newChapter}
 newType ={this.props.newType}
 showQuestions ={this.props.showQuestions}
 newMode = {this.props.newMode}
 fetchKeyPhrases = {this.props.fetchKeyPhrases}
 showQuestions = {this.props.showQuestions}
+keyPhrasesState = {this.props.keyPhrasesState}
 />
 
-{this.props.showQuestions &&<QuestionCatBar
+<QuestionCatBar
 newCategory = {this.props.newCategory}
 book_id = {this.props.book_id}
 pagesContext = {this.props.pagesContext}
-data ={this.props.data}
-keyPhrasesCount = {this.props.keyPhrasesCount}
+headerState ={this.props.headerState}
+dataCount = {this.props.dataCount}
+questionsState = {this.props.questionsState}
+questionfetch = {this.props.questionfetch}
+saveQuestionState = {this.props.saveQuestionState}
+showQuestions = {this.props.showQuestions}
 keyPhrasesState = {this.props.keyPhrasesState}
-questions_meta = {this.props.questions_meta}
-/>}
+/>
 </div>
 )
   }

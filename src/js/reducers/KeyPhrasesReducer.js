@@ -7,7 +7,6 @@
    SAVE_KEYPHRASES_RATING_FAILURE,
    LOAD_MORE_KEYPHRASES,
    RESET_KEYPHRASES_STATE,
-   FETCH_KEYPHRASES_COUNT_SUCCESS
 
  } from "../Actions/KeyPhrasesAction"
 
@@ -18,8 +17,7 @@
    error: null,
    page_no : 0,
    total : 0,
-   saveStatus : "failure",
-   keyPhrasesRanked : 0
+   saveStatus : "failure"
  };
 
 
@@ -55,7 +53,8 @@
      return Object.assign({},state,{
        loading : false,
        keyPhrases:  action.payload.data,
-       page_no: action.new_page_no
+       page_no: action.new_page_no,
+       total : action.total
      })
     case SAVE_KEYPHRASES_RATING_BEGIN:
      console.log("begin");
@@ -81,13 +80,8 @@
     return Object.assign({}, state, {
       page_no : 0,
       total : 0,
-      keyPhrasesRanked : 0
     });
-    case FETCH_KEYPHRASES_COUNT_SUCCESS:
-    return Object.assign({},state,{
-      total : action.payload.data.totalCount,
-      keyPhrasesRanked : action.payload.data.rankedCount
-    })
+
 
      default:
      return state;

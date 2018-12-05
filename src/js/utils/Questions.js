@@ -1,12 +1,13 @@
+import {QuestionCode} from './Constants.js'
 
 var mcq_versions_question = []
-var version_mcq = (json,new_category_id,reset_question) =>{
+var version_mcq = (json,reset_question) =>{
 
   if(reset_question){
     mcq_versions_question = []
   }
   if(json.data.length!= 0){
-  let data = json.data[0].data;
+  let data = json.data.data;
  data.forEach((group)=>{
     let question_array =[]
     for(let questions of group.questions_list){
@@ -81,6 +82,8 @@ var version_mcq = (json,new_category_id,reset_question) =>{
   return mcq_versions_question;
 
 }
+
+
 var savedQuestion = []
 var savedQuestionParsing = (json,reset_question) =>{
   if(reset_question){
@@ -88,7 +91,7 @@ var savedQuestionParsing = (json,reset_question) =>{
   }
 
   if(json.data.length!= 0){
-  let data = json.data[0].data;
+  let data = json.data.data;
  data.forEach((group)=>{
     let question_array =[]
     for(let questions of group.questions_list){
@@ -139,8 +142,6 @@ var savedQuestionParsing = (json,reset_question) =>{
 
   })}
 
-
-
      return savedQuestion
 }
  const options  =  [
@@ -174,15 +175,17 @@ var savedQuestionParsing = (json,reset_question) =>{
 ]
 var keyPhraseData = []
 var rankingKeyPhrasesParsing = (json,reset_question) =>{
-  // console.log(json);
   if(reset_question){
     keyPhraseData = []
   }
 
-json.data[0].data.map((data)=>{
+json.data.data.map((data)=>{
+  var text = ""
+  if(data.mentions.length != 0){
   var pos =  data.mentions[0].indexOf(data.phrase)
-  var text = data.mentions[0].slice(0,pos) + "<b>" + data.mentions[0].slice(pos, pos+data.phrase.length)
+   text = data.mentions[0].slice(0,pos) + "<b>" + data.mentions[0].slice(pos, pos+data.phrase.length)
   + "</b>" + data.mentions[0].slice(pos+data.phrase.length)
+}
   keyPhraseData.push({
   "keyPhrase" : data.phrase,
   "response_id": data._id,
@@ -195,189 +198,40 @@ json.data[0].data.map((data)=>{
 
 return keyPhraseData
 }
-
-
-
-
-var rankingQuestions = [
-  {
-    "response_id": "60007",
-    "type": "rating",
-      "stimulus" : "The student needs to fill in the blanks ",
-      "ui_style": {
-        "fontsize": "large"
-      },
-    "options" : [
-        {
-            "value": 1,
-            "label": "1",
-            "tint": "#ff121c",
-            "description": "Unsatisfactory"
-        }, {
-            "value": 2,
-            "label": "2",
-            "tint": "#ff9104",
-            "description": "Satisfactory"
-        }, {
-            "value": 3,
-            "label": "3",
-            "tint": "#fdff30",
-            "description": "Good"
-        }, {
-            "value": 4,
-            "label": "4",
-            "tint": "#cffa2e",
-            "description": "Excellent"
-        }
-    ],
-    // "initial_value" : 30
-},
-{
-  "response_id": "60008",
-  "type": "rating",
-    "stimulus" : "The student needs to fill in the blanks ",
-    "ui_style": {
-      "fontsize": "large"
-    },
-  "options" : [
-      {
-          "value": 10,
-          "label": "1",
-          "tint": "#ff121c",
-          "description": "Unsatisfactory"
-      }, {
-          "value": 20,
-          "label": "2",
-          "tint": "#ff9104",
-          "description": "Satisfactory"
-      }, {
-          "value": 30,
-          "label": "3",
-          "tint": "#fdff30",
-          "description": "Good"
-      }, {
-          "value": 40,
-          "label": "4",
-          "tint": "#cffa2e",
-          "description": "Excellent"
-      }
-  ],
-  // "initial_value" : 30
-},
-{
-  "response_id": "60009",
-  "type": "rating",
-    "stimulus" : "The student needs to fill in the blanks ",
-    "ui_style": {
-      "fontsize": "large"
-    },
-  "options" : [
-      {
-          "value": 10,
-          "label": "1",
-          "tint": "#ff121c",
-          "description": "Unsatisfactory"
-      }, {
-          "value": 20,
-          "label": "2",
-          "tint": "#ff9104",
-          "description": "Satisfactory"
-      }, {
-          "value": 30,
-          "label": "3",
-          "tint": "#fdff30",
-          "description": "Good"
-      }, {
-          "value": 40,
-          "label": "4",
-          "tint": "#cffa2e",
-          "description": "Excellent"
-      }
-  ],
-  // "initial_value" : 30
-},
-{
-  "response_id": "60010",
-  "type": "rating",
-    "stimulus" : "The student needs to fill in the blanks ",
-    "ui_style": {
-      "fontsize": "large"
-    },
-  "options" : [
-      {
-          "value": 10,
-          "label": "1",
-          "tint": "#ff121c",
-          "description": "Unsatisfactory"
-      }, {
-          "value": 20,
-          "label": "2",
-          "tint": "#ff9104",
-          "description": "Satisfactory"
-      }, {
-          "value": 30,
-          "label": "3",
-          "tint": "#fdff30",
-          "description": "Good"
-      }, {
-          "value": 40,
-          "label": "4",
-          "tint": "#cffa2e",
-          "description": "Excellent"
-      }
-  ],
-  // "initial_value" : 30
-},
-{
-  "response_id": "60011",
-  "type": "rating",
-    "stimulus" : "The student needs to fill in the blanks ",
-    "ui_style": {
-      "fontsize": "large"
-    },
-  "options" : [
-      {
-          "value": 10,
-          "label": "1",
-          "tint": "#ff121c",
-          "description": "Unsatisfactory"
-      }, {
-          "value": 20,
-          "label": "2",
-          "tint": "#ff9104",
-          "description": "Satisfactory"
-      }, {
-          "value": 30,
-          "label": "3",
-          "tint": "#fdff30",
-          "description": "Good"
-      }, {
-          "value": 40,
-          "label": "4",
-          "tint": "#cffa2e",
-          "description": "Excellent"
-      }
-  ],
-  // "initial_value" : 30
-}
-]
-
-var matching_questions = [
-  {
-    "stimulus": "Match the cities to the parent nation.",
-    //  "instant_feedback": true,
-    "possible_responses": ["United States", "Australia", "France", "Ireland", "England"],
-    "response_id": "60005",
-    "stimulus_list": ["London", "Dublin", "Paris", "Boston", "Sydney"],
-    "type": "association",
-    "validation": {
-      "scoring_type": "partialMatch",
-      "valid_response": {
-        "value": ["England", "Ireland", "France", "United States", "Australia"]
-      }
-    }
+var matchingQuestion = []
+var matchingQuestionParsing = (json,reset_question) =>{
+  if(reset_question){
+    matchingQuestion = []
   }
-]
+  json.data.data.map((group)=>{
+    let question_array =[]
+    for(let question of group.questions_list){
+      question_array.push({
+        "stimulus": "Match the Examples to their respective category.",
+        "instant_feedback" : true,
+        "response_id": question._id,
+        "type": "association",
+        "stimulus_list":Object.values(question.associates),
+        "validation": {
+           "scoring_type": "exactMatch",
+           "valid_response": {
+               "value": Object.keys(question.associates)
+           }
+       },
+      "possible_responses" : Object.keys(question.associates),
+
+            })
+    }
+    matchingQuestion.push(
+      {"group_name":group._id,
+        "question_array":question_array}
+    )
+  })
+  return matchingQuestion
+
+}
+
+
 
 var sorting_quiestion = [
 
@@ -460,82 +314,68 @@ var sorting_quiestion = [
 
   ]
   var fill_blanks_quetions = [
-    {             "response_id": "demo7",
-    "stimulus" : "The student needs to fill in the blanks ",
-    "type": "clozetext",
-    "description" : "The student needs to fill in the blanks ",
-    "template" : "<table class=\"table table-bordered\"><thead><tr><th><strong>Multiply</strong></th><th><strong>_ x 1</strong></th><th><strong>_ x 2</strong></th><th><strong>_ x 3</strong></th><th><strong>_ x 4</strong></th><th><strong>_ x 5</strong></th></tr></thead><tbody><tr><td><strong>1 x _</strong></td><td>{{response}}</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td><strong>2 x _</strong></td><td>2</td><td>{{response}}</td><td>6</td><td>8</td><td>10</td></tr><tr><td><strong>3 x _</strong></td><td>3</td><td>6</td><td>{{response}}</td><td>12</td><td>15</td></tr><tr><td><strong>4 x _</strong></td><td>4</td><td>8</td><td>12</td><td>{{response}}</td><td>20</td></tr><tr><td><strong>5 x _</strong></td><td>5</td><td>10</td><td>15</td><td>20</td><td>{{response}}</td></tr></tbody></table>",
-    //  "instant_feedback" : true,
-    "case_sensitive" : false,
-    "max_length" : 2,
-    "valid_responses" : [
-      [
-        {"value" : "1"}
-      ], [
-        {"value" : "4"}
-      ], [
-        {"value" : "9"}
-      ], [
-        {"value" : "16"}
-      ], [
-        {"value" : "25"}
-      ], [
-        {"value" : "36"}
-      ]
-    ]
-  },
-  {
-    "response_id": "demo8",
-    "type": "clozedropdown",
-    "stimulus" : "The student needs to select the correct response for each blank ",
-    "template" : "<p>“It’s all clear,’ he {{response}}. “Have you the chisel and the bags? Great Scott! Jump, Archie, jump, and I’ll swing for it!’</p><p>Sherlock {{response}} had sprung out and seized the {{response}} by the collar. The other dived down the hole, and I heard the sound of {{response}} cloth as Jones clutched at his skirts. The light flashed upon the barrel of a revolver, but Holmes’ {{response}} came down on the man’s wrist, and the pistol {{response}} upon the stone floor.</p>",
-    // "instant_feedback" : true,
-    "possible_responses" : [ ["whispered", "sprinted", "joked"], ["Homes", "holmes", "Holmes"], ["acquaintance", "intruder", "shopkeeper"], ["burning", "departing", "rending", "broken"], ["revolver","hunting crop"], ["rattled", "clinked", "spilt"] ],
-    "valid_responses" : [
-      [
-        {"value" : "whispered"}
-      ], [
-        {"value" : "Holmes"}
-      ], [
-        {"value" : "intruder"}
-      ], [
-        {"value" : "rending"}
-      ], [
-        {"value" : "hunting crop"}
-      ], [
-        {"value" : "clinked"}
-      ]
-    ]
-  }
+    {
+            "response_id": "demo8",
+            "type": "clozedropdown",
+            "description" : "The student needs to select the correct response for each blank ",
+            "template" : "<p>“It’s all clear,’ he {{response}}. “Have you the chisel and the bags? Great Scott! Jump, Archie, jump, and I’ll swing for it!’</p><p>Sherlock {{response}} had sprung out and seized the {{response}} by the collar. The other dived down the hole, and I heard the sound of {{response}} cloth as Jones clutched at his skirts. The light flashed upon the barrel of a revolver, but Holmes’ {{response}} came down on the man’s wrist, and the pistol {{response}} upon the stone floor.</p>",
+            "instant_feedback" : true,
+            "possible_responses" : [ ["whispered", "sprinted", "joked"], ["Homes", "holmes", "Holmes"], ["acquaintance", "intruder", "shopkeeper"], ["burning", "departing", "rending", "broken"], ["revolver","hunting crop"], ["rattled", "clinked", "spilt"] ],
+            "valid_responses" : [
+                [
+                    {"value" : "whispered"}
+                ], [
+                    {"value" : "Holmes"}
+                ], [
+                    {"value" : "intruder"}
+                ], [
+                    {"value" : "rending"}
+                ], [
+                    {"value" : "hunting crop"}
+                ], [
+                    {"value" : "clinked"}
+                ]
+            ]
+        }
 
 ];
 const question = (category_id,json,reset_question) => {
-
+console.log(category_id);
   switch (category_id) {
-    case 1:
- return version_mcq(json,category_id,reset_question)
+    case QuestionCode.EditingMode + QuestionCode.MultipleChoice:
+   return version_mcq(json,reset_question)
     break;
 
-    case 2:
-    return matching_questions;
+    case QuestionCode.EditingMode + QuestionCode.Match_The_Following:
+    return matchingQuestionParsing(json,reset_question);
     break;
 
     case 3:
     return sorting_quiestion;
     break;
 
-    case 4:
-    return fill_blanks_quetions;
-    break;
-    case 5:
-    return rankingKeyPhrasesParsing(json, reset_question)
-    // return rankingQuestions;
+    case QuestionCode.EditingMode + QuestionCode.Fill_In_The_Blanks:
+     let fill = []
+     fill.push({"group_name":"aaaa",
+      "question_array":fill_blanks_quetions})
 
-    case 6:
+    return fill;
+    break;
+
+    case QuestionCode.SavedMode + QuestionCode.RankingKeyPhrases:
+    case QuestionCode.EditingMode + QuestionCode.RankingKeyPhrases:
+    return rankingKeyPhrasesParsing(json, reset_question)
+
+    case QuestionCode.SavedMode + QuestionCode.MultipleChoice:
     return savedQuestionParsing(json,reset_question)
+
+    case QuestionCode.SavedMode + QuestionCode.Match_The_Following:
+   return []
+      break;
+
     default:
     console.log("Invalid Question Id");
 
   }
 };
-export {matching_questions,question}
+export {question}

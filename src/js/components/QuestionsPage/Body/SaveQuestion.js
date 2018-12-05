@@ -62,7 +62,16 @@ class SaveQuestion extends Component{
 
     this.props.saveQuestion(finalData)
      .then(status =>
-       this.toggle()
+      { 
+        let myColor = { background: '#228B22', text: "#FFFFFF" };
+
+        if(status == "success"){
+          notify.show("Question Saved successfully!", "custom", 5000, myColor);
+        }
+        else {
+          notify.show("Question Not Saved, Please Try Again!", "custom", 5000, myColor);
+        }
+       this.toggle()}
      )
 
   }

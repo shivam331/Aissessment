@@ -3,6 +3,8 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter,Table,Input,CustomInp
 import {FETCH_QUESTION_SUCCESS } from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list";
 import {notify} from 'react-notify-toast';
+import {QuestionCode} from "../../../utils/Constants";
+import {myURL} from "../../../utils/api_list";
 
 
 class EditDistractor extends Component{
@@ -30,10 +32,11 @@ class EditDistractor extends Component{
       <ModalBody>
       <ModalBodyContent distractors = {this.props.distractors} blacklistDistractors = {this.props.blacklistDistractors}
       distractorState = {this.props.distractorState} updateDistractors = {this.props.updateDistractors}
-      data ={this.props.data}
+      questionsState ={this.props.questionsState}
       book_id = {this.props.book_id}
       questionfetch = {this.props.questionfetch}
       question = {this.props.question}
+      headerState = {this.props.headerState}
       />
       </ModalBody>
       <ModalFooter>
@@ -55,12 +58,23 @@ class ModalBodyContent extends Component{
     this.updateDistarctor = this.updateDistarctor.bind(this)
   }
   componentDidUpdate(prevProps,prevState){
-
+     if(this.props.headerState.editingMode){
     if(this.props.distractorState.status != prevProps.distractorState.status && this.props.distractorState.status == "success"){
-      let api = API.QUESTIONS+this.props.book_id+"/" + this.props.data.chapter + "/" + this.props.data.questiontypes + "/"
-      + this.props.data.page_no;
-       this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.data.current_category,this.props.data.page_no,true);
+          let details = {
+                book_id : this.props.book_id,
+                currentChapter : this.props.headerState.currentChapter,
+                currentQuestiontype : this.props.headerState.currentQuestiontype,
+                sortBy : this.props.questionsState.sorting,
+                page_no : this.props.questionsState.page_no,
+                current_category : QuestionCode.EditingMode + this.props.headerState.current_category
+              }
+              let url = myURL(details)
+              this.props.questionfetch(url,FETCH_QUESTION_SUCCESS,details.current_category,details.page_no,true)
+      // let api = API.QUESTIONS+this.props.book_id+"/" + this.props.headerState.currentChapter + "/" + this.props.headerState.currentQuestiontype + "/"
+      // + this.props.questionsState.page_no;
+      //  this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,this.props.headerState.current_category,this.props.questionsState.page_no,true);
     }
+  }
   }
   deleteRow(index){
 

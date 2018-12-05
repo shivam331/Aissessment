@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import HeaderView from "./Header";
 import QuestionView from './Body'
 import {connect} from 'react-redux';
-import { fetchHeaderData } from "../../Actions/HeaderActions"
-import {fetchQuestionData,newChapter,newType,newCategory,newMode,pagesContext,newSorting} from "../../Actions/QuestionBoxActions"
+import { fetchHeaderData,newChapter,newType,newMode,newCategory,dataCount } from "../../Actions/HeaderActions"
+import {fetchQuestionData,pagesContext,newSorting} from "../../Actions/QuestionBoxActions"
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
 import {submitfeedback} from "../../Actions/FeedBackAction"
 import {saveQuestion} from "../../Actions/SaveQuestionAction"
-import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState,keyPhrasesCount} from "../../Actions/KeyPhrasesAction"
+import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState} from "../../Actions/KeyPhrasesAction"
 import history from '../../utils/history'
 import Notifications from 'react-notify-toast';
 
@@ -17,8 +17,8 @@ const mapStateToProps = state => {
   return {
     userdetails :state.login,
     bookPageState :state.booklist,
-    data : state.header,
-    questions_meta : state.question,
+    headerState : state.header,
+    questionsState : state.question,
     distractorState : state.blacklistDistractor,
     feedbackState : state.feedback,
     saveQuestionState : state.saveQuestion,
@@ -42,7 +42,7 @@ const mapDispatchToProps = {
   fetchKeyPhrases,
   saveKeyphraseRating,
   resetKeyphrasesState,
-  keyPhrasesCount,
+  dataCount,
   newSorting
 
 }
@@ -84,9 +84,9 @@ class QuestionPage extends Component{
       headerFetch = {this.props.fetchHeaderData}
       setCurrentBookId = {this.props.setCurrentBookId}
       userLogOut ={this.props.userLogOut}
-      data ={this.props.data}
+      headerState ={this.props.headerState}
       questionfetch = {this.props.fetchQuestionData}
-      questions_meta = {this.props.questions_meta}
+      questionsState = {this.props.questionsState}
       newChapter = {this.props.newChapter}
       newType ={this.props.newType}
       newCategory = {this.props.newCategory}
@@ -95,7 +95,8 @@ class QuestionPage extends Component{
       newMode = {this.props.newMode}
       fetchKeyPhrases = {this.props.fetchKeyPhrases}
       pagesContext = {pagesContext}
-      keyPhrasesCount = {this.props.keyPhrasesCount}
+      dataCount = {this.props.dataCount}
+      saveQuestionState = {this.props.saveQuestionState}
       keyPhrasesState = {this.props.keyPhrasesState}
       />
 
@@ -105,7 +106,7 @@ class QuestionPage extends Component{
         blacklistDistractors = {this.props.blacklistDistractors}
         distractorState = {this.props.distractorState}
         updateDistractors = {this.props.updateDistractors}
-        data = {this.props.questions_meta}
+        questionsState = {this.props.questionsState}
         submitfeedback = {this.props.submitfeedback}
         feedbackState = {this.props.feedbackState}
         showQuestions={this.props.bookPageState.showQuestions}
@@ -115,8 +116,8 @@ class QuestionPage extends Component{
         keyPhrasesState = {this.props.keyPhrasesState}
         saveKeyphraseRating  = {this.props.saveKeyphraseRating}
         pagesContext = {pagesContext}
-        keyPhrasesCount = {this.props.keyPhrasesCount}
         newSorting = {this.props.newSorting}
+        headerState ={this.props.headerState}
         />}
         </div>
       );

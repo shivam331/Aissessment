@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import BookListTable from './BookListTable'
 import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
-import {newChapter,newType} from "../../Actions/QuestionBoxActions"
 import history from '../../utils/history'
 import {Row, Col,Container} from 'reactstrap'
 import TitleBar from '../Reusable/TitleBar'
@@ -21,8 +20,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchBookList,
   setCurrentBookId,
-  newChapter,
-  newType,
   userLogOut
 }
 

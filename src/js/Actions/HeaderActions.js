@@ -1,4 +1,4 @@
-import {BASE_URL} from "../utils/api_list";
+import {BASE_URL,API} from "../utils/api_list";
 
 export const FETCH_TITLE_BEGIN   = 'FETCH_TITLE_BEGIN';
 export const FETCH_TITLE_SUCCESS = 'FETCH_TITLE_SUCCESS';
@@ -6,8 +6,10 @@ export const FETCH_TITLE_FAILURE = 'FETCH_TITLE_FAILURE';
 export const FETCH_CHAPTER_SUCCESS = 'FETCH_CHAPTER_SUCCESS'
 export const FETCH_QUESTION_TYPE_SUCCESS = "FETCH_QUESTION_TYPE_SUCCESS"
 export const CHANGE_QUESTION_CATEGORY = "CHANGE_QUESTION_CATEGORY"
-
-
+export const CHANGE_CHAPTER = "CHANGE_CHAPTER"
+export const CHANGE_QUESTION_TYPE = "CHANGE_QUESTION_TYPE"
+export const CHANGE_VIEW_MODE = "CHANGE_VIEW_MODE"
+export const DATA_COUNT_SUCCESS =  "DATA_COUNT_SUCCESS"
 
 export const fetchTitleBegin = () => ({
   type: FETCH_TITLE_BEGIN
@@ -24,7 +26,30 @@ export const fetchTitleError = error => ({
   payload: { error }
 });
 
+export const changeChapter = chapter =>({
+  type: CHANGE_CHAPTER,
+  chapter : chapter
+})
 
+export const changeType = questiontype =>({
+  type : CHANGE_QUESTION_TYPE,
+  questiontype : questiontype
+})
+
+export const changeCategory = category_id =>({
+  type : CHANGE_QUESTION_CATEGORY,
+  category_id : category_id
+})
+
+const changeMode = (mode) =>({
+  type :CHANGE_VIEW_MODE,
+  editingMode : mode
+})
+
+const dataCountSuccess = (data) =>({
+  type : DATA_COUNT_SUCCESS,
+  payload : {data}
+})
 
 export const fetchHeaderData = (api_link,action_type) =>{
   return dispatch => {
@@ -40,9 +65,44 @@ export const fetchHeaderData = (api_link,action_type) =>{
   };
 }
 
+export var dataCount = (book_id,chapter,type) =>{
+  return dispatch => {
+    
+    return fetch(BASE_URL+API.DATA_COUNT + book_id + "/" + chapter + "/" + type)
+    .then(handleErrors)
+    .then(res => res.json())
+    .then(json => {
+      dispatch(dataCountSuccess(json.data))
+
+    })
+    .catch(error => dispatch(fetchTitleError(error)));
+  }
+}
 
 
+export var newChapter = (chapter) =>{
+  return dispatch => {
+    dispatch(changeChapter(chapter))
+  }
+}
 
+export var newType = (questiontype) =>{
+  return dispatch => {
+    dispatch(changeType(questiontype))
+  }
+}
+
+export var newCategory = category_id =>{
+  return dispatch => {
+    dispatch(changeCategory(category_id))
+  }
+}
+
+export var newMode = (editingMode) =>{
+  return dispatch =>{
+    dispatch(changeMode(editingMode))
+  }
+}
 
 
 export function handleErrors(response) {
