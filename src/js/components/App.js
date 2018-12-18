@@ -2,22 +2,15 @@ import React, { Component } from 'react';
 import LoginView from './LoginPage'
 import QuestionPage from './QuestionsPage'
 import BookPage from './BookPage'
-import {connect} from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import {connect} from 'react-redux';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Router,
   Route,
-  Link,
-  Switch,
-  Redirect
+  Switch
 } from 'react-router-dom'
 import history from '../utils/history'
 
-const mapStateToProps = state => {
-  return {
-    data :state.login
-  }
-}
 
 
 class App extends Component{
@@ -41,23 +34,7 @@ class App extends Component{
   }
 
 
-  const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={props =>
-        (this.props.data.user != "") ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-  );
+
 
 
   export default (App)

@@ -7,7 +7,7 @@ import {QuestionTypes} from '../../../utils/Constants'
   // var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice"},{"id" : 2,"category":"association","category_name":"Matching"},
   // {"id" :3,"category":"orderlist","category_name":"Sorting"}, {"id": 4,"category":"clozetext","category_name":"Fill in the blanks"}]
 
-  var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice"}]
+  // var question_types = [{"id" : 1,"category":"mcq","category_name":"Multiple Choice"}]
 
   export class QuestionCatBar extends Component{
     constructor(props){
@@ -27,7 +27,11 @@ import {QuestionTypes} from '../../../utils/Constants'
 
     render(){
       var savedPercentage = ((this.props.headerState.savedQuestion / this.props.headerState.totalQuestion) *100).toFixed(2);
-      var rankedPercentage =((this.props.headerState.rankedKeyphrases / this.props.headerState.totalKeyphrases) *100).toFixed(2);
+      // var rankedPercentage =((this.props.headerState.rankedKeyphrases / this.props.headerState.totalKeyphrases) *100).toFixed(2);
+
+      if(Number.isNaN(Number(savedPercentage))){
+        savedPercentage = "0.00"
+      }
       const quest_types = [];
       this.props.showQuestions && QuestionTypes.forEach((type,index)=>{
         quest_types.push(
@@ -45,22 +49,16 @@ import {QuestionTypes} from '../../../utils/Constants'
       return(
         <div className = " mx-3 my-3">
         <Row>
-        <Col xs="4">
-        {quest_types}
+        <Col xs="3">
         </Col>
-        <Col xs = "3">
-        <div className="text-center">KeyPhrases Ranked: {this.props.headerState.rankedKeyphrases} of {' '}
-         {this.props.headerState.totalKeyphrases}</div>
-        <Progress striped  color = "success" value={this.props.headerState.rankedKeyphrases}
-         max={this.props.headerState.totalKeyphrases}><font color="black">{rankedPercentage}%</font></Progress>
-        </Col>
-        <Col xs = "3">
+
+        <Col xs = "6">
         <div className="text-center">Questions Saved: {this.props.headerState.savedQuestion} of {' '}
          {this.props.headerState.totalQuestion}</div>
         <Progress striped  color = "success" value={this.props.headerState.savedQuestion}
          max={this.props.headerState.totalQuestion}><font color="black">{savedPercentage}%</font></Progress>
         </Col>
-        <Col xs="2">
+        <Col xs="3">
          <MenuCatButtons
          pagesContext = {this.props.pagesContext}
          book_id = {this.props.book_id}
@@ -71,6 +69,14 @@ import {QuestionTypes} from '../../../utils/Constants'
       );
     }
   }
+  // {quest_types}
+
+  // <Col xs = "3">
+  // <div className="text-center">KeyPhrases Ranked: {this.props.headerState.rankedKeyphrases} of {' '}
+  //  {this.props.headerState.totalKeyphrases}</div>
+  // <Progress striped  color = "success" value={this.props.headerState.rankedKeyphrases}
+  //  max={this.props.headerState.totalKeyphrases}><font color="black">{rankedPercentage}%</font></Progress>
+  // </Col>
 
   class MenuCatButtons extends Component{
     render(){

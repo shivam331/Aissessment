@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Table,Col} from 'reactstrap';
+import {Table,Col,Progress} from 'reactstrap';
 import {
   Redirect
 } from 'react-router-dom'
@@ -20,8 +20,9 @@ constructor(props){
 
     this.props.booklist.Books.map((book,index)=> {
       rows.push(
-         <ProductRow bookname = {book.bookname} key  = {book._id} index = {index} bookid = {book._id}
+         <ProductRow  key  = {book.book_id} index = {index}
          newBookId = {this.props.newBookId} booklist = {this.props.booklist}
+         bookDetails = {book}
           />
       )
     });
@@ -39,12 +40,13 @@ return(
                 backgroundColor={'black'} // default is black
                 opacity=".4" // default is .9
                 >
-                <Table hover bordered  className ="px-3">
+                <Table hover bordered  className ="px-3" dark>
                 <thead>
                 <tr>
-              <th>Problems</th>
-              <th>Ranking</th>
-              <th><Col sm="12" md={{size:9,offset:5}}>Book Name</Col></th>
+              <th><center>Problems</center></th>
+              <th><center>Ranking</center></th>
+              <th><center>Book Name</center></th>
+              <th><center>KeyPhrases Ranked</center></th>
               </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -67,8 +69,8 @@ class ProductRow extends Component{
     }
     else{
 currentStatus = false    }
-if(this.props.bookid != this.props.booklist.currentBookId || this.props.booklist.showQuestions != currentStatus ){
-    this.props.newBookId(this.props.bookid,currentStatus)
+if(this.props.bookDetails.book_id != this.props.booklist.currentBookId || this.props.booklist.showQuestions != currentStatus ){
+    this.props.newBookId(this.props.bookDetails.book_id,currentStatus)
   }
   else{
      history.push('/question')
@@ -81,7 +83,12 @@ if(this.props.bookid != this.props.booklist.currentBookId || this.props.booklist
       <tr>
       <td><a href ='' onClick={this.handleClick} id = "1">View Problems</a></td>
       <td><a href ='' onClick={this.handleClick} id = "2">Rank KeyPhrases</a></td>
-      <td>{this.props.bookname}</td>
+      <td>{this.props.bookDetails.bookname}</td>
+      <td className="text-center">
+      {this.props.bookDetails.rankedKeyPhrases} Out Of {this.props.bookDetails.totalKeyphrases}
+      <Progress striped  color = "success" value={this.props.bookDetails.rankedKeyPhrases}
+       max={this.props.bookDetails.totalKeyphrases}></Progress>
+      </td>
       </tr>
     );
 

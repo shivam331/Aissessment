@@ -29,7 +29,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
         if(this.props.showQuestions){
           if(this.props.headerState.editingMode != nextProps.headerState.editingMode ||
             this.props.headerState.currentChapter != nextProps.headerState.currentChapter ||
-            this.props.headerState.currentQuestiontype != nextProps.headerState.currentQuestiontype){
+            this.props.headerState.currentQuestiontype != nextProps.headerState.currentQuestiontype ||
+          this.props.headerState.current_category != nextProps.headerState.current_category){
               let details = {
                 book_id : this.props.book_id,
                 currentChapter : nextProps.headerState.currentChapter,
@@ -47,7 +48,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
               }
 
               let api = myURL(details)
-              this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,details.current_category,0,true)
+              this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,details.current_category,details.page_no,true)
 
             }
           }
@@ -74,8 +75,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
         modeChange(){
           this.props.newMode(!this.props.headerState.editingMode)
         }
-        toggle() {
-
+        toggle(){
           this.setState({
             isOpen: !this.state.isOpen
           });
@@ -84,16 +84,17 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
           const borderRadiusStyle = { borderRadius: 2 }
           const dropdown = [];
           if(this.props.book_id){
-            MenuBarDropdowns.map((name,index)=>{
+            MenuBarDropdowns.map((filter,index)=>{
               let disable = false
-              if(this.props.headerState.current_category == 2 && name == "Question Types"){
+              if(this.props.headerState.current_category == QuestionCode.Match_The_Following
+                 && filter.name == "Content Types"){
                 disable = true
               }
               dropdown.push(
                 <FilterDropDown
                 book_id = {this.props.book_id}
-                key = {name}
-                index = {index}
+                key = {filter.name}
+                id = {filter.id}
                 headerFetch = {this.props.headerFetch}
                 questionfetch = {this.props.questionfetch}
                 headerState ={this.props.headerState}
@@ -101,6 +102,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
                 newChapter = {this.props.newChapter}
                 newType = {this.props.newType}
                 disabled = {disable}
+                heading = {filter.header}
+                newCategory = {this.props.newCategory}
                 />
               );
             });
@@ -206,11 +209,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
               let api = API.SEARCH_KEYPHRASES+this.props.book_id+"/" +this.search.current.value;
               this.props.fetchKeyPhrases(api,FETCH_KEYPHRASES_SUCCESS,cat,0,true)
             }
-
           }
-
-
-
         }
         render(){
           return(

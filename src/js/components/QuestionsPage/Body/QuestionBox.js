@@ -11,6 +11,7 @@ import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
 import styles from '../../../../css/question_css.css';
 import SaveQuestion from './SaveQuestion'
 import SortingDropdown from './SortingDropdown'
+import image from '../../../../public/nodata.png'
 
 
 
@@ -85,40 +86,44 @@ class QuestionBox  extends Component{
         }),() => {
           this.initialisation(false,"")
         })
-        this.props.pagesContext(this.props.book_id)
-        .then(result=>{
-          question_data.map((group,index)=>{
-            var grp = group.group_name
-            // .replace(/[^a-zA-Z0-9]/g, '');
-            result.data.map((context)=>{
-              let content = context.content.replace(/[’'“”""]/gi, '');
-              if(content.includes(grp)){
-                var pos =  content.indexOf(grp)
-                var text = content.slice(0,pos) + "<b>" + content.slice(pos, pos+grp.length)
-                + "</b>" + content.slice(pos+grp.length)
-
-                var final =text.replace('/n','').slice(pos-200, pos+200 + grp.length);
-
-                newContext[index] = {
-                  content:final,
-                  page:context.page
-                }
-              }
-            })
-
-          })
-          this.setState(prevState=>({
-            context : prevState.context  = newContext
-          }))
-
-        })
       }
 
       if(this.state.active_question_set !== prevState.active_question_set){
       }
     }
 
-    componentWillReceiveProps(newProps){
+    componentWillReceiveProps(nextProps){
+      if(this.props.headerState.context != nextProps.headerState.context ||
+        this.props.questionsState.questions != nextProps.questionsState.questions &&
+        nextProps.questionsState.questions.length !== 0){
+        const question_data = nextProps.questionsState.questions;
+        var newContext = []
+
+        question_data.map((group,index)=>{
+          var grp = group.group_name
+          // .replace(/[^a-zA-Z0-9]/g, '');
+          nextProps.headerState.context.map((context)=>{
+            let content = context.content.replace(/[’'“”""]/gi, '');
+            if(content.includes(grp)){
+              var pos =  content.indexOf(grp)
+              var text = content.slice(0,pos) + "<b>" + content.slice(pos, pos+grp.length)
+              + "</b>" + content.slice(pos+grp.length)
+
+              var final =text.replace('/n','').slice(pos-200, pos+200 + grp.length);
+
+              newContext[index] = {
+                content:final,
+                page:context.page
+              }
+            }
+          })
+
+        })
+        this.setState(prevState=>({
+          context : prevState.context  = newContext
+        }))
+
+      }
     }
 
     initialisation(newVersionClicked,newVersionQuestion){
@@ -169,8 +174,7 @@ class QuestionBox  extends Component{
           key = {question.response_id}
           index ={index}
           virsionChangeClicked ={this.virsionChangeClicked}
-          v
-          ersion_length ={this.props.questionsState.questions[index].question_array.length}
+          version_length ={this.props.questionsState.questions[index].question_array.length}
           distractors = {question.options}
           blacklistDistractors = {this.props.blacklistDistractors}
           distractorState = {this.props.distractorState}
@@ -196,7 +200,13 @@ class QuestionBox  extends Component{
       }
 
       if(questions.length == 0 && !this.props.questionsState.loading){
-        return <h3>Sorry, No Question Found...</h3>
+        return (<div  className = {'mt-5'} >
+          <center>
+          <h3>Sorry, No Question Found.</h3>
+          <p> Please try for another filters.</p>
+             <img src={image} style = {{width : 200, height : 200}}/>
+             </center>
+          </div>)
       }
 
       // <Col sm="12" md={{ size: 8, offset: 5}}>
@@ -244,17 +254,7 @@ class QuestionBox  extends Component{
         </Pagination>
         </Col>
         <Col sm = "3" >
-        <div className = "inline float-right">
-        <span className = "mr-2 "><b>{'Sort By:'}</b>
-        </span>
-        <SortingDropdown
-        newSorting = {this.props.newSorting}
-        questionsState = {this.props.questionsState}
-        questionfetch = {this.props.questionfetch}
-        book_id = {this.props.book_id}
-        headerState = {this.props.headerState}
-        />
-        </div>
+
         </Col>
         </Row>
         <Row>
@@ -266,6 +266,17 @@ class QuestionBox  extends Component{
       )
     }
   }
+  // <div className = "inline float-right">
+  // <span className = "mr-2 "><b>{'Sort By:'}</b>
+  // </span>
+  // <SortingDropdown
+  // newSorting = {this.props.newSorting}
+  // questionsState = {this.props.questionsState}
+  // questionfetch = {this.props.questionfetch}
+  // book_id = {this.props.book_id}
+  // headerState = {this.props.headerState}
+  // />
+  // </div>
 
   class Question extends Component{
     constructor(props){
@@ -300,7 +311,8 @@ class QuestionBox  extends Component{
         <div className = "col-2-md">
         <Button color="link" disabled={this.props.version_length > 1 ? false :true} onClick ={this.versionChange}>View Other Versions</Button>
         </div>
-        <EditDistractor distractors = {this.props.distractors}
+    {this.props.headerState.current_category == QuestionCode.MultipleChoice &&
+          <EditDistractor distractors = {this.props.distractors}
         blacklistDistractors = {this.props.blacklistDistractors}
         distractorState = {this.props.distractorState}
         updateDistractors = {this.props.updateDistractors}
@@ -309,13 +321,13 @@ class QuestionBox  extends Component{
         questionfetch = {this.props.questionfetch}
         question = {this.props.question}
           headerState = {this.props.headerState}
-        />
+        />}
         <SaveQuestion
         question = {this.props.question}
         saveQuestion = {this.props.saveQuestion}
         book_id = {this.props.book_id}
         saveQuestionState = {this.props.saveQuestionState}
-
+        headerState = {this.props.headerState}
         />
         <ShowContext
         index = {this.props.index}

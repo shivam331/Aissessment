@@ -34,6 +34,8 @@ newMode = {this.props.newMode}
 fetchKeyPhrases = {this.props.fetchKeyPhrases}
 showQuestions = {this.props.showQuestions}
 keyPhrasesState = {this.props.keyPhrasesState}
+newCategory = {this.props.newCategory}
+
 />
 
 <QuestionCatBar

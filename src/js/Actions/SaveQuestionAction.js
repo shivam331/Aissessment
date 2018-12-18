@@ -20,11 +20,11 @@ const saveQuestionFailure = (error) =>({
 })
 
 
-export const saveQuestion = (data) => {
-
+export const saveQuestion = (data,api) => {
+console.log(api);
 return dispatch =>{
    dispatch(saveQuestionBegin())
-   return fetch(BASE_URL+API.SAVE_QUESTION, {
+   return fetch(BASE_URL+api, {
      method: 'post',
      headers: {
        "Content-Type": "application/json; charset=utf-8",
@@ -34,6 +34,7 @@ return dispatch =>{
    .then(handleErrors)
    .then(res => res.json())
    .then(json =>{
+     console.log(json);
      dispatch(saveQuestionSuccess(json.status));
       return json.status;
    })

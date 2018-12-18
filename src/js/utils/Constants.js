@@ -14,4 +14,6 @@ export const QuestionTypes =  [
   {"id" : QuestionCode.MultipleChoice,"category":"mcq","category_name":"Multiple Choice"},
   {"id" : QuestionCode.Match_The_Following,"category":"association","category_name":"Match The Following"}]
 
-export const MenuBarDropdowns = ["Chapters","Question Types"]
+export const MenuBarDropdowns = [{name :"Chapters",header : "Chapters",id: 1},
+                                 {name:"Content Types",header: "Content Type",id : 2},
+                                 {name : "Question Types", header: "Question Type",id :3}]

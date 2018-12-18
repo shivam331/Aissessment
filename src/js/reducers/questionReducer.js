@@ -12,7 +12,7 @@ const initialState = {
   error: null,
   page_no : 0,
   total : 0,
-  sorting : "Default"
+  sorting : "KeyPhrases Ranking"
 };
 
 

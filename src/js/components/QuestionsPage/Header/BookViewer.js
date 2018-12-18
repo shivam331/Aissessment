@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import Spinner from '../../../utils/Spinner'
 
 export default class BookViewer extends Component {
   constructor(props) {
@@ -13,12 +14,13 @@ export default class BookViewer extends Component {
 }
 componentDidMount(){
   this.props.pagesContext(this.props.book_id)
-  .then(result =>{
-
+}
+componentWillReceiveProps(nextProps){
+  if(this.props.headerState.context != nextProps.headerState.context){
     this.setState(prevState=>({
-      content : prevState.content = result.data.map(e => e.content).join(" ")
+      content : prevState.content = nextProps.headerState.context.map(e => e.content).join(" ")
     }))
-  })
+  }
 }
 toggle() {
   this.setState({
@@ -27,9 +29,6 @@ toggle() {
 }
 render()
 {
-  const style  = {
-    'width' : '100VW'
-  }
 
    return(
        <div className = "d-inline-block float-right ">
@@ -39,7 +38,8 @@ render()
        <ModalBody>
   { this.state.content.split('\n').map((item,i) => {
   return  <p key={i}>{item}</p>
-})}
+})
+}
 
        </ModalBody>
 

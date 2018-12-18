@@ -206,19 +206,22 @@ var matchingQuestionParsing = (json,reset_question) =>{
   json.data.data.map((group)=>{
     let question_array =[]
     for(let question of group.questions_list){
+      let chapter = question.crumb.split(">")[1]
       question_array.push({
-        "stimulus": "Match the Examples to their respective category.",
+        "stimulus": question.stimulus,
         "instant_feedback" : true,
-        "response_id": question._id,
+        "response_id": question.combine_problem_id,
         "type": "association",
-        "stimulus_list":Object.values(question.associates),
+        "stimulus_list":question.stimulus_list,
         "validation": {
            "scoring_type": "exactMatch",
            "valid_response": {
-               "value": Object.keys(question.associates)
+               "value": question.valid_responses
            }
        },
-      "possible_responses" : Object.keys(question.associates),
+      "possible_responses" : question.possible_responses,
+      "chapter" : chapter,
+      "questionType":question.type
 
             })
     }
@@ -230,6 +233,7 @@ var matchingQuestionParsing = (json,reset_question) =>{
   return matchingQuestion
 
 }
+
 
 
 
@@ -346,6 +350,7 @@ console.log(category_id);
    return version_mcq(json,reset_question)
     break;
 
+    case QuestionCode.SavedMode + QuestionCode.Match_The_Following:
     case QuestionCode.EditingMode + QuestionCode.Match_The_Following:
     return matchingQuestionParsing(json,reset_question);
     break;
@@ -369,9 +374,10 @@ console.log(category_id);
     case QuestionCode.SavedMode + QuestionCode.MultipleChoice:
     return savedQuestionParsing(json,reset_question)
 
-    case QuestionCode.SavedMode + QuestionCode.Match_The_Following:
-   return []
-      break;
+   //  case QuestionCode.SavedMode + QuestionCode.Match_The_Following:
+   //  console.log(json);
+   // return []
+   //    break;
 
     default:
     console.log("Invalid Question Id");

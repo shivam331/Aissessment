@@ -34,7 +34,6 @@ return dispatch => {
   })    .then(handleErrors)
   .then(res => res.json())
   .then(json => {
-
     dispatch(saveFeedbackSuccess(json.status));
      return json.status;
   })

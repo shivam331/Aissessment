@@ -4,6 +4,7 @@ import {FETCH_QUESTION_SUCCESS } from "../../../Actions/QuestionBoxActions"
 import {API} from "../../../utils/api_list";
 import {initOptionsEditor,callbacksEditor,hook} from "../../../utils/learnosity_configuration";
 import  {notify} from 'react-notify-toast';
+import {QuestionCode} from "../../../utils/Constants";
 
 
 var editor;
@@ -37,42 +38,42 @@ class SaveQuestion extends Component{
 
   done(){
         // e.preventDefault()
-    var finalQuestion = editor.getWidget()
-    let choices = []
-    finalQuestion.options.map((option)=>{
-      choices.push(option.label)
-    })
-    let answer = ""
-  if(finalQuestion.validation.valid_response.value.length != 0){
-    answer = finalQuestion.validation.valid_response.value[0]
-  }
-  else{
-    answer = finalQuestion.valid_responses[0].value
-  }
+        let category  = this.props.headerState.current_category
+        let api;
+        switch (category) {
+          case QuestionCode.MultipleChoice:
+        var finalData =   mcqQuestionFormat(editor.getWidget(),this.props.book_id)
+        api = API.SAVE_QUESTION
 
-    let finalData = {
-      combine_problem_id : finalQuestion.response_id,
-      question:finalQuestion.stimulus,
-      choices:choices,
-      answer:answer,
-      chapter : this.props.question.chapter,
-      questType : this.props.question.questionType,
-      book_id :this.props.book_id
-    }
+            break;
 
-    this.props.saveQuestion(finalData)
-     .then(status =>
-      { 
-        let myColor = { background: '#228B22', text: "#FFFFFF" };
+          case QuestionCode.Match_The_Following:
+          var finalData = matchingQuestionFormat(editor.getWidget(),this.props.book_id)
+          api = API.SAVE_MATCH_THE_FOLLOWING_QUESTION
+          console.log(finalData);
+          console.log("match following");
+          break
+          default:
 
-        if(status == "success"){
-          notify.show("Question Saved successfully!", "custom", 5000, myColor);
         }
-        else {
-          notify.show("Question Not Saved, Please Try Again!", "custom", 5000, myColor);
-        }
-       this.toggle()}
-     )
+
+        this.props.saveQuestion(finalData,api)
+         .then(status =>
+          {
+            let myColor = { background: '#228B22', text: "#FFFFFF" };
+
+            if(status == "success"){
+              notify.show("Question Saved successfully!", "custom", 5000, myColor);
+            }
+            else {
+              notify.show("Question Not Saved, Please Try Again!", "custom", 5000, myColor);
+            }
+           this.toggle()}
+         )
+
+
+
+
 
   }
 
@@ -98,4 +99,48 @@ class SaveQuestion extends Component{
   }
 }
 
+  var mcqQuestionFormat = (finalQuestion,book_id) =>{
+      let choices = []
+      finalQuestion.options.map((option)=>{
+        choices.push(option.label)
+      })
+      let answer = ""
+    if(finalQuestion.validation.valid_response.value.length != 0){
+      answer = finalQuestion.validation.valid_response.value[0]
+    }
+    else{
+      answer = finalQuestion.valid_responses[0].value
+    }
+
+      let finalData = {
+        combine_problem_id : finalQuestion.response_id,
+        question:finalQuestion.stimulus,
+        choices:choices,
+        answer:answer,
+        chapter : finalQuestion.chapter,
+        questType : finalQuestion.questionType,
+        book_id :book_id,
+        question_category : "mcq"
+      }
+
+      return finalData
+
+
+  }
+
+  var matchingQuestionFormat = (finalQuestion,book_id) =>{
+   let finalData = {
+     combine_problem_id : finalQuestion.response_id,
+     stimulus : finalQuestion.stimulus,
+     stimulus_list : finalQuestion.stimulus_list,
+     possible_responses : finalQuestion.possible_responses,
+     valid_responses : finalQuestion.validation.valid_response.value,
+     book_id : book_id,
+     question_category : "association",
+     chapter : finalQuestion.chapter,
+     questionType : finalQuestion.questionType
+   }
+return finalData
+
+  }
   export default SaveQuestion

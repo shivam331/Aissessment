@@ -42,13 +42,9 @@ export const userlogin = (credentials) =>{
     .then(json => {
       let user = json.data.email
       let name = json.data.name
-      // if (json.data.email === undefined) {
-      //   user = ""
-      // }
       localStorage.setItem('auth',JSON.stringify({user}));
       localStorage.setItem('authName',JSON.stringify({name}));
       dispatch(userLoginSuccess(user,name));
-    //  return json.data;
     })
     .catch(error => dispatch(userLoginFailure(error)));
   };

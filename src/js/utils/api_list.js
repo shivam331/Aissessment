@@ -1,6 +1,6 @@
-// export const BASE_URL = "http://localhost:80/api/"
+export const BASE_URL = "http://localhost:80/api/"
 // export const BASE_URL = "https://dry-garden-43793.herokuapp.com/api/"
-export const BASE_URL = "http://aissessment.paperscorer.com/api/"
+// export const BASE_URL = "http://aissessment.paperscorer.com/api/"
 
 import {QuestionCode} from './Constants'
 
@@ -25,8 +25,9 @@ export const API = {
 "CONTEXT" : "pageContext/",
 "DATA_COUNT" : "summaryCount/",
 "RATED_KEYPHRASES" : "ratedKeyphrases/",
-"MATCH_THE_FOLLOWING_QUESTIONS" : "matchSentence/"
-
+"MATCH_THE_FOLLOWING_QUESTIONS" : "matchSentence/",
+"SAVE_MATCH_THE_FOLLOWING_QUESTION": "saveMatchingQuestion",
+"SAVED_MATCH_THE_FOLLOWING_QUESTIONS" : "savedMatchingQuestion/"
 }
 
 
@@ -50,6 +51,10 @@ export var myURL = (details) =>{
 
 
     case  QuestionCode.SavedMode + QuestionCode.Match_The_Following:
+    return API.SAVED_MATCH_THE_FOLLOWING_QUESTIONS + details.book_id + "/" +
+           details.currentChapter + "/" + details.currentQuestiontype  + "/" + details.page_no
+       break;
+
     case  QuestionCode.SavedMode + QuestionCode.MultipleChoice:
     return API.SAVED_QUESTION_LIST + details.book_id + "/" +
           details.currentChapter + "/" + details.currentQuestiontype + "/" +

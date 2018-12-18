@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import HeaderView from "./Header";
 import QuestionView from './Body'
 import {connect} from 'react-redux';
-import { fetchHeaderData,newChapter,newType,newMode,newCategory,dataCount } from "../../Actions/HeaderActions"
-import {fetchQuestionData,pagesContext,newSorting} from "../../Actions/QuestionBoxActions"
+import { fetchHeaderData,newChapter,newType,newMode,newCategory,dataCount,pagesContext} from "../../Actions/HeaderActions"
+import {fetchQuestionData,newSorting} from "../../Actions/QuestionBoxActions"
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
@@ -43,7 +43,8 @@ const mapDispatchToProps = {
   saveKeyphraseRating,
   resetKeyphrasesState,
   dataCount,
-  newSorting
+  newSorting,
+  pagesContext
 
 }
 
@@ -55,7 +56,7 @@ class QuestionPage extends Component{
        this.props.newChapter("All Chapters");
        this.props.newType("Example")
        this.props.resetKeyphrasesState()
-       this.props.newSorting("Default")
+       // this.props.newSorting("Default")
     }
   componentWillReceiveProps(nextProps){
     if(!nextProps.userdetails.user){
@@ -75,7 +76,6 @@ class QuestionPage extends Component{
 
   render()
   {
-
     return (
       <div>
        <Notifications />
@@ -94,7 +94,7 @@ class QuestionPage extends Component{
       user = {this.props.userdetails.user}
       newMode = {this.props.newMode}
       fetchKeyPhrases = {this.props.fetchKeyPhrases}
-      pagesContext = {pagesContext}
+      pagesContext = {this.props.pagesContext}
       dataCount = {this.props.dataCount}
       saveQuestionState = {this.props.saveQuestionState}
       keyPhrasesState = {this.props.keyPhrasesState}
@@ -115,7 +115,7 @@ class QuestionPage extends Component{
         fetchKeyPhrases = {this.props.fetchKeyPhrases}
         keyPhrasesState = {this.props.keyPhrasesState}
         saveKeyphraseRating  = {this.props.saveKeyphraseRating}
-        pagesContext = {pagesContext}
+        pagesContext = {this.props.pagesContext}
         newSorting = {this.props.newSorting}
         headerState ={this.props.headerState}
         />}

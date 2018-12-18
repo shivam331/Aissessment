@@ -55,15 +55,7 @@ export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,res
   };
 }
 
-export const pagesContext = (book_id) =>{
-return  fetch(BASE_URL+ API.CONTEXT + book_id)
-  .then(handleErrors)
-  .then(res => res.json())
-  .then(json => {
-    return json;
-  })
-  .catch(error => console.log(error));
-}
+
 
 
 export const newSorting = (sortingBy) =>{

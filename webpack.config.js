@@ -7,12 +7,24 @@ module.exports = {
   //   filename: 'main.js',
   //   publicPath: '/'
   // },
+  mode : 'development',
   devServer: {
     historyApiFallback: true,
   },
   devtool: "source-map",
   module: {
     rules: [
+      {
+       test: /\.(png|jpg|gif)$/i,
+       use: [
+         {
+           loader: 'url-loader',
+           options: {
+             limit: 8192
+           }
+         }
+       ]
+     },
       {
         test: /\.js$/,
         exclude: /node_modules/,

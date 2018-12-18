@@ -10,6 +10,7 @@ export const CHANGE_CHAPTER = "CHANGE_CHAPTER"
 export const CHANGE_QUESTION_TYPE = "CHANGE_QUESTION_TYPE"
 export const CHANGE_VIEW_MODE = "CHANGE_VIEW_MODE"
 export const DATA_COUNT_SUCCESS =  "DATA_COUNT_SUCCESS"
+export const BOOK_CONTEXT_SUCCESS = "BOOK_CONTEXT_SUCCESS"
 
 export const fetchTitleBegin = () => ({
   type: FETCH_TITLE_BEGIN
@@ -51,6 +52,11 @@ const dataCountSuccess = (data) =>({
   payload : {data}
 })
 
+const bookContextSuccess = (data) =>({
+  type : BOOK_CONTEXT_SUCCESS,
+  payload : data
+})
+
 export const fetchHeaderData = (api_link,action_type) =>{
   return dispatch => {
     dispatch(fetchTitleBegin());
@@ -67,17 +73,28 @@ export const fetchHeaderData = (api_link,action_type) =>{
 
 export var dataCount = (book_id,chapter,type) =>{
   return dispatch => {
-    
     return fetch(BASE_URL+API.DATA_COUNT + book_id + "/" + chapter + "/" + type)
     .then(handleErrors)
     .then(res => res.json())
     .then(json => {
       dispatch(dataCountSuccess(json.data))
-
     })
     .catch(error => dispatch(fetchTitleError(error)));
   }
 }
+
+export const pagesContext = (book_id) =>{
+
+return  dispatch=>{
+  return fetch(BASE_URL+ API.CONTEXT + book_id)
+  .then(handleErrors)
+  .then(res => res.json())
+  .then(json => {
+    dispatch(bookContextSuccess(json.data))
+    return json;
+  })
+  .catch(error => console.log(error));
+}}
 
 
 export var newChapter = (chapter) =>{

@@ -9,9 +9,10 @@ import {
   CHANGE_QUESTION_TYPE,
   CHANGE_VIEW_MODE,
   CHANGE_QUESTION_CATEGORY,
-  DATA_COUNT_SUCCESS
+  DATA_COUNT_SUCCESS,
+  BOOK_CONTEXT_SUCCESS
 } from '../Actions/HeaderActions';
-import {QuestionCode} from '../utils/Constants'
+import {QuestionCode,QuestionTypes} from '../utils/Constants'
 
 const modeCache = localStorage.getItem('editingMode')
 const initialState = {
@@ -19,7 +20,7 @@ const initialState = {
   loading: false,
   error: null,
   currentChapter : "All Chapters",
-  currentQuestiontype : "Example",
+  currentQuestiontype : "Example", // It refer to the content type like date, example, etc.
   chapters : ["All Chapters"],
   questionstype : ["All Question Types"],
   editingMode:  modeCache && JSON.parse(modeCache).status,
@@ -27,7 +28,9 @@ const initialState = {
   totalQuestion : 0,
   savedQuestion : 0,
   totalKeyphrases : 0,
-  rankedKeyphrases : 0
+  rankedKeyphrases : 0,
+  context : [],
+  questionCategories : QuestionTypes
 };
 
 export default function titleReducer(state = initialState, action) {
@@ -97,6 +100,10 @@ export default function titleReducer(state = initialState, action) {
       rankedKeyphrases : action.payload.data.rankedKeyPhrases
     })
 
+    case BOOK_CONTEXT_SUCCESS:
+    return Object.assign({},state,{
+      context : action.payload
+    })
 
     default:
     return state;

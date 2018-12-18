@@ -24,12 +24,7 @@ componentWillReceiveProps(nextProps) {
   }
 }
 
-
-
-
-     // <Redirect to={'/books'} />
   render(){
-
     return (
 <LoginView
 userdetails ={this.props.data}
