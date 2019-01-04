@@ -63,6 +63,8 @@ class SaveQuestion extends Component{
             let myColor = { background: '#228B22', text: "#FFFFFF" };
 
             if(status == "success"){
+              console.log(finalData);
+              this.props.saveQuestionSucces(this.props.index)
               notify.show("Question Saved successfully!", "custom", 5000, myColor);
             }
             else {

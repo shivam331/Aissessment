@@ -51,6 +51,10 @@ class QuestionBox  extends Component{
 
     }
 
+    saveQuestionSucces(index){
+      console.log("question saved@@@@@@@@@@@@"+index);
+    }
+
     componentDidMount() {
       let details = {
         book_id : this.props.book_id,
@@ -127,6 +131,7 @@ class QuestionBox  extends Component{
     }
 
     initialisation(newVersionClicked,newVersionQuestion){
+      console.log(newVersionQuestion,);
       if(newVersionClicked){
         initOptions.questions =[newVersionQuestion]
       }
@@ -190,6 +195,7 @@ class QuestionBox  extends Component{
           saveQuestionState = {this.props.saveQuestionState}
           context = {this.state.context[index]}
           headerState = {this.props.headerState}
+          saveQuestionSucces = {this.saveQuestionSucces}
           />
         );}
       })}
@@ -203,7 +209,7 @@ class QuestionBox  extends Component{
         return (<div  className = {'mt-5'} >
           <center>
           <h3>Sorry, No Question Found.</h3>
-          <p> Please try for another filters.</p>
+          <p>Please try other filters.</p>
              <img src={image} style = {{width : 200, height : 200}}/>
              </center>
           </div>)
@@ -288,6 +294,7 @@ class QuestionBox  extends Component{
       e.preventDefault()
       this.props.virsionChangeClicked(this.props.index)
     }
+
     componentDidMount(){
       const myDomNode = this.index.current
       const edited_question = sessionStorage.getItem("edited_question");
@@ -328,6 +335,8 @@ class QuestionBox  extends Component{
         book_id = {this.props.book_id}
         saveQuestionState = {this.props.saveQuestionState}
         headerState = {this.props.headerState}
+        saveQuestionSucces = {this.props.saveQuestionSucces}
+        index = {this.props.index}
         />
         <ShowContext
         index = {this.props.index}
@@ -335,7 +344,6 @@ class QuestionBox  extends Component{
         <DownVoteBtn question_id = {this.props.question_id}
         submitfeedback = {this.props.submitfeedback}
         feedbackState = {this.props.feedbackState}/>
-
         </div>
         </div>
       );

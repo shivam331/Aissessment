@@ -17,7 +17,7 @@ constructor(props){
 
   render(){
     const rows = [];
-
+console.log("booklist table");
     this.props.booklist.Books.map((book,index)=> {
       rows.push(
          <ProductRow  key  = {book.book_id} index = {index}
@@ -40,13 +40,13 @@ return(
                 backgroundColor={'black'} // default is black
                 opacity=".4" // default is .9
                 >
-                <Table hover bordered  className ="px-3" dark>
+                <Table hover bordered  className ="px-3" >
                 <thead>
                 <tr>
-              <th><center>Problems</center></th>
-              <th><center>Ranking</center></th>
-              <th><center>Book Name</center></th>
-              <th><center>KeyPhrases Ranked</center></th>
+              <th><center>Book Title</center></th>
+              <th><center>Source</center></th>
+              <th><center>Rank Key Phrases</center></th>
+              <th><center>View Problems</center></th>
               </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -81,14 +81,14 @@ if(this.props.bookDetails.book_id != this.props.booklist.currentBookId || this.p
   render(){
     return (
       <tr>
-      <td><a href ='' onClick={this.handleClick} id = "1">View Problems</a></td>
-      <td><a href ='' onClick={this.handleClick} id = "2">Rank KeyPhrases</a></td>
       <td>{this.props.bookDetails.bookname}</td>
-      <td className="text-center">
-      {this.props.bookDetails.rankedKeyPhrases} Out Of {this.props.bookDetails.totalKeyphrases}
-      <Progress striped  color = "success" value={this.props.bookDetails.rankedKeyPhrases}
-       max={this.props.bookDetails.totalKeyphrases}></Progress>
-      </td>
+      <td></td>
+      <td><center><a href ='' onClick={this.handleClick} id = "2">Rank Key Phrases</a>
+      <p>  {this.props.bookDetails.rankedKeyPhrases}  out of {this.props.bookDetails.totalKeyphrases}</p></center></td>
+      <td><center><a href ='' onClick={this.handleClick} id = "1">View Problems</a></center></td>
+
+
+
       </tr>
     );
 

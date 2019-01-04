@@ -10,15 +10,15 @@ export const API = {
 "CHAPTER_LIST" : "chapter/",
 "QUESTION_TYPES_LIST" : "questiontypes/",
 "QUESTIONS" : "version/",
-"SEARCH" : "search/",
+"SEARCH" : "searchEditingMcq/",
 "LOGIN" : "login",
 "BOOKS" :"books",
 "BLACKLIST_DISTRACTORS" : "addBlacklist/",
 "UPDATE_DISTRACTORS" : "updateDistractors/",
 "SUBMIT_FEEDBACK" : "submitfeedback",
-"SAVE_QUESTION" : "saveQuestion",
+"SAVE_QUESTION" : "saveQuestion", // For MCQ Type Question
 "SAVED_QUESTION_LIST": "savedQuestion/",
-"SEARCH_SAVED_QUESTION" :"searchSaved/",
+"SEARCH_SAVED_QUESTION" :"searchSavedMcq/",
 "KEYPHRASES_LIST" : "keyphrases/",
 "SAVE_KEYPHRASES_RATING" : "saveRating",
 "SEARCH_KEYPHRASES" : "searchKeyPhrases/",
@@ -27,7 +27,9 @@ export const API = {
 "RATED_KEYPHRASES" : "ratedKeyphrases/",
 "MATCH_THE_FOLLOWING_QUESTIONS" : "matchSentence/",
 "SAVE_MATCH_THE_FOLLOWING_QUESTION": "saveMatchingQuestion",
-"SAVED_MATCH_THE_FOLLOWING_QUESTIONS" : "savedMatchingQuestion/"
+"SAVED_MATCH_THE_FOLLOWING_QUESTIONS" : "savedMatchingQuestion/",
+"SEARCH_MATCHING_QUESTION" : "searchEditingMatching/",
+"SEARCH_SAVED_MATCHING_QUESTION" : "searchSavedMatching/"
 }
 
 
@@ -64,6 +66,24 @@ export var myURL = (details) =>{
     case QuestionCode.SavedMode + QuestionCode.RankingKeyPhrases:
     return API.RATED_KEYPHRASES + details.book_id + "/" + details.page_no
     break
+
+    case QuestionCode.EditingModeSearch + QuestionCode.MultipleChoice:
+    return API.SEARCH + details.book_id + "/" + details.searchKey
+     break
+
+    case QuestionCode.SavedModeSearch + QuestionCode.MultipleChoice:
+    return API.SEARCH_SAVED_QUESTION + details.book_id + "/" + details.searchKey
+    break
+
+    case QuestionCode.EditingModeSearch + QuestionCode.Match_The_Following:
+    return API.SEARCH_MATCHING_QUESTION + details.book_id + "/" + details.searchKey
+    break
+
+    case QuestionCode.SavedModeSearch + QuestionCode.Match_The_Following:
+    return API.SEARCH_SAVED_MATCHING_QUESTION + details.book_id + "/" + details.searchKey
+    break
+
+
     default:
     return ""
 

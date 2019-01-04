@@ -38,6 +38,7 @@ export  const  loginReducer = (state = initialState, action) =>{
     });
 
     case USER_LOGOUT_SUCCESS:
+    console.log("+++++++++++++++++");
     return Object.assign({}, state, {
      user : undefined,
      name:undefined,

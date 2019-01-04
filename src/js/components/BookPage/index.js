@@ -31,6 +31,9 @@ class BooksList  extends Component {
 
   }
   componentWillReceiveProps(nextProps){
+    if(!nextProps.data.user){
+      history.replace('/')
+    }
     if( this.props.booklist.currentBookId !== nextProps.booklist.currentBookId
       || this.props.booklist.showQuestions !== nextProps.booklist.showQuestions){
       // this.props.newChapter("All Chapters");
@@ -38,8 +41,8 @@ class BooksList  extends Component {
        history.push('/question')
      }}
 
+
   componentWillMount() {
-  //  this.props.setCurrentBookId()
   if(!this.props.data.user){
     history.replace('/')
   }

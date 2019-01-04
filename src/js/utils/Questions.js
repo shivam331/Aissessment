@@ -2,13 +2,12 @@ import {QuestionCode} from './Constants.js'
 
 var mcq_versions_question = []
 var version_mcq = (json,reset_question) =>{
-
   if(reset_question){
     mcq_versions_question = []
   }
   if(json.data.length!= 0){
   let data = json.data.data;
- data.forEach((group)=>{
+ data.forEach((group,index)=>{
     let question_array =[]
     for(let questions of group.questions_list){
       let options = [];
@@ -346,10 +345,13 @@ var sorting_quiestion = [
 const question = (category_id,json,reset_question) => {
 console.log(category_id);
   switch (category_id) {
+    case QuestionCode.EditingModeSearch + QuestionCode.MultipleChoice:
     case QuestionCode.EditingMode + QuestionCode.MultipleChoice:
    return version_mcq(json,reset_question)
     break;
 
+    case QuestionCode.SavedModeSearch + QuestionCode.Match_The_Following:
+    case QuestionCode.EditingModeSearch + QuestionCode.Match_The_Following:
     case QuestionCode.SavedMode + QuestionCode.Match_The_Following:
     case QuestionCode.EditingMode + QuestionCode.Match_The_Following:
     return matchingQuestionParsing(json,reset_question);
@@ -371,13 +373,10 @@ console.log(category_id);
     case QuestionCode.EditingMode + QuestionCode.RankingKeyPhrases:
     return rankingKeyPhrasesParsing(json, reset_question)
 
+    case QuestionCode.SavedModeSearch + QuestionCode.MultipleChoice:
     case QuestionCode.SavedMode + QuestionCode.MultipleChoice:
     return savedQuestionParsing(json,reset_question)
 
-   //  case QuestionCode.SavedMode + QuestionCode.Match_The_Following:
-   //  console.log(json);
-   // return []
-   //    break;
 
     default:
     console.log("Invalid Question Id");

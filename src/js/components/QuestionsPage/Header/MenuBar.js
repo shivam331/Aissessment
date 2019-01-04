@@ -56,7 +56,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
             if(this.props.headerState.editingMode != nextProps.headerState.editingMode){
               let details = {
                 book_id : this.props.book_id,
-                page_no : this.props.keyPhrasesState.page_no
+                page_no : this.props.keyPhrasesState.page_no,
+                page_no : 0
               }
 
               if(nextProps.headerState.editingMode){
@@ -65,7 +66,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
               else{
                 details.current_category = QuestionCode.SavedMode + QuestionCode.RankingKeyPhrases
               }
-              this.props.fetchKeyPhrases(myURL(details),FETCH_KEYPHRASES_SUCCESS,details.current_category,0,true);
+              this.props.fetchKeyPhrases(myURL(details),FETCH_KEYPHRASES_SUCCESS,details.current_category,details.page_no,true);
 
             }
           }
@@ -190,19 +191,21 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
         handleSearch(e) {
           e.preventDefault();
           if(this.props.book_id && this.search.current.value != ""){
-
             if(this.props.showQuestions){
 
+              let details = {
+                book_id : this.props.book_id,
+                searchKey : this.search.current.value,
+                page_no : 0
+              }
+
               if(this.props.headerState.editingMode){
-                let cat = QuestionCode.EditingMode + this.props.headerState.current_category
-                let api = API.SEARCH+this.props.book_id+"/" +this.search.current.value;
-                this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,cat,0,true)
+                details.current_category = QuestionCode.EditingModeSearch + this.props.headerState.current_category
               }
               else{
-                let cat = QuestionCode.SavedMode + this.props.headerState.current_category
-                let api = API.SEARCH_SAVED_QUESTION+this.props.book_id+"/" +this.search.current.value;
-                this.props.questionfetch(api,FETCH_QUESTION_SUCCESS,cat,0,true)
+                details.current_category = QuestionCode.SavedModeSearch + this.props.headerState.current_category
               }
+              this.props.questionfetch(myURL(details),FETCH_QUESTION_SUCCESS,details.current_category,details.page_no,true)
             }
             else{
               let cat = QuestionCode.EditingMode + QuestionCode.RankingKeyPhrases
