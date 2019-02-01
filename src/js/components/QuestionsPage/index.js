@@ -3,11 +3,11 @@ import HeaderView from "./Header";
 import QuestionView from './Body'
 import {connect} from 'react-redux';
 import { fetchHeaderData,newChapter,newType,newMode,newCategory,dataCount,pagesContext} from "../../Actions/HeaderActions"
-import {fetchQuestionData,newSorting} from "../../Actions/QuestionBoxActions"
+import {fetchQuestionData,newSorting,updateQuestionState} from "../../Actions/QuestionBoxActions"
 import {setCurrentBookId} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
-import {submitfeedback} from "../../Actions/FeedBackAction"
+import {submitfeedback,feedbackQuestionFetch,deleteFeedback} from "../../Actions/FeedBackAction"
 import {saveQuestion} from "../../Actions/SaveQuestionAction"
 import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState} from "../../Actions/KeyPhrasesAction"
 import history from '../../utils/history'
@@ -44,7 +44,9 @@ const mapDispatchToProps = {
   resetKeyphrasesState,
   dataCount,
   newSorting,
-  pagesContext
+  pagesContext,
+  feedbackQuestionFetch,
+  updateQuestionState
 
 }
 
@@ -72,6 +74,8 @@ class QuestionPage extends Component{
       history.push('/books')
     }
   }
+
+
 
 
   render()
@@ -118,6 +122,9 @@ class QuestionPage extends Component{
         pagesContext = {this.props.pagesContext}
         newSorting = {this.props.newSorting}
         headerState ={this.props.headerState}
+        feedbackQuestionFetch = {this.props.feedbackQuestionFetch}
+        deleteFeedback = {deleteFeedback}
+        updateQuestion = {this.props.updateQuestionState}
         />}
         </div>
       );

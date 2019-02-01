@@ -21,7 +21,7 @@ export const updateDistractorSuccess = (status) =>({
   type : UPDATE_DISTRACTORS_SUCCESS,
   payload: {status}
 })
-export const addDistractorsFailure = error => ({
+export const addDistractorsFailure = (error) => ({
   type: ADD_DISTRACTORS_FAILURE,
   payload: { error }
 });
@@ -37,7 +37,7 @@ export const blacklistDistractors = (distractor,book_id) =>{
         "Content-Type": "application/json; charset=utf-8",
         // "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify({distractors:distractor,book_id:book_id})
+      body: JSON.stringify({distractor:distractor,book_id:book_id})
     })    .then(handleErrors)
     .then(res => res.json())
     .then(json => {

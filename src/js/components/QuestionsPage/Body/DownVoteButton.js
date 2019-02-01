@@ -1,24 +1,16 @@
-import React, {
-  Component
-} from 'react';
+import React, {Component} from 'react';
 import ReactDOM from "react-dom";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input
+import {Button,
+  Modal, ModalHeader,
+  ModalBody, ModalFooter,
+  Form,FormGroup,
+  Label,Input
 } from 'reactstrap'
 import {notify} from 'react-notify-toast';
-
+import {FeedbackReasons} from "../../../utils/Constants";
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
-var modal_checkbox_text = ["The question did not make sense", "The distractors were inappropriate for the question stem",
-"There was a formatting issue in the question stem or distractors", "The distractors weren't similar enough to each other"
-];
+
+
 
 var selectedFeedback= []
 var commentsText = ""
@@ -27,7 +19,8 @@ class DownVoteBtn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      disliked : false
     };
     this.toggle = this.toggle.bind(this);
     this.submitFeedback = this.submitFeedback.bind(this)
@@ -47,6 +40,7 @@ class DownVoteBtn extends Component {
     commentsText =  text
   }
 
+
   submitFeedback(e){
     const authCache = localStorage.getItem('auth')
     if(selectedFeedback.length !== 0 || commentsText !== "")
@@ -61,20 +55,20 @@ class DownVoteBtn extends Component {
       this.props.submitfeedback(feedback)
       .then(status =>{
         this.setState({
-          modal: !this.state.modal
+          modal: !this.state.modal,
         });
         if(status == "success"){
           let myColor = { background: '#228B22', text: "#FFFFFF" };
+          this.props.dislikedQuestionsSuccess(this.props.question_id)
   notify.show("Feedback Saved successfully!", "custom", 5000, myColor);
         }
       })
-
-
     }
     else{
       alert("Please Enter Your Feedback.")
     }
   }
+
 
   componentWillReceiveProps(nextProps){
     if(this.props.feedbackState.status != nextProps.feedbackState.status && !nextProps.feedbackState.loading){
@@ -83,16 +77,26 @@ class DownVoteBtn extends Component {
   }
   toggle(e) {
     e.preventDefault()
+    selectedFeedback = []
+    commentsText = ""
+    if(this.props.disliked){
+      this.props.rollBackQuestionDislike(this.props.question_id)
+    }
+    else{
     this.setState({
       modal: !this.state.modal
-    });
+    });}
   }
   render() {
     const title_mssg = "Please tell us more about why this question doesn't work"
+    const color = this.props.disliked? "red" : "none"
+    
     return (
       <div className = "col-8-md px-2" >
-      <a href = "#" onClick = {this.toggle}
-      className = "fa fa-thumbs-down" > < /a>
+      <a  href = {"#"} onClick = {this.toggle}
+      className={this.props.disliked? "fa fa-thumbs-down":"fa fa-thumbs-o-down"}  style  = {{
+  color: color
+}}> < /a>
       <  Modal isOpen = {this.state.modal}  toggle = {this.toggle}
       className = {this.props.className} >
       <OverlayLoader
@@ -128,7 +132,7 @@ class ModalBodyContent extends Component {
   }
   render() {
     const checkboxes = [];
-    modal_checkbox_text.forEach((text,index) => {
+    FeedbackReasons.forEach((text,index) => {
       checkboxes.push( < Checkbox text = {text} key = {text} handleChange = {this.handleChange} index = {index}/>)
     });
     return (

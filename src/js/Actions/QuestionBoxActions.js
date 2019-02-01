@@ -8,6 +8,7 @@ export const FETCH_QUESTION_SUCCESS = 'FETCH_QUESTION_SUCCESS';
 export const FETCH_QUESTION_FAILURE = 'FETCH_QUESTION_FAILURE';
 export const LOAD_MORE_QUESTION = 'LOAD_MORE_QUESTION';
 export const CHANGE_SORTING = "CHANGE_SORTING"
+export const UPDATE_QUESTION = "UPDATE_QUESTION"
 
 
 export const fetchQuestionBegin = () => ({
@@ -31,6 +32,11 @@ export const fetchQuestionError = error => ({
 const changeSorting = sortingBy =>({
   type : CHANGE_SORTING,
   sortingBy : sortingBy
+})
+
+const updateQuestion = newQuestion =>({
+  type : UPDATE_QUESTION,
+  newQuestion : newQuestion
 })
 
 export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,reset_question) =>{
@@ -61,5 +67,11 @@ export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,res
 export const newSorting = (sortingBy) =>{
   return dispatch =>{
     dispatch(changeSorting(sortingBy))
+  }
+}
+
+export const updateQuestionState = (newQuestion) =>{
+  return dispatch =>{
+    dispatch(updateQuestion(newQuestion))
   }
 }

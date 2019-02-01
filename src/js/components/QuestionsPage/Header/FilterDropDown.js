@@ -14,7 +14,8 @@ class FilterDropDown extends Component{
     this.handleChange = this.handleChange.bind(this);
     this.dropDownItems = this.dropDownItems.bind(this)
     this.state = {
-      dropdownOpen: false
+      dropdownOpen: false,
+      currentValue : props.heading
     };
   }
 
@@ -34,6 +35,7 @@ class FilterDropDown extends Component{
   }
   handleChange(event){
     event.preventDefault();
+    event.persist();
     if(this.props.id == 1){
       if( this.props.headerState.currentChapter != event.target.innerText)
       {  this.props.newChapter(event.target.innerText);}
@@ -48,7 +50,13 @@ class FilterDropDown extends Component{
         this.props.newCategory(event.target.value)
       }
     }
-    //event.persist();
+
+    if(this.state.currentValue != event.target.value){
+      this.setState(prevState=>({
+        currentValue : event.target.innerText
+      }))
+    }
+    //
   }
 
   categoryName(catId){
@@ -94,13 +102,15 @@ class FilterDropDown extends Component{
         if(this.props.id == 3){
           options.push(<DropDownRows option = {option.category_name} key = {option.category_name}
             handleChange = {this.handleChange}
-            value = {option.id}/>)
+            value = {option.id}
+            active = {option.category_name==list.currentValue}/>)
           }
           else{
             options.push(
               <DropDownRows option = {option} key = {option}
               handleChange = {this.handleChange}
-              value = {option}/>
+              value = {option}
+              active = {option==list.currentValue}/>
             )}
           })
           if (this.props.headerState.error) {
@@ -114,7 +124,7 @@ class FilterDropDown extends Component{
             <NavItem className="m-2">
             <Dropdown  isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret disabled  = {this.props.disabled}>
-            {list.currentValue}
+            {this.state.currentValue}
             </DropdownToggle>
             <DropdownMenu
             modifiers={{
@@ -144,7 +154,9 @@ class FilterDropDown extends Component{
         }
 
         function DropDownRows(props) {
-          return   <DropdownItem onClick={props.handleChange} value = {props.value} >{props.option}</DropdownItem>
+          
+          return   <DropdownItem onClick={props.handleChange} value = {props.value} active = {props.active} >
+          {props.option}</DropdownItem>
         }
 
 

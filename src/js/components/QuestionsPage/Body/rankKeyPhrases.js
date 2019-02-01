@@ -44,7 +44,7 @@ class RankKeyPhrases extends Component {
     })
   }
   }
-  
+
   initialisation(){
     initOptions.questions = this.state.KeyPhraesList
     if(initOptions.questions.length != 0){
@@ -107,7 +107,7 @@ componentWillReceiveProps(nextProps){
   render(){
 let pages =  Math.ceil(this.props.keyPhrasesState.total/50 )
     const KeyPhraes = []
-    this.state.KeyPhraesList.map((question,index)=>{
+    this.state.KeyPhraesList.forEach((question,index)=>{
      if(question.response_id){
     const className = "learnosity-response question-" + question.response_id;
     KeyPhraes.push(

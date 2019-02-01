@@ -26,9 +26,6 @@ class SaveQuestion extends Component{
       this.initialisation()}
     });
   }
-  componentDidMount() {
-// console.log(this.props.question);
-}
 
   initialisation(){
 
@@ -50,8 +47,7 @@ class SaveQuestion extends Component{
           case QuestionCode.Match_The_Following:
           var finalData = matchingQuestionFormat(editor.getWidget(),this.props.book_id)
           api = API.SAVE_MATCH_THE_FOLLOWING_QUESTION
-          console.log(finalData);
-          console.log("match following");
+
           break
           default:
 
@@ -60,17 +56,18 @@ class SaveQuestion extends Component{
         this.props.saveQuestion(finalData,api)
          .then(status =>
           {
+            this.toggle()
             let myColor = { background: '#228B22', text: "#FFFFFF" };
 
             if(status == "success"){
-              console.log(finalData);
-              this.props.saveQuestionSucces(this.props.index)
+              this.props.saveQuestionSucces(finalData)
+
               notify.show("Question Saved successfully!", "custom", 5000, myColor);
             }
             else {
               notify.show("Question Not Saved, Please Try Again!", "custom", 5000, myColor);
             }
-           this.toggle()}
+           }
          )
 
 
@@ -80,9 +77,10 @@ class SaveQuestion extends Component{
   }
 
   render(){
+    const buttonText = this.props.saved || !this.props.headerState.editingMode? "Update" :  "Edit And Save"
     return(
       <div className = "col-2-md px-2">
-      <Button color="primary" size="sm"  onClick={this.toggle}>Edit And Save</Button>
+      <Button color="primary" size="sm"  onClick={this.toggle}>{buttonText}</Button>
       {this.state.modal && <Modal isOpen={this.state.modal} toggle={this.toggle} size ={"lg"} className={this.props.className}>
 
       <ModalHeader toggle={this.toggle}>Customize Questions</ModalHeader>

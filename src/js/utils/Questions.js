@@ -14,34 +14,36 @@ var version_mcq = (json,reset_question) =>{
       let count  = 0
       let answerBlacklisted = false;
       for(let option of questions.choices){
-        if(option != null)
-        {  if(count <6)
-          {
-            json.blacklist.Editing.map((edit)=>{
+        if(option != null && count <6)
+        {
+            if(json.blacklist)
+        {    json.blacklist.Editing.map((edit)=>{
               if(edit.from == option){
                 option = edit.to
               }
             })
-            if(!json.blacklist.Choices.includes(option)){
+          }
+            if(!json.blacklist || !json.blacklist.Choices.includes(option)){
               options.push({
             "value":option,
             "label":option
           })
         count = count +1
             }
-        }
-      }
-      }
 
-      json.blacklist.Editing.map((edit)=>{
+
+    }
+      }
+if(json.blacklist)
+    {  json.blacklist.Editing.map((edit)=>{
         if(edit.from == questions.answer){
           questions.answer = edit.to
         }
-      })
+      })}
       var min=0;
       var max=options.length;
       var random =Math.floor(Math.random() * (+max - +min)) + +min;
-      if(questions.answer != null && !json.blacklist.Choices.includes(questions.answer))
+      if(questions.answer != null &&  (!json.blacklist || !json.blacklist.Choices.includes(questions.answer)))
       {    options.splice(random, 0,{
         "value":questions.answer,
         "label":questions.answer
@@ -197,6 +199,7 @@ json.data.data.map((data)=>{
 
 return keyPhraseData
 }
+
 var matchingQuestion = []
 var matchingQuestionParsing = (json,reset_question) =>{
   if(reset_question){
@@ -233,6 +236,84 @@ var matchingQuestionParsing = (json,reset_question) =>{
 
 }
 
+var feedbackQuestions = []
+var dislikedQuestionParsing = (json,reset_question) =>{
+  if(reset_question){
+    feedbackQuestions = []
+  }
+  json.data.data.map((question)=>{
+  if(question.question_category == "mcq"){
+    var newForm;
+     newForm = dislikedMCQQuestion(question)
+  }
+  else if (question.question_category == "association") {
+     newForm = dislikedMatchingQuestion(question)
+  }
+    feedbackQuestions.push(newForm)
+
+})
+  return feedbackQuestions
+
+}
+
+var dislikedMCQQuestion = (question) =>{
+console.log(question);
+
+  let options = []
+  question.choices.map((choice)=>{
+    options.push({
+  "value":choice,
+  "label":choice
+})
+  })
+  var min=0;
+  var max=options.length;
+  var random = Math.floor(Math.random() * (+max - +min)) + +min;
+
+     options.splice(random, 0,{
+    "value":question.answer,
+    "label":question.answer
+  })
+
+  let finalQuestionForm =   {
+      "response_id": question.question_id,
+      "type": "mcq",
+      "stimulus" : question.question,
+      "options" :options,
+      "questionType":question.type,
+      "valid_responses" : [
+        {"value" : question.answer, "score": 1}
+      ],
+      "instant_feedback": true,
+      "reasons" : question.reasons,
+      "comment" : question.comment
+    }
+
+    return finalQuestionForm
+}
+
+var dislikedMatchingQuestion = (question) =>{
+
+  let finalQuestionForm = {
+    "stimulus": question.stimulus,
+    "instant_feedback" : true,
+    "response_id": question.question_id,
+    "type": "association",
+    "stimulus_list":question.stimulus_list,
+    "validation": {
+       "scoring_type": "exactMatch",
+       "valid_response": {
+           "value": question.valid_responses
+       }
+   },
+  "possible_responses" : question.possible_responses,
+  "reasons" : question.reasons,
+  "comment" : question.comment
+        }
+
+        return finalQuestionForm
+
+}
 
 
 
@@ -377,6 +458,9 @@ console.log(category_id);
     case QuestionCode.SavedMode + QuestionCode.MultipleChoice:
     return savedQuestionParsing(json,reset_question)
 
+    case QuestionCode.EditingMode + QuestionCode.FeedbackQuestions:
+    case QuestionCode.SavedMode + QuestionCode.FeedbackQuestions:
+    return dislikedQuestionParsing(json,reset_question)
 
     default:
     console.log("Invalid Question Id");

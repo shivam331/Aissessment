@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import BookListTable from './BookListTable'
-import {fetchBookList,setCurrentBookId} from "../../Actions/BookListAction"
+import {fetchBookList,setCurrentBookId,fetchBookActivitySummary} from "../../Actions/BookListAction"
 import {userLogOut} from "../../Actions/loginActions"
 import history from '../../utils/history'
 import {Row, Col,Container} from 'reactstrap'
@@ -20,7 +20,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchBookList,
   setCurrentBookId,
-  userLogOut
+  userLogOut,
+  fetchBookActivitySummary
 }
 
 class BooksList  extends Component {
@@ -65,6 +66,7 @@ class BooksList  extends Component {
       booklist ={this.props.booklist}
       fetchBookList = {this.props.fetchBookList}
       newBookId = {this.props.setCurrentBookId}
+      fetchBookActivitySummary = {this.props.fetchBookActivitySummary}
       />
     </div>
     )

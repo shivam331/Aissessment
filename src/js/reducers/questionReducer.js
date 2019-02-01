@@ -3,7 +3,8 @@ import {
   FETCH_QUESTION_SUCCESS,
   FETCH_QUESTION_FAILURE,
   LOAD_MORE_QUESTION,
-  CHANGE_SORTING
+  CHANGE_SORTING,
+  UPDATE_QUESTION
 } from '../Actions/QuestionBoxActions';
 
 const initialState = {
@@ -55,9 +56,84 @@ export default function questionBoxReducer(state = initialState, action) {
       sorting : action.sortingBy,
     })
 
+    case UPDATE_QUESTION:
+      console.log("in the update");
+    return  Object.assign({},state,{
+      questions : updatedQuestions(state.questions,action.newQuestion)
+      })
+
+
+
 
 
     default:
     return state;
   }
+}
+
+var updatedQuestions = (oldQuestionList, newQuestion) =>{
+if(newQuestion.question_category == "mcq"){
+  return updateMCQQuestions(oldQuestionList,newQuestion)
+}
+else if(newQuestion.question_category == "association"){
+return updateMatchingQuestion(oldQuestionList, newQuestion)
+}
+
+}
+
+var updateMCQQuestions = (oldQuestionList, newQuestion) =>{
+  let updatedQuestionList =
+  oldQuestionList.map(group=>{
+return    ({group_name : group.group_name,
+  question_array :group.question_array.map((question)=>{
+    if(question.response_id == newQuestion.combine_problem_id){
+      let options = [];
+      for(let option of newQuestion.choices){
+        if(option != null)
+        {
+            options.push({
+          "value":option,
+          "label":option
+        })
+
+      }
+      }
+      return Object.assign({},question,{
+        options : options,
+        stimulus : newQuestion.question,
+        valid_responses : [
+          {"value" : newQuestion.answer, "score": 1}
+        ],
+      })
+    }
+    return question
+  })}
+
+  )
+  })
+   return updatedQuestionList;
+}
+
+var updateMatchingQuestion = (oldQuestionList, newQuestion) =>{
+  console.log(oldQuestionList);
+  console.log(newQuestion);
+  let updatedQuestionList =
+  oldQuestionList.map(group =>{
+    return ({
+      group_name : group.group_name,
+      question_array : group.question_array.map(question =>{
+        if(question.response_id == newQuestion.combine_problem_id){
+          return Object.assign({},question,{
+            possible_responses : newQuestion.possible_responses,
+            stimulus : newQuestion.stimulus,
+            stimulus_list : newQuestion.stimulus_list,
+            valid_responses : newQuestion.valid_responses
+          })
+}
+return question
+      })
+    })
+  })
+return updatedQuestionList;
+
 }

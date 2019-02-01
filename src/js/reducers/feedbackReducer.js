@@ -1,14 +1,18 @@
 import {
 SAVE_FEEDBACK_BEGIN,
 SAVE_FEEDBACK_SUCCESS,
-SAVE_FEEDBACK_FAILURE
+SAVE_FEEDBACK_FAILURE,
+FETCH_FEEDBACK_QUESTION_BEGIN,
+FETCH_FEEDBACK_QUESTION_SUCCESS,
+FETCH_FEEDBACK_QUESTION_FAILURE
 } from '../Actions/FeedBackAction'
 
 
 const initialState = {
   loading: false,
   error: null,
-  status : "failure"
+  status : "failure",
+  questions :[]
 }
 
 export  const  feedbackReducer = (state = initialState, action) =>{
@@ -33,6 +37,26 @@ export  const  feedbackReducer = (state = initialState, action) =>{
       error: action.payload.error,
       status: "failure"
     });
+
+    case FETCH_FEEDBACK_QUESTION_BEGIN:
+    return Object.assign({},state,{
+      loading : true,
+      error : null,
+      // questions : []
+    })
+
+    case FETCH_FEEDBACK_QUESTION_SUCCESS:
+    return Object.assign({},state,{
+      loading : false,
+      questions : action.payload.data
+    })
+
+    case FETCH_FEEDBACK_QUESTION_FAILURE:
+    return Object.assign({},state,{
+      loading: false,
+      error : action.payload.error
+    })
+
     default:
      return state;
   }

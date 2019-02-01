@@ -13,6 +13,10 @@ constructor(props){
 }
   componentDidMount() {
     this.props.fetchBookList()
+    .then(()=>{
+this.props.fetchBookActivitySummary()
+    })
+
   }
 
   render(){
@@ -79,13 +83,19 @@ if(this.props.bookDetails.book_id != this.props.booklist.currentBookId || this.p
   }
 
   render(){
+    let metaData = this.props.booklist.BooksMetadata.find(e=>e._id == this.props.bookDetails.book_id)
+    let rankedKeyPhrases = metaData? metaData.rankedKeyPhrases : 0
+    let totalKeyphrases = metaData? metaData.totalKeyphrases : 0
+    let totalQuestionCount = metaData?metaData.totalQuestionCount : 0
+    let savedQuestionCount = metaData? metaData.savedQuestionCount : 0
     return (
       <tr>
-      <td>{this.props.bookDetails.bookname}</td>
+      <td>{this.props.bookDetails.name}</td>
       <td></td>
       <td><center><a href ='' onClick={this.handleClick} id = "2">Rank Key Phrases</a>
-      <p>  {this.props.bookDetails.rankedKeyPhrases}  out of {this.props.bookDetails.totalKeyphrases}</p></center></td>
-      <td><center><a href ='' onClick={this.handleClick} id = "1">View Problems</a></center></td>
+      <p>  {rankedKeyPhrases}  out of {totalKeyphrases}</p></center></td>
+      <td><center><a href ='' onClick={this.handleClick} id = "1">View Problems</a>
+      <p>  {savedQuestionCount}  out of {totalQuestionCount}</p></center></td>
 
 
 

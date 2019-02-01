@@ -13,6 +13,7 @@ export const API = {
 "SEARCH" : "searchEditingMcq/",
 "LOGIN" : "login",
 "BOOKS" :"books",
+"BOOKS_METADATA" : "booksummary",
 "BLACKLIST_DISTRACTORS" : "addBlacklist/",
 "UPDATE_DISTRACTORS" : "updateDistractors/",
 "SUBMIT_FEEDBACK" : "submitfeedback",
@@ -29,7 +30,9 @@ export const API = {
 "SAVE_MATCH_THE_FOLLOWING_QUESTION": "saveMatchingQuestion",
 "SAVED_MATCH_THE_FOLLOWING_QUESTIONS" : "savedMatchingQuestion/",
 "SEARCH_MATCHING_QUESTION" : "searchEditingMatching/",
-"SEARCH_SAVED_MATCHING_QUESTION" : "searchSavedMatching/"
+"SEARCH_SAVED_MATCHING_QUESTION" : "searchSavedMatching/",
+"FEEDBACK_QUESTION_LIST" : "showfeedback/",
+"DELETE_FEEDBACK" : "deletefeedback"
 }
 
 
@@ -82,6 +85,10 @@ export var myURL = (details) =>{
     case QuestionCode.SavedModeSearch + QuestionCode.Match_The_Following:
     return API.SEARCH_SAVED_MATCHING_QUESTION + details.book_id + "/" + details.searchKey
     break
+
+    case QuestionCode.EditingMode + QuestionCode.FeedbackQuestions:
+    case QuestionCode.SavedMode + QuestionCode.FeedbackQuestions:
+    return API.FEEDBACK_QUESTION_LIST + details.book_id + "/" + details.page_no
 
 
     default:

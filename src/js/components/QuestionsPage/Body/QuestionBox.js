@@ -4,7 +4,8 @@ import DownVoteBtn from "./DownVoteButton";
 import ShowContext from './ShowContext'
 import {API,myURL} from "../../../utils/api_list";
 import {QuestionCode} from "../../../utils/Constants";
-import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink  } from 'reactstrap';
+import { compareArrays} from "../../../utils/genericFunctions";
+import { Input,Button,Row,Col,Label,Pagination, PaginationItem, PaginationLink,Badge} from 'reactstrap';
 import {FETCH_QUESTION_SUCCESS,LOAD_MORE_QUESTION } from "../../../Actions/QuestionBoxActions"
 import EditDistractor from './editDistractor'
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
@@ -12,6 +13,8 @@ import styles from '../../../../css/question_css.css';
 import SaveQuestion from './SaveQuestion'
 import SortingDropdown from './SortingDropdown'
 import image from '../../../../public/nodata.png'
+import FeedbackQuestions from './FeedbackQuestion'
+import {notify} from 'react-notify-toast';
 
 
 
@@ -20,13 +23,19 @@ class QuestionBox  extends Component{
     super(props)
     this.initialisation = this.initialisation.bind(this);
     this.loadMore = this.loadMore.bind(this);
-    this.virsionChangeClicked =this.virsionChangeClicked.bind(this);
+    this.virsionChangeClicked = this.virsionChangeClicked.bind(this);
+    this.saveQuestionSucces = this.saveQuestionSucces.bind(this)
+    this.dislikedQuestionsSuccess = this.dislikedQuestionsSuccess.bind(this)
+    this.rollBackQuestionDislike = this.rollBackQuestionDislike.bind(this)
     this.state = {
       active_question_set : [],
       questions_version_set : [],
-      context : []
+      context : [],
+      savedQuestions : [],
+      dislikedQuestions : []
     }
   }
+
   loadMore(e,page_no) {
     e.preventDefault()
     if(page_no !== this.props.questionsState.page_no)
@@ -51,9 +60,65 @@ class QuestionBox  extends Component{
 
     }
 
-    saveQuestionSucces(index){
-      console.log("question saved@@@@@@@@@@@@"+index);
+    dislikedQuestionsSuccess(question_id){
+      this.setState(prevState=>({
+        dislikedQuestions : [...this.state.dislikedQuestions, question_id]
+      }))
     }
+
+    rollBackQuestionDislike(question_id){
+
+      this.props.deleteFeedback({combine_problem_id : question_id})
+      .then(result =>{
+        if(result.status == "success"){
+          this.setState(prevState => ({
+          dislikedQuestions : prevState.dislikedQuestions.filter((e => e !== question_id)),
+        }))
+        }
+        else{
+            let myColor = { background: '#228B22', text: "#FFFFFF" };
+            notify.show("Please Try Again!", "custom", 5000, myColor);
+        }
+      })
+    }
+
+    saveQuestionSucces(finalData){
+
+      if(this.props.headerState.editingMode){
+        this.setState(prevState=>({
+          savedQuestions : [...this.state.savedQuestions, finalData.combine_problem_id]
+        }))
+      }
+      else{
+        this.props.updateQuestion(finalData)
+      this.setState(prevState=>({
+        active_question_set : [],
+        savedQuestions : [...this.state.savedQuestions, finalData.combine_problem_id]
+      }),()=>{
+        this.updateState()
+
+      })
+    }
+    }
+
+    updateState(){
+      const question_data = this.props.questionsState.questions;
+      var active_question_set = []
+      question_data.forEach((group,index)=>{
+        let current_version = this.state.questions_version_set[index];
+          current_version = current_version%group.question_array.length
+        active_question_set.push(group.question_array[current_version])
+      })
+      this.setState(prevState=>({
+        active_question_set : prevState.active_question_set  = active_question_set,
+      }),() => {
+        this.initialisation(false,"")
+      })
+    }
+
+
+
+
 
     componentDidMount() {
       let details = {
@@ -74,39 +139,42 @@ class QuestionBox  extends Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
-      if((this.props.questionsState.questions != prevProps.questionsState.questions || this.props.questionsState.page_no !== prevProps.questionsState.page_no)
+      if((this.props.questionsState.questions.length != prevProps.questionsState.questions.length || this.props.questionsState.page_no !== prevProps.questionsState.page_no)
       && this.props.questionsState.questions.length !== 0){
+        // compareArrays(this.props.questionsState.questions,prevProps.questionsState.questions )
         const question_data = this.props.questionsState.questions;
         var active_question_set = []
         var questions_version_set = []
         var newContext = []
-        question_data.map((group)=>{
+        question_data.forEach((group)=>{
           active_question_set.push(group.question_array[0])
           questions_version_set.push(0)
         })
         this.setState(prevState=>({
           active_question_set : prevState.active_question_set  = active_question_set,
-          questions_version_set:prevState.questions_version_set = questions_version_set
+          questions_version_set:prevState.questions_version_set = questions_version_set,
+          savedQuestions : [],
+          dislikedQuestions : []
         }),() => {
           this.initialisation(false,"")
         })
       }
 
-      if(this.state.active_question_set !== prevState.active_question_set){
-      }
+
     }
 
     componentWillReceiveProps(nextProps){
+
       if(this.props.headerState.context != nextProps.headerState.context ||
-        this.props.questionsState.questions != nextProps.questionsState.questions &&
+        this.props.questionsState.questions.length != nextProps.questionsState.questions.length &&
         nextProps.questionsState.questions.length !== 0){
         const question_data = nextProps.questionsState.questions;
         var newContext = []
 
-        question_data.map((group,index)=>{
+        question_data.forEach((group,index)=>{
           var grp = group.group_name
           // .replace(/[^a-zA-Z0-9]/g, '');
-          nextProps.headerState.context.map((context)=>{
+          nextProps.headerState.context.forEach((context)=>{
             let content = context.content.replace(/[’'“”""]/gi, '');
             if(content.includes(grp)){
               var pos =  content.indexOf(grp)
@@ -131,12 +199,12 @@ class QuestionBox  extends Component{
     }
 
     initialisation(newVersionClicked,newVersionQuestion){
-      console.log(newVersionQuestion,);
       if(newVersionClicked){
         initOptions.questions =[newVersionQuestion]
       }
       else
-      {    initOptions.questions = this.state.active_question_set}
+      {
+           initOptions.questions = this.state.active_question_set}
       if(initOptions.questions.length != 0){
         LearnosityApp.init(initOptions,callbacks);
       }
@@ -159,7 +227,7 @@ class QuestionBox  extends Component{
 
         this.setState(prevState=>({
           active_question_set :prevState.active_question_set = aqs,
-          questions_version_set:prevState.questions_version_set =questions_version_set
+          questions_version_set:prevState.questions_version_set = questions_version_set
         }),() => {
           this.initialisation(true,newVersionQuestion)
         })
@@ -167,10 +235,12 @@ class QuestionBox  extends Component{
     }
     render(){
 
+
+
       let pages =  Math.ceil(this.props.questionsState.total/50 )
       const questions = [];
       if(this.props.questionsState.questions.length != 0)
-      {  this.state.active_question_set.map((question,index)=>{
+      {  this.state.active_question_set.forEach((question,index)=>{
         const className = "learnosity-response question-" + question.response_id;
         // loking for proper condition for this bug fixing
         if(this.props.questionsState.questions[index])
@@ -196,6 +266,10 @@ class QuestionBox  extends Component{
           context = {this.state.context[index]}
           headerState = {this.props.headerState}
           saveQuestionSucces = {this.saveQuestionSucces}
+          saved = {this.state.savedQuestions.includes(question.response_id)}
+          dislikedQuestionsSuccess = {this.dislikedQuestionsSuccess}
+          disliked = {this.state.dislikedQuestions.includes(question.response_id)}
+          rollBackQuestionDislike = {this.rollBackQuestionDislike}
           />
         );}
       })}
@@ -260,7 +334,13 @@ class QuestionBox  extends Component{
         </Pagination>
         </Col>
         <Col sm = "3" >
-
+          <FeedbackQuestions
+          feedbackQuestionFetch = {this.props.feedbackQuestionFetch}
+          book_id = {this.props.book_id}
+          feedbackState = {this.props.feedbackState}
+          deleteFeedback = {this.props.deleteFeedback}
+          rollBackQuestionDislike = {this.rollBackQuestionDislike}
+            />
         </Col>
         </Row>
         <Row>
@@ -301,7 +381,6 @@ class QuestionBox  extends Component{
 
       if(this.props.className == "learnosity-response question-" + edited_question )
       {
-
         myDomNode.scrollIntoView()
         sessionStorage.removeItem("edited_question")
 
@@ -309,9 +388,12 @@ class QuestionBox  extends Component{
     }
     render(){
       return(
-        <div className="form-check mt-3  shadow " >
+        <div className="form-check mt-3  shadow ">
         <div className="p-2">
         <Input type="checkbox" />
+        <div style = {{float : "right", margin : 5}}>
+        {this.props.saved && <Badge color="success" >Saved</Badge>}
+        </div>
         <span className = {this.props.className} ref = {this.index}></span>
         </div>
         <div className="row col-md-12">
@@ -336,14 +418,20 @@ class QuestionBox  extends Component{
         saveQuestionState = {this.props.saveQuestionState}
         headerState = {this.props.headerState}
         saveQuestionSucces = {this.props.saveQuestionSucces}
-        index = {this.props.index}
+        saved ={this.props.saved}
+
         />
         <ShowContext
         index = {this.props.index}
         context = {this.props.context}/>
-        <DownVoteBtn question_id = {this.props.question_id}
+
+        {this.props.headerState.editingMode && <DownVoteBtn question_id = {this.props.question_id}
         submitfeedback = {this.props.submitfeedback}
-        feedbackState = {this.props.feedbackState}/>
+        feedbackState = {this.props.feedbackState}
+        dislikedQuestionsSuccess = {this.props.dislikedQuestionsSuccess}
+        disliked = {this.props.disliked}
+        rollBackQuestionDislike = {this.props.rollBackQuestionDislike}/>}
+
         </div>
         </div>
       );

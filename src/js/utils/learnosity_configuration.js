@@ -30,7 +30,6 @@ const callbacks = {
 
 
   readyListener: function() {
-  // scrollToElement('#5bc4542304ce63170dd44aec');
    // console.log("Learnosity Questions API is ready");
   },
 

@@ -36,6 +36,9 @@ class QuestionView  extends Component {
   pagesContext = {this.props.pagesContext}
   newSorting = {this.props.newSorting}
  headerState ={this.props.headerState}
+ feedbackQuestionFetch = {this.props.feedbackQuestionFetch}
+ deleteFeedback = {this.props.deleteFeedback}
+ updateQuestion = {this.props.updateQuestion}
 
 />
 
