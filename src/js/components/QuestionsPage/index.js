@@ -9,9 +9,10 @@ import {userLogOut} from "../../Actions/loginActions"
 import {blacklistDistractors,updateDistractors} from "../../Actions/DistractorActions"
 import {submitfeedback,feedbackQuestionFetch,deleteFeedback} from "../../Actions/FeedBackAction"
 import {saveQuestion} from "../../Actions/SaveQuestionAction"
-import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState} from "../../Actions/KeyPhrasesAction"
+import {fetchKeyPhrases,saveKeyphraseRating,resetKeyphrasesState,reRankQuestions} from "../../Actions/KeyPhrasesAction"
 import history from '../../utils/history'
 import Notifications from 'react-notify-toast';
+import LoadingOverlay from 'react-loading-overlay';
 
 const mapStateToProps = state => {
   return {
@@ -40,13 +41,14 @@ const mapDispatchToProps = {
   saveQuestion,
   newMode,
   fetchKeyPhrases,
-  saveKeyphraseRating,
   resetKeyphrasesState,
   dataCount,
   newSorting,
   pagesContext,
   feedbackQuestionFetch,
-  updateQuestionState
+  updateQuestionState,
+  reRankQuestions,
+  saveKeyphraseRating
 
 }
 
@@ -83,6 +85,11 @@ class QuestionPage extends Component{
     return (
       <div>
        <Notifications />
+       <LoadingOverlay
+         active={this.props.keyPhrasesState.loading || this.props.questionsState.loading}
+         spinner
+         text=''
+       >
       <HeaderView
       book_id = {this.props.bookPageState.currentBookId}
       headerFetch = {this.props.fetchHeaderData}
@@ -125,7 +132,9 @@ class QuestionPage extends Component{
         feedbackQuestionFetch = {this.props.feedbackQuestionFetch}
         deleteFeedback = {deleteFeedback}
         updateQuestion = {this.props.updateQuestionState}
+        reRankQuestions = {this.props.reRankQuestions}
         />}
+        </LoadingOverlay>
         </div>
       );
     }}

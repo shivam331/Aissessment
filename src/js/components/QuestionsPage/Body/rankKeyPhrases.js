@@ -14,6 +14,7 @@ class RankKeyPhrases extends Component {
     this.initialisation = this.initialisation.bind(this)
     this.loadMore = this.loadMore.bind(this)
     this.save =this.save.bind(this)
+    this.reRankQuestions = this.reRankQuestions.bind(this)
     this.state = {
       totalKeyphrases : 0,
        KeyPhraesList : []
@@ -34,6 +35,7 @@ class RankKeyPhrases extends Component {
 
   }
 
+
   componentDidUpdate(prevProps, prevState) {
   if(this.props.keyPhrasesState.keyPhrases !== prevProps.keyPhrasesState.keyPhrases){
     this.setState(prevState=>({
@@ -48,10 +50,21 @@ class RankKeyPhrases extends Component {
   initialisation(){
     initOptions.questions = this.state.KeyPhraesList
     if(initOptions.questions.length != 0){
+      initOptions.state = 'initial'
     questionApp =  LearnosityApp.init(initOptions,callbacks);
     }
 
   }
+
+  reRankQuestions(e){
+    e.preventDefault()
+    this.props.reRankQuestions(this.props.book_id)
+    .then(json =>{
+        let myColor = { background: '#228B22', text: "#FFFFFF" };
+      notify.show(json.message, "custom", 5000, myColor);
+    })
+  }
+
   loadMore(e,page_no) {
     e.preventDefault()
 
@@ -82,7 +95,7 @@ if(page_no !== this.props.keyPhrasesState.page_no)
      .then(status =>{
     if(status == "success"){
       let myColor = { background: '#228B22', text: "#FFFFFF" };
-notify.show("KeyPhrase Rating Saved successfully!", "custom", 5000, myColor);
+      notify.show("KeyPhrase Rating Saved successfully!", "custom", 5000, myColor);
       if(this.props.headerState.editingMode){
     this.setState(prevState => ({
     KeyPhraesList : prevState.KeyPhraesList.filter((e => e.keyPhrase !== keyPhrase)),
@@ -122,22 +135,13 @@ let pages =  Math.ceil(this.props.keyPhrasesState.total/50 )
     return(
 
    <Container >
-   <OverlayLoader
-         color={'red'} // default is white
-         loader="ScaleLoader" // check below for more loaders
-         text="Loading... Please wait!"
-         active={this.props.keyPhrasesState.loading}
-         backgroundColor={'black'} // default is black
-         opacity=".4" // default is .9
-         >
-             </OverlayLoader>
       <Row className="mt-2">
        <Col >
          <p className="text-primary mt-2">Total KeyPhrases: {this.state.totalKeyphrases}</p>
        </Col>
       </Row>
       <Row>
-        <Col  sm="12">
+        <Col  sm="9">
           <Pagination aria-label="Page navigation">
             <PaginationItem disabled={this.props.keyPhrasesState.page_no <= 0}>
               <PaginationLink
@@ -165,6 +169,9 @@ let pages =  Math.ceil(this.props.keyPhrasesState.total/50 )
 
             </PaginationItem>
           </Pagination>
+        </Col>
+        <Col sm="3">
+        <Button outline color="primary" style ={{float : "right"}} onClick = {this.reRankQuestions}>Re-Rank Questions</Button>
         </Col>
       </Row>
 

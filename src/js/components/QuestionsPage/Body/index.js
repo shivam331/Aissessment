@@ -18,6 +18,7 @@ class QuestionView  extends Component {
         saveKeyphraseRating  = {this.props.saveKeyphraseRating}
         questions_meta = {this.props.questionsState}
          headerState ={this.props.headerState}
+         reRankQuestions = {this.props.reRankQuestions}
       />
     )}
     else{

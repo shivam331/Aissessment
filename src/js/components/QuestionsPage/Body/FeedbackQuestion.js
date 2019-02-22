@@ -14,8 +14,10 @@ class FeedbackQuestions extends Component{
      questions : [],
      reasonCollapse : false
    };
+   this.myRef = React.createRef();
    this.toggle = this.toggle.bind(this);
    this.removeQuestion = this.removeQuestion.bind(this)
+   this.onScroll = this.onScroll.bind(this)
   }
   removeQuestion(e,index){
     e.preventDefault()
@@ -41,12 +43,13 @@ this.props.deleteFeedback({combine_problem_id : question_id})
 })
   }
 
+
+
   initialisation(){
     initOptions.questions = this.state.questions
       LearnosityApp.init(initOptions,callbacks);
   }
   componentDidUpdate(prevProps, prevState){
-
     if(prevState.questions !== this.state.questions){
     }
   }
@@ -56,26 +59,52 @@ this.props.deleteFeedback({combine_problem_id : question_id})
    this.setState(prevState =>({
      modal: !prevState.modal
    }),()=>{
+     let node = this.myRef.current;
      if(this.state.modal){
        let details = {
          book_id : this.props.book_id,
          current_category : QuestionCode.EditingMode + QuestionCode.FeedbackQuestions,
          page_no : 0
        }
+       node.addEventListener('scroll', this.onScroll, false);
 
-       this.props.feedbackQuestionFetch(myURL(details),details.current_category,true)
+       this.props.feedbackQuestionFetch(myURL(details),details.current_category,true,details.page_no)
+         }
+         else{
+           node.removeEventListener('scroll',this.onScroll, false);
          }
        });
      }
 
-     componentWillReceiveProps(nextProps){
-       if(this.props.feedbackState.questions !== nextProps.feedbackState.questions){
+     onScroll(){
+       const node1 = this.myRef.current
+       if (node1.scrollHeight - node1.scrollTop === node1.clientHeight) {
+    console.log('header bottom reached');
+    this.loadMore()
+  }
 
+     }
+
+     loadMore(){
+       let details = {
+         book_id : this.props.book_id,
+         current_category : QuestionCode.EditingMode + QuestionCode.FeedbackQuestions,
+         page_no : this.props.feedbackState.page_no + 1
+       }
+        this.props.feedbackQuestionFetch(myURL(details),details.current_category,false,details.page_no)
+     }
+
+
+
+
+     componentWillReceiveProps(nextProps){
+    console.log(this.props.feedbackState.questions);
+    console.log(nextProps.feedbackState.questions);
+       if(this.props.feedbackState.questions.length !== nextProps.feedbackState.questions.length){
          this.setState(prevState=>({
-           questions : nextProps.feedbackState.questions
+           questions : [...nextProps.feedbackState.questions]
          }),()=>{
            this.initialisation()
-
          })
        }
      }
@@ -96,10 +125,13 @@ this.props.deleteFeedback({combine_problem_id : question_id})
       <Button color="link" className = "inline float-right" onClick = {this.toggle}>
       View Disliked Questions
       </Button>
-      <Modal isOpen={this.state.modal} toggle={this.toggle} size  = {"lg"} className={this.props.className}>
+
+      <Modal innerRef={this.myRef} isOpen={this.state.modal} toggle={this.toggle} size  = {"lg"} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Disliked Questions</ModalHeader>
           <ModalBody>
+          <div>
           {questions}
+          </div>
           </ModalBody>
         </Modal>
         </div>
@@ -114,7 +146,6 @@ class Question extends Component{
      commentscollapse : false,
      reasonCollapse : false
    };
-
    this.reasonToggle = this.reasonToggle.bind(this);
   }
 

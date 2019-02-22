@@ -91,7 +91,8 @@ notify.show("Distractor BlackListed successfully!", "custom", 5000, myColor);
   updateDistarctor(newDistractor,oldDistractor){
     let data = {
       from : oldDistractor,
-      to : newDistractor
+      to : newDistractor,
+      book_id : this.props.book_id
     }
     this.props.updateDistractors(data)
     .then(status =>{

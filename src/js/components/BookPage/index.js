@@ -6,9 +6,9 @@ import {userLogOut} from "../../Actions/loginActions"
 import history from '../../utils/history'
 import {Row, Col,Container} from 'reactstrap'
 import TitleBar from '../Reusable/TitleBar'
-import {
-  Redirect
-} from 'react-router-dom'
+import LoadingOverlay from 'react-loading-overlay';
+import {Redirect} from 'react-router-dom'
+import '../../../css/loader.css';
 
 const mapStateToProps = state => {
   return {
@@ -54,7 +54,14 @@ class BooksList  extends Component {
 
   render(){
     return (
-      <div>
+
+<div>
+<LoadingOverlay
+  active={this.props.booklist.loading ? true : false}
+  spinner
+  text=''
+>
+
       <TitleBar
         user = {this.props.data.user}
         name = {this.props.data.name}
@@ -68,7 +75,10 @@ class BooksList  extends Component {
       newBookId = {this.props.setCurrentBookId}
       fetchBookActivitySummary = {this.props.fetchBookActivitySummary}
       />
+      </LoadingOverlay>
+
     </div>
+
     )
   }
 }

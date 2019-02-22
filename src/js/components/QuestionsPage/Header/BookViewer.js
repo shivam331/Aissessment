@@ -29,7 +29,6 @@ toggle() {
 }
 render()
 {
-
    return(
        <div className = "d-inline-block float-right ">
     <Button type="button" className="btn btn-outline-secondary shadow" onClick = {this.toggle}>Book Viewer</Button>

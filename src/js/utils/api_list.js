@@ -32,7 +32,8 @@ export const API = {
 "SEARCH_MATCHING_QUESTION" : "searchEditingMatching/",
 "SEARCH_SAVED_MATCHING_QUESTION" : "searchSavedMatching/",
 "FEEDBACK_QUESTION_LIST" : "showfeedback/",
-"DELETE_FEEDBACK" : "deletefeedback"
+"DELETE_FEEDBACK" : "deletefeedback",
+"RERANKQUESTIONS" : "rankQuestion/"
 }
 
 

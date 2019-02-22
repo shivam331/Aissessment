@@ -12,11 +12,13 @@ const initialState = {
   loading: false,
   error: null,
   status : "failure",
-  questions :[]
+  questions :[],
+  page_no : 0,
+  total : 0,
 }
 
 export  const  feedbackReducer = (state = initialState, action) =>{
-
+// console.log(action);
   switch (action.type) {
     case SAVE_FEEDBACK_BEGIN:
     return Object.assign({}, state, {
@@ -39,6 +41,7 @@ export  const  feedbackReducer = (state = initialState, action) =>{
     });
 
     case FETCH_FEEDBACK_QUESTION_BEGIN:
+    // console.log("in the begin");
     return Object.assign({},state,{
       loading : true,
       error : null,
@@ -46,9 +49,13 @@ export  const  feedbackReducer = (state = initialState, action) =>{
     })
 
     case FETCH_FEEDBACK_QUESTION_SUCCESS:
+  console.log(action);
+  console.log(state);
     return Object.assign({},state,{
       loading : false,
-      questions : action.payload.data
+      questions : action.payload.data,
+      page_no : action.new_page_no,
+      total : action.total
     })
 
     case FETCH_FEEDBACK_QUESTION_FAILURE:

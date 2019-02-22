@@ -6,6 +6,8 @@ import Spinner from '../../utils/Spinner';
 import {Button, Row, Col,Label} from 'reactstrap'
 import history from '../../utils/history'
 
+
+
 class TitleBar extends Component{
   constructor(props){
     super(props)
@@ -39,7 +41,7 @@ history.push('/books')
        <div style={{ padding: '.5rem' }}>
       <Row>
        <Col xs="9">
-      <h3 className="font-weight-bold ml-5 mt-2">{this.props.book_id ? this.props.headerState.title : name}</h3>
+      <h3 className={"font-weight-bold ml-5 mt-2"}>{this.props.book_id ? this.props.headerState.title : name}</h3>
        </Col>
        <Col xs = "3">
       <div style={{ padding: '.5rem' }}>

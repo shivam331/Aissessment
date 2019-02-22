@@ -5,7 +5,7 @@ import {
   Button, FormText,Alert
 } from 'reactstrap';
 
-import styles from './loginForm.css';
+import './loginForm.css';
 
 class LoginView extends Component {
   constructor(props) {
@@ -81,12 +81,12 @@ componentWillReceiveProps(nextProps){
 
     return (
 
-      <Container className={styles.LoginView}>
+      <Container className={"LoginView"}>
         <h2>Log In</h2>
         <Alert color="danger" isOpen = {this.state.visible}>
                        Invalid Email Id or Password !
                        </Alert>
-        <Form className={styles.form} onSubmit={ (e) => this.submitForm(e) }>
+        <Form className={"form"} onSubmit={ (e) => this.submitForm(e) }>
         <Col>
             <FormGroup>
               <Label>Email</Label>

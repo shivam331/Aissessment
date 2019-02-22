@@ -5,11 +5,14 @@ import {question} from "../utils/Questions"
 export const FETCH_KEYPHRASES_BEGIN = "FETCH_KEYPHRASES_BEGIN"
 export const FETCH_KEYPHRASES_SUCCESS = "FETCH_KEYPHRASES_SUCCESS"
 export const FETCH_KEYPHRASES_FAILURE = "FETCH_KEYPHRASES_FAILURE"
+export const LOAD_MORE_KEYPHRASES = "LOAD_MORE_KEYPHRASES"
+export const RESET_KEYPHRASES_STATE = "RESET_KEYPHRASES_STATE"
+export const RERANK_QUESTIONS_BEGIN = "RERANK_QUESTIONS_BEGIN"
+export const RERANK_QUESTIONS_SUCCESS = "RERANK_QUESTIONS_SUCCESS"
+export const RERANK_QUESTION_FAILURE = "RERANK_QUESTION_FAILURE"
 export const SAVE_KEYPHRASES_RATING_BEGIN = "SAVE_KEYPHRASES_RATING_BEGIN"
 export const SAVE_KEYPHRASES_RATING_SUCCESS = "SAVE_KEYPHRASES_RATING_SUCCESS"
 export const SAVE_KEYPHRASES_RATING_FAILURE = "SAVE_KEYPHRASES_RATING_FAILURE"
-export const LOAD_MORE_KEYPHRASES = "LOAD_MORE_KEYPHRASES"
-export const RESET_KEYPHRASES_STATE = "RESET_KEYPHRASES_STATE"
 
 
  const fetchKeyPhrasesBegin = () => ({
@@ -39,13 +42,26 @@ const saveKeyPhrasesSuccess = (status) =>({
 })
 const saveKeyPhrasesFailed = (err) =>({
     type: SAVE_KEYPHRASES_RATING_FAILURE,
-    payload: { error }
+    payload: { err }
 })
 
 const resetState = () =>({
   type : RESET_KEYPHRASES_STATE
 })
 
+const reRankQuestionBegin = () => ({
+  type : RERANK_QUESTIONS_BEGIN
+})
+
+const reRankQuestionSuccess = (message) => ({
+  type : RERANK_QUESTIONS_SUCCESS,
+  message : message
+})
+
+const reRaankQuestionFailure = (err) => ({
+  type : RERANK_QUESTION_FAILURE,
+  error : err
+})
 
 
 export var fetchKeyPhrases = (api_link,action_type,category_id,new_page_no,reset_question) =>{
@@ -84,11 +100,21 @@ export var saveKeyphraseRating = (data) =>{
   }
 }
 
-
-
-
 export var resetKeyphrasesState = () =>{
   return dispatch=>{
     dispatch(resetState())
+  }
+}
+
+export var reRankQuestions = (book_id) =>{
+  return dispatch =>{
+    dispatch(reRankQuestionBegin())
+    return fetch(BASE_URL + API.RERANKQUESTIONS + book_id)
+           .then(res => res.json())
+           .then(json => {
+             dispatch(reRankQuestionSuccess(json.message))
+             return json
+           })
+           .catch(error => dispatch(reRaankQuestionFailure(error)))
   }
 }

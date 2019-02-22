@@ -66,7 +66,10 @@ if(json.blacklist)
           "valid_responses" : [
             {"value" : questions.answer, "score": 1}
           ],
-          "instant_feedback": true
+          "instant_feedback": true,
+          "metadata" :{
+            "distractor_rationale" : ""
+          }
 
         }
       )}
@@ -129,7 +132,10 @@ var savedQuestionParsing = (json,reset_question) =>{
           "valid_responses" : [
             {"value" : questions.answer, "score": 1}
           ],
-          "instant_feedback": true
+          "instant_feedback": true,
+          "metadata" :{
+            "distractor_rationale" : ""
+          }
 
         }
       )}
@@ -223,7 +229,10 @@ var matchingQuestionParsing = (json,reset_question) =>{
        },
       "possible_responses" : question.possible_responses,
       "chapter" : chapter,
-      "questionType":question.type
+      "questionType":question.type,
+      "metadata" :{
+        "distractor_rationale" : ""
+      }
 
             })
     }
@@ -242,7 +251,7 @@ var dislikedQuestionParsing = (json,reset_question) =>{
     feedbackQuestions = []
   }
   json.data.data.map((question)=>{
-  if(question.question_category == "mcq"){
+  if(!question.question_category || question.question_category == "mcq"){
     var newForm;
      newForm = dislikedMCQQuestion(question)
   }
@@ -257,7 +266,7 @@ var dislikedQuestionParsing = (json,reset_question) =>{
 }
 
 var dislikedMCQQuestion = (question) =>{
-console.log(question);
+
 
   let options = []
   question.choices.map((choice)=>{

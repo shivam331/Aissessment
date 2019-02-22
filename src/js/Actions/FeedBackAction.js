@@ -30,9 +30,11 @@ const fetchQuestionBegin = () =>({
   type : FETCH_FEEDBACK_QUESTION_BEGIN
 })
 
-const fetchQuestionSuccess = (data) => ({
+const fetchQuestionSuccess = (data,new_page_no,total) => ({
   type : FETCH_FEEDBACK_QUESTION_SUCCESS,
-  payload : {data}
+  payload : {data},
+  new_page_no: new_page_no,
+  total : total
 })
 const fetchQuestionError = (error) => ({
   type : FETCH_FEEDBACK_QUESTION_FAILURE,
@@ -58,7 +60,7 @@ return dispatch => {
 }
 }
 
-export const feedbackQuestionFetch = (url,category_id,reset_questions) =>{
+export const feedbackQuestionFetch = (url,category_id,reset_questions,new_page_no) =>{
   console.log(BASE_URL + url);
   return dispatch =>{
   dispatch(fetchQuestionBegin())
@@ -66,9 +68,10 @@ export const feedbackQuestionFetch = (url,category_id,reset_questions) =>{
         .then(handleErrors)
         .then(res => res.json())
         .then(json => {
-           let question_list = question(category_id,json,reset_questions);
+          let total = json.data.total
+          let question_list = [...question(category_id,json,reset_questions)];
 
-          dispatch(fetchQuestionSuccess(question_list));
+          dispatch(fetchQuestionSuccess(question_list,new_page_no,total));
         })
         .catch(error => dispatch(fetchQuestionError(error)));
   }

@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {Table,Col,Progress} from 'reactstrap';
-import {
-  Redirect
-} from 'react-router-dom'
-import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
+import { Redirect} from 'react-router-dom'
 import history from '../../utils/history'
-
 class BookListTable extends Component{
 
 constructor(props){
@@ -20,8 +16,9 @@ this.props.fetchBookActivitySummary()
   }
 
   render(){
+
     const rows = [];
-console.log("booklist table");
+
     this.props.booklist.Books.map((book,index)=> {
       rows.push(
          <ProductRow  key  = {book.book_id} index = {index}
@@ -34,17 +31,9 @@ console.log("booklist table");
     if (this.props.booklist.error) {
       return <p>{this.props.booklist.error.message}</p>;
     }
-
 return(
-    <OverlayLoader
-                color={'red'} // default is white
-                loader="ScaleLoader" // check below for more loaders
-                text=""
-                active={this.props.booklist.loading ? true : false}
-                backgroundColor={'black'} // default is black
-                opacity=".4" // default is .9
-                >
-                <Table hover bordered  className ="px-3" >
+  <div>
+                <Table hover bordered  className ="px-3 table" >
                 <thead>
                 <tr>
               <th><center>Book Title</center></th>
@@ -55,7 +44,8 @@ return(
                 </thead>
                 <tbody>{rows}</tbody>
                 </Table>
-   </OverlayLoader>
+                </div>
+
  )
 }
 }

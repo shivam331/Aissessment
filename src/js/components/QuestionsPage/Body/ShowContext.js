@@ -1,8 +1,7 @@
-import React, {
-  Component
-} from 'react';
+import React, {Component} from 'react';
 import ReactDOM from "react-dom";
 import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
+import ReactHtmlParser from 'react-html-parser';
 class ShowContext extends Component{
   constructor(props) {
    super(props);
@@ -20,6 +19,21 @@ class ShowContext extends Component{
    });
 
  }
+ parseContext(){
+
+   if(this.props.context){
+     let data =  this.props.context.content.map((item,i) => {
+      return  "<p>"+item+"</p>"
+      })
+      return data.join("")
+   }
+   else {
+     return ""
+   }
+
+
+ }
+ // dangerouslySetInnerHTML={{ __html: this.parseContext() }}
   render(){
 
     return(
@@ -29,10 +43,10 @@ class ShowContext extends Component{
      disabled = {this.props.context?false: true} size="sm" onClick = {this.toggle}>
      View Context</Button>
 
-     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+     <Modal isOpen={this.state.modal} size = "lg" toggle={this.toggle} className={this.props.className}>
          <ModalHeader toggle={this.toggle}>{this.props.context?this.props.context.page.replace('.txt',''):""}</ModalHeader>
-         <ModalBody   dangerouslySetInnerHTML={{ __html: this.props.context? this.props.context.content: ""  }} >
-
+         <ModalBody    >
+{ReactHtmlParser(this.parseContext() )}
          </ModalBody>
        </Modal>
 
