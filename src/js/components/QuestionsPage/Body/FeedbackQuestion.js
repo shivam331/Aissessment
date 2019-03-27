@@ -4,6 +4,8 @@ import {API,myURL} from "../../../utils/api_list";
 import {QuestionCode} from "../../../utils/Constants";
 import {initOptions,callbacks} from "../../../utils/learnosity_configuration";
 import {notify} from 'react-notify-toast';
+import LoadingOverlay from 'react-loading-overlay';
+import '../../../../css/loader.css'
 
 var app;
 class FeedbackQuestions extends Component{
@@ -22,7 +24,7 @@ class FeedbackQuestions extends Component{
   removeQuestion(e,index){
     e.preventDefault()
     let question_id = this.state.questions[index].response_id
-this.props.deleteFeedback({combine_problem_id : question_id})
+this.props.deleteFeedback({question_id : question_id})
 .then(result =>{
   if(result.status == "success"){
     let newQuestions = [...this.state.questions]
@@ -45,8 +47,8 @@ this.props.deleteFeedback({combine_problem_id : question_id})
 
 
 
-  initialisation(){
-    initOptions.questions = this.state.questions
+  initialisation(newQuestions){
+    initOptions.questions = newQuestions
       LearnosityApp.init(initOptions,callbacks);
   }
   componentDidUpdate(prevProps, prevState){
@@ -79,8 +81,11 @@ this.props.deleteFeedback({combine_problem_id : question_id})
      onScroll(){
        const node1 = this.myRef.current
        if (node1.scrollHeight - node1.scrollTop === node1.clientHeight) {
-    console.log('header bottom reached');
-    this.loadMore()
+    if(!this.props.feedbackState.loading)
+    {
+
+      this.loadMore()
+    }
   }
 
      }
@@ -98,13 +103,13 @@ this.props.deleteFeedback({combine_problem_id : question_id})
 
 
      componentWillReceiveProps(nextProps){
-    console.log(this.props.feedbackState.questions);
-    console.log(nextProps.feedbackState.questions);
        if(this.props.feedbackState.questions.length !== nextProps.feedbackState.questions.length){
+      let  previousNumberOfQuestion = this.state.questions.length
          this.setState(prevState=>({
            questions : [...nextProps.feedbackState.questions]
          }),()=>{
-           this.initialisation()
+           let newNumberOfQuestion = this.state.questions.length
+           this.initialisation(this.state.questions.slice(previousNumberOfQuestion,newNumberOfQuestion))
          })
        }
      }
@@ -126,11 +131,20 @@ this.props.deleteFeedback({combine_problem_id : question_id})
       View Disliked Questions
       </Button>
 
-      <Modal innerRef={this.myRef} isOpen={this.state.modal} toggle={this.toggle} size  = {"lg"} className={this.props.className}>
+      <Modal innerRef={this.myRef} isOpen={this.state.modal} toggle={this.toggle} size  = {"lg"}
+         className={this.props.className }>
           <ModalHeader toggle={this.toggle}>Disliked Questions</ModalHeader>
           <ModalBody>
           <div>
           {questions}
+          </div>
+          <div>
+          <LoadingOverlay
+          active={this.props.feedbackState.loading?true:false}
+          spinner
+          text=''
+          className = {"internalLoader"}
+          />
           </div>
           </ModalBody>
         </Modal>

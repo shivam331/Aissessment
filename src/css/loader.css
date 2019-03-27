@@ -16,3 +16,13 @@ color: red;} */
 ._loading_overlay_spinner svg circle{stroke :red!important}
 
 ._loading_overlay_overlay{position:fixed}
+
+.internalLoader > div{    width: calc(100% + 32px);
+    top:-10px;
+    height: 0px;
+    position: absolute;
+    display: inline-block;
+    left: -16px;
+    padding: 0;}
+.internalLoader  ._loading_overlay_spinner{height:20px;}
+.internalLoader  ._loading_overlay_spinner svg circle{stroke :#333!important}

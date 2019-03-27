@@ -251,13 +251,17 @@ var dislikedQuestionParsing = (json,reset_question) =>{
     feedbackQuestions = []
   }
   json.data.data.map((question)=>{
-  if(!question.question_category || question.question_category == "mcq"){
     var newForm;
+  if(!question.question_category || question.question_category == "mcq"){
      newForm = dislikedMCQQuestion(question)
   }
   else if (question.question_category == "association") {
      newForm = dislikedMatchingQuestion(question)
   }
+  else if(question.question_category == "imageclozeassociationV2"){
+    newForm = disLikedImageMatchingQuestion(question)
+  }
+
     feedbackQuestions.push(newForm)
 
 })
@@ -266,8 +270,6 @@ var dislikedQuestionParsing = (json,reset_question) =>{
 }
 
 var dislikedMCQQuestion = (question) =>{
-
-
   let options = []
   question.choices.map((choice)=>{
     options.push({
@@ -324,114 +326,136 @@ var dislikedMatchingQuestion = (question) =>{
 
 }
 
-
-
-var sorting_quiestion = [
-
-  {
-    "response_id": "demo15",
-    "type": "orderlist",
-    "stimulus": "In this question, the student needs to order the events, chronologically earliest to latest.",
-    "description": "In this question, the student needs to order the events, chronologically earliest to latest.",
-    "list": ["Russian Revolution", "Discovery of the Americas", "Storming of the Bastille", "Battle of Plataea", "Founding of Rome", "First Crusade"],
-    "ui_style": {
-      "type": "list"
-    },
-    //  "instant_feedback": true,
-    "feedback_attempts": 2,
-    "validation": {
-      "valid_response": [4, 3, 5, 1, 2, 0],
-      "valid_score": 1,
-      "partial_scoring": true,
-      "penalty_score": -1
-    }
-  },
-  {
-    "response_id": "demo16",
-    "type": "orderlist",
-    "stimulus" :  "In this question, the student needs to order the albums, chronologically earliest to latest.",
-    "description": "In this question, the student needs to order the albums, chronologically earliest to latest.",
-    "list": [
-      "<div class=\"album\"><img src=\"//demos.learnosity.com/static/images/questiontypes/beatles_sgt.-peppers-lonely-hearts-club-band.jpg\"><span class=\"caption\"> Sgt. Pepper\'s Lonely Hearts Club Band</span></div>",
-      "<div class=\"album\"><img src=\"//demos.learnosity.com/static/images/questiontypes/beatles_abbey-road.jpg\"><span class=\"caption\"> Abbey Road</span></div>",
-      "<div class=\"album\"><img src=\"//demos.learnosity.com/static/images/questiontypes/beatles_a-hard-days-night.jpg\"><span class=\"caption\"> A Hard Day\'s Night</span></div>",
-      "<div class=\"album\"><img src=\"//demos.learnosity.com/static/images/questiontypes/beatles_the-beatles.jpg\"><span class=\"caption\"> The Beatles</span></div>"
-    ],
-    "ui_style": {
-      "type": "list"
-    },
-    //  "instant_feedback": true,
-    "feedback_attempts": 2,
-    "validation": {
-      "valid_response": [2, 0, 3, 1],
-      "valid_score": 1,
-      "partial_scoring": true,
-      "penalty_score": -1
-    }
-  },
-  {
-    "response_id": "demo17",
-    "type": "orderlist",
-    "list": ["Un peregrino llega a la cumbre agotado por la sed. El diablo, disfrazado de caminante, se ofrece a indicarle una fuente oculta, a condición de que reniegue de Dios, de la Virgen o de Santiago. Pero el peregrino mantiene su fe a toda costa, aun cuando se encuentra exhausto.", "Es entonces cuando se aparece Santiago vestido de peregrino, recoge al moribundo y le lleva a la escondida fuente, dándole de beber con su vieira.", "<h4>Fuente Reniega</h4>", "La acción tiene lugar en el Alto del Perdón, a pocos kilómetros de Pamplona."],
-    "ui_style": {
-      "type": "list"
-    },
-    //  "instant_feedback": true,
-    "validation": {
-      "valid_response": [2, 3, 0, 1],
-      "valid_score": "1",
-      "partial_scoring": "true",
-      "penalty_score": "0",
-      "pairwise": "0"
-    }
-  },
-  {
-    "response_id": "demo18",
-    "type": "orderlist",
-    "list": [ "On the contrary, for a small street in a quiet neighbourhood, it was remarkably animated.",
-    "There was a group of shabbily dressed men smoking and laughing in a corner, a scissors-grinder with his wheel, two guardsmen who were flirting with a nurse-girl, and several well-dressed young men who were lounging up and down with cigars in their mouths.",
-    "It was a quarter past six when we left Baker Street, and it still wanted ten minutes to the hour when we found ourselves in Serpentine Avenue.",
-    "The house was just such as I had pictured it from Sherlock Holmes’ succinct description, but the locality appeared to be less private than I expected.",
-    "It was already dusk, and the lamps were just being lighted as we paced up and down in front of Briony Lodge, waiting for the coming of its occupant." ],
-    "ui_style": {
-      "type": "list"
-    },
-    //  "instant_feedback": true,
-    "validation": {
-      "valid_response": [2, 4, 3, 0, 1],
-      "valid_score": "1",
-      "partial_scoring": "true",
-      "penalty_score": "0",
-      "pairwise": "0"
-    }}
-
-  ]
-  var fill_blanks_quetions = [
+var disLikedImageMatchingQuestion = (question) =>{
+  let finalQuestionForm =
     {
-            "response_id": "demo8",
-            "type": "clozedropdown",
-            "description" : "The student needs to select the correct response for each blank ",
-            "template" : "<p>“It’s all clear,’ he {{response}}. “Have you the chisel and the bags? Great Scott! Jump, Archie, jump, and I’ll swing for it!’</p><p>Sherlock {{response}} had sprung out and seized the {{response}} by the collar. The other dived down the hole, and I heard the sound of {{response}} cloth as Jones clutched at his skirts. The light flashed upon the barrel of a revolver, but Holmes’ {{response}} came down on the man’s wrist, and the pistol {{response}} upon the stone floor.</p>",
-            "instant_feedback" : true,
-            "possible_responses" : [ ["whispered", "sprinted", "joked"], ["Homes", "holmes", "Holmes"], ["acquaintance", "intruder", "shopkeeper"], ["burning", "departing", "rending", "broken"], ["revolver","hunting crop"], ["rattled", "clinked", "spilt"] ],
-            "valid_responses" : [
-                [
-                    {"value" : "whispered"}
-                ], [
-                    {"value" : "Holmes"}
-                ], [
-                    {"value" : "intruder"}
-                ], [
-                    {"value" : "rending"}
-                ], [
-                    {"value" : "hunting crop"}
-                ], [
-                    {"value" : "clinked"}
-                ]
-            ]
-        }
+        "response_id" : question.question_id,
+        "stimulus" : "Drag the terms below to the appropriate place on the image.",
+        "type": "imageclozeassociationV2",
+        "img_src" : question.url,
+        "instant_feedback": false,
+        "possible_responses": ["Placeholder Response1"],
+        "response_container": {
+            "width": "105px"
+        },
+        "response_containers": [{
+            // "x": 0,"y": 0,
+            "pointer": "top"
+        }],
+        "response_positions": [{
+            "x": 0,
+            "y": 0
+        }],
+        "validation": {
+            "scoring_type": "partialMatch",
+            "valid_response":
+          {  "value" : ["Placeholder Response1"]}
+        },
+        "reasons" : question.reasons,
+        "comment" : question.comment
 
-];
+    }
+
+      return finalQuestionForm
+}
+
+
+
+let imageDragDropQuestions = []
+var imageMatchingQuestionsParsing =(json,reset_question) => {
+  if(reset_question){
+    imageDragDropQuestions = []
+  }
+
+json.data.data.forEach(group=>{
+  let question_array =[]
+  for(let question of group.questions_list){
+    let chapter = question.crumb.split(">")[1]
+    question_array.push({
+        "response_id" : question.image_problem_id,
+        "stimulus" : "Drag the terms below to the appropriate place on the image.",
+        "type": "imageclozeassociationV2",
+        "img_src" : question.imageUrl,
+        "instant_feedback": false,
+        "possible_responses": ["Placeholder Response1"],
+        "response_container": {
+            "width": "105px"
+        },
+        "response_containers": [{
+            // "x": 0,"y": 0,
+            "pointer": "top"
+        }],
+        "response_positions": [{
+            "x": 0,
+            "y": 0
+        }],
+        "validation": {
+            "scoring_type": "partialMatch",
+            "valid_response":
+          {  "value" : ["Placeholder Response1"]}
+        },
+        "chapter":chapter,
+        "metadata" :{
+          "distractor_rationale" : ""
+        },
+
+    })
+  }
+  imageDragDropQuestions.push(
+    {"group_name":group._id,
+      "question_array":question_array}
+  )
+
+})
+return imageDragDropQuestions
+}
+
+
+var savedImageMatchingQuestion = []
+var savedImageMatchingQuestionParsing = (json,reset_question) =>{
+  if(reset_question){
+    savedImageMatchingQuestion = []
+  }
+
+ json.data.data.forEach(group=>{
+   let question_array = []
+
+   for(let question of group.questions_list){
+     let chapter = question.crumb.split(">")[1]
+     question_array.push({
+         "response_id" : question.image_problem_id,
+         "stimulus" : question.stimulus,
+         "type": "imageclozeassociationV2",
+         "img_src" : question.imageUrl,
+         "instant_feedback": true,
+         "possible_responses": question.possible_responses,
+         "response_container": {
+             "width": "105px"
+         },
+         "response_containers": question.response_containers,
+         "response_positions": question.response_containers,
+         "validation": {
+             "scoring_type": "partialMatch",
+             "valid_response": {
+               "value" : question.valid_responses}
+         },
+         "chapter":chapter,
+         "metadata" :{
+           "distractor_rationale" : ""
+         },
+     })
+   }
+   savedImageMatchingQuestion.push(
+     {"group_name":group._id,
+       "question_array":question_array}
+   )
+ })
+
+
+  return savedImageMatchingQuestion
+}
+
+
 const question = (category_id,json,reset_question) => {
 console.log(category_id);
   switch (category_id) {
@@ -447,25 +471,26 @@ console.log(category_id);
     return matchingQuestionParsing(json,reset_question);
     break;
 
-    case 3:
-    return sorting_quiestion;
-    break;
 
-    case QuestionCode.EditingMode + QuestionCode.Fill_In_The_Blanks:
-     let fill = []
-     fill.push({"group_name":"aaaa",
-      "question_array":fill_blanks_quetions})
-
-    return fill;
-    break;
 
     case QuestionCode.SavedMode + QuestionCode.RankingKeyPhrases:
     case QuestionCode.EditingMode + QuestionCode.RankingKeyPhrases:
     return rankingKeyPhrasesParsing(json, reset_question)
+    // return imageDropDown
 
     case QuestionCode.SavedModeSearch + QuestionCode.MultipleChoice:
     case QuestionCode.SavedMode + QuestionCode.MultipleChoice:
     return savedQuestionParsing(json,reset_question)
+
+   case QuestionCode.EditingModeSearch + QuestionCode.Image_Matching:
+   case QuestionCode.EditingMode + QuestionCode.Image_Matching:
+   return imageMatchingQuestionsParsing(json,reset_question)
+
+
+    case QuestionCode.SavedModeSearch + QuestionCode.Image_Matching:
+    case QuestionCode.SavedMode + QuestionCode.Image_Matching:
+    return savedImageMatchingQuestionParsing(json,reset_question)
+
 
     case QuestionCode.EditingMode + QuestionCode.FeedbackQuestions:
     case QuestionCode.SavedMode + QuestionCode.FeedbackQuestions:

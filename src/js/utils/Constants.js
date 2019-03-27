@@ -3,6 +3,7 @@ export const SortingOptions = ["Default","KeyPhrases Ranking"]
 export const QuestionCode = {
   "MultipleChoice" : "1",
   "Match_The_Following" : "2",
+  "Image_Matching" : "3",
   "Fill_In_The_Blanks" : "4",
   "RankingKeyPhrases" : "5",
   "FeedbackQuestions" : "6",
@@ -14,7 +15,8 @@ export const QuestionCode = {
 
 export const QuestionTypes =  [
   {"id" : QuestionCode.MultipleChoice,"category":"mcq","category_name":"Multiple Choice"},
-  {"id" : QuestionCode.Match_The_Following,"category":"association","category_name":"Matching"}]
+  {"id" : QuestionCode.Match_The_Following,"category":"association","category_name":"Matching"},
+  {"id" : QuestionCode.Image_Matching,"category":"imageclozeassociationV2","category_name": "Image Matching"}]
 
 export const MenuBarDropdowns = [{name :"Chapters",header : "Chapters",id: 1},
                                  {name:"Content Types",header: "Content Type",id : 2},

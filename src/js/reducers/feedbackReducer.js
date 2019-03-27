@@ -49,8 +49,7 @@ export  const  feedbackReducer = (state = initialState, action) =>{
     })
 
     case FETCH_FEEDBACK_QUESTION_SUCCESS:
-  console.log(action);
-  console.log(state);
+
     return Object.assign({},state,{
       loading : false,
       questions : action.payload.data,

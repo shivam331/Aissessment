@@ -87,7 +87,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
           if(this.props.book_id){
             MenuBarDropdowns.map((filter,index)=>{
               let disable = false
-              if(this.props.headerState.current_category == QuestionCode.Match_The_Following
+              if((this.props.headerState.current_category == QuestionCode.Match_The_Following
+                || this.props.headerState.current_category ==  QuestionCode.Image_Matching)
                  && filter.name == "Content Types"){
                 disable = true
               }
@@ -205,6 +206,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGr
               else{
                 details.current_category = QuestionCode.SavedModeSearch + this.props.headerState.current_category
               }
+              console.log(myURL(details));
               this.props.questionfetch(myURL(details),FETCH_QUESTION_SUCCESS,details.current_category,details.page_no,true)
             }
             else{

@@ -9,7 +9,7 @@ import {Button,
 import {notify} from 'react-notify-toast';
 import {FeedbackReasons} from "../../../utils/Constants";
 import OverlayLoader from 'react-loading-indicator-overlay/lib/OverlayLoader';
-
+import {QuestionTypes} from "../../../utils/Constants";
 
 
 var selectedFeedback= []
@@ -40,16 +40,20 @@ class DownVoteBtn extends Component {
     commentsText =  text
   }
 
+ getCategoryName(){
+   let obj = QuestionTypes.find(o => o.id === this.props.headerState.current_category);
+   return obj.category
+ }
 
   submitFeedback(e){
     const authCache = localStorage.getItem('auth')
-    if(selectedFeedback.length !== 0 || commentsText !== "")
-    {
+    if(selectedFeedback.length !== 0 || commentsText !== ""){
       let feedback = {
         reasons : selectedFeedback,
         comment : commentsText,
         question_id : this.props.question_id,
-        user : JSON.parse(authCache).user
+        user : JSON.parse(authCache).user,
+        question_category : this.getCategoryName()
       }
       e.preventDefault()
       this.props.submitfeedback(feedback)
@@ -90,7 +94,7 @@ class DownVoteBtn extends Component {
   render() {
     const title_mssg = "Please tell us more about why this question doesn't work"
     const color = this.props.disliked? "red" : "none"
-    
+
     return (
       <div className = "col-8-md px-2" >
       <a  href = {"#"} onClick = {this.toggle}

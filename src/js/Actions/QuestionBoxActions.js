@@ -54,6 +54,7 @@ export var fetchQuestionData = (api_link,action_type,category_id,new_page_no,res
        total = json.data.total
      question_list = question(category_id,json,reset_question);
      }
+    
       dispatch(fetchQuestionSuccess(question_list,action_type,new_page_no,total));
       return json.data;
     })

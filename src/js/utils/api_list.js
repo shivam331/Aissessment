@@ -1,6 +1,6 @@
-export const BASE_URL = "http://localhost:80/api/"
+// export const BASE_URL = "http://localhost:80/api/"
 // export const BASE_URL = "https://dry-garden-43793.herokuapp.com/api/"
-// export const BASE_URL = "http://aissessment.paperscorer.com/api/"
+export const BASE_URL = "http://aissessment.paperscorer.com/api/"
 
 import {QuestionCode} from './Constants'
 
@@ -33,7 +33,12 @@ export const API = {
 "SEARCH_SAVED_MATCHING_QUESTION" : "searchSavedMatching/",
 "FEEDBACK_QUESTION_LIST" : "showfeedback/",
 "DELETE_FEEDBACK" : "deletefeedback",
-"RERANKQUESTIONS" : "rankQuestion/"
+"RERANKQUESTIONS" : "rankQuestion/",
+"IMAGE_MATCHING_QUESTIONS" : "imageMatching/",
+"SAVE_IMAGE_MATCHING_QUESTION" : "saveImageMatchingQuestion",
+"SAVED_IMAGE_MATCHING_QUESTION" : "savedImageMatchingQuestion/",
+"SEARCH_IMAGE_MATCHING_QUESTIONS" : "searchEditingImageMatching/",
+"SEARCH_SAVED_IMAGE_MATCHING_QUESTIONS" : "searchSavedImageMatching/"
 }
 
 
@@ -90,6 +95,22 @@ export var myURL = (details) =>{
     case QuestionCode.EditingMode + QuestionCode.FeedbackQuestions:
     case QuestionCode.SavedMode + QuestionCode.FeedbackQuestions:
     return API.FEEDBACK_QUESTION_LIST + details.book_id + "/" + details.page_no
+
+    case QuestionCode.EditingMode + QuestionCode.Image_Matching:
+    return API.IMAGE_MATCHING_QUESTIONS + details.book_id + "/" + details.currentChapter
+           + "/" + details.page_no
+
+
+    case QuestionCode.SavedMode + QuestionCode.Image_Matching:
+    return API.SAVED_IMAGE_MATCHING_QUESTION + details.book_id + "/"
+          + details.currentChapter + "/" + details.page_no
+       break;
+
+    case QuestionCode.EditingModeSearch + QuestionCode.Image_Matching:
+    return API.SEARCH_IMAGE_MATCHING_QUESTIONS + details.book_id + "/" + details.searchKey
+
+    case QuestionCode.SavedModeSearch + QuestionCode.Image_Matching:
+    return API.SEARCH_SAVED_IMAGE_MATCHING_QUESTIONS + details.book_id + "/" + details.searchKey
 
 
     default:

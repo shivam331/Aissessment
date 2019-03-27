@@ -41,14 +41,17 @@ class SaveQuestion extends Component{
           case QuestionCode.MultipleChoice:
         var finalData =   mcqQuestionFormat(editor.getWidget(),this.props.book_id)
         api = API.SAVE_QUESTION
-
             break;
 
           case QuestionCode.Match_The_Following:
           var finalData = matchingQuestionFormat(editor.getWidget(),this.props.book_id)
           api = API.SAVE_MATCH_THE_FOLLOWING_QUESTION
-
           break
+
+          case QuestionCode.Image_Matching :
+          var finalData = imageMatchingFormat(editor.getWidget(),this.props.book_id)
+          api = API.SAVE_IMAGE_MATCHING_QUESTION
+
           default:
 
         }
@@ -142,5 +145,21 @@ class SaveQuestion extends Component{
    }
 return finalData
 
+  }
+
+  var imageMatchingFormat = (finalQuestion,book_id) =>{
+    let finalData = {
+      image_problem_id : finalQuestion.response_id,
+      chapter : finalQuestion.chapter,
+      url : finalQuestion.img_src,
+      possible_responses : finalQuestion.possible_responses,
+      response_containers : finalQuestion.response_containers,
+      stimulus : finalQuestion.stimulus,
+      question_category : "imageclozeassociationV2",
+      valid_responses : finalQuestion.validation.valid_response.value,
+       book_id : book_id,
+    }
+
+    return finalData
   }
   export default SaveQuestion

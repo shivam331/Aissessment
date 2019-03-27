@@ -79,6 +79,10 @@ else if(newQuestion.question_category == "association"){
 return updateMatchingQuestion(oldQuestionList, newQuestion)
 }
 
+else if(newQuestion.question_category == "imageclozeassociationV2"){
+  return updateImageMatchingQuestion(oldQuestionList,newQuestion)
+}
+
 }
 
 var updateMCQQuestions = (oldQuestionList, newQuestion) =>{
@@ -115,8 +119,6 @@ return    ({group_name : group.group_name,
 }
 
 var updateMatchingQuestion = (oldQuestionList, newQuestion) =>{
-  console.log(oldQuestionList);
-  console.log(newQuestion);
   let updatedQuestionList =
   oldQuestionList.map(group =>{
     return ({
@@ -136,4 +138,28 @@ return question
   })
 return updatedQuestionList;
 
+}
+
+var updateImageMatchingQuestion = (oldQuestionList,newQuestion) =>{
+  console.log(oldQuestionList);
+  console.log(newQuestion);
+   let updatedQuestionList =
+   oldQuestionList.map(group =>{
+     return({
+       group_name : group.group_name,
+       question_array : group.question_array.map(question =>{
+         if(question.response_id == newQuestion.image_problem_id){
+           return Object.assign({},question,{
+             possible_responses : newQuestion.possible_responses,
+             response_containers : newQuestion.response_containers,
+             stimulus : newQuestion.stimulus,
+             url : newQuestion.url,
+             valid_responses : newQuestion.valid_responses
+           })
+         }
+         return question
+       })
+     })
+   })
+  return updatedQuestionList
 }

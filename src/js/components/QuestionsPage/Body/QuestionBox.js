@@ -68,7 +68,7 @@ class QuestionBox  extends Component{
 
     rollBackQuestionDislike(question_id){
 
-      this.props.deleteFeedback({combine_problem_id : question_id})
+      this.props.deleteFeedback({question_id : question_id})
       .then(result =>{
         if(result.status == "success"){
           this.setState(prevState => ({
@@ -81,19 +81,29 @@ class QuestionBox  extends Component{
         }
       })
     }
-
+    getQuestionID(finalData){
+      if(this.props.headerState.current_category == QuestionCode.MultipleChoice
+      || this.props.headerState.current_category == QuestionCode.Match_The_Following){
+        return finalData.combine_problem_id
+      }
+      else if(this.props.headerState.current_category == QuestionCode.Image_Matching) {
+        return finalData.image_problem_id
+      }
+    }
     saveQuestionSucces(finalData){
+
       if(this.props.headerState.editingMode){
         this.setState(prevState=>({
-          savedQuestions : [...this.state.savedQuestions, finalData.combine_problem_id]
+          savedQuestions : [...this.state.savedQuestions, this.getQuestionID(finalData)]
         }))
       }
       else{
         this.props.updateQuestion(finalData)
       this.setState(prevState=>({
         active_question_set : [],
-        savedQuestions : [...this.state.savedQuestions, finalData.combine_problem_id]
+        savedQuestions : [...this.state.savedQuestions, this.getQuestionID(finalData)]
       }),()=>{
+
         this.updateState()
 
       })
@@ -158,8 +168,6 @@ class QuestionBox  extends Component{
           this.initialisation(false,"")
         })
       }
-
-
     }
 
     componentWillReceiveProps(nextProps){
@@ -176,6 +184,8 @@ class QuestionBox  extends Component{
           // .replace(/[^a-zA-Z0-9]/g, '');
           nextProps.headerState.context.forEach((context)=>{
             let content = context.content.replace(/[’'“”""]/gi, '');
+            content = content.replace(/\u00A0/g,' ');
+
             if(content.includes(grp)){
               var pos =  content.indexOf(grp)
               var text = content.slice(0,pos) + "<b>" + content.slice(pos, pos+grp.length)
@@ -239,7 +249,6 @@ class QuestionBox  extends Component{
        }
      }
      render(){
-console.log("@@@@@@@@@");
        let pages =  Math.ceil(this.props.questionsState.total/50 )
        const questions = [];
        if(this.props.questionsState.questions.length != 0)
@@ -426,7 +435,8 @@ console.log("@@@@@@@@@");
          feedbackState = {this.props.feedbackState}
          dislikedQuestionsSuccess = {this.props.dislikedQuestionsSuccess}
          disliked = {this.props.disliked}
-         rollBackQuestionDislike = {this.props.rollBackQuestionDislike}/>}
+         rollBackQuestionDislike = {this.props.rollBackQuestionDislike}
+         headerState = {this.props.headerState}/>}
 
          </div>
          </div>
@@ -435,7 +445,7 @@ console.log("@@@@@@@@@");
    }
 
    var formatDistractorRationale = (context,chapter) =>{
-     let text = "<p><b>Excerpt from Chapter " +  chapter + ":</b></p>"
+     let text = "<p><b>Excerpt from Chapter: " +  chapter + ":</b></p>"
      if(context){
        let data =  context.content.map((item,i) => {
         return  "<p>"+item+"</p>"

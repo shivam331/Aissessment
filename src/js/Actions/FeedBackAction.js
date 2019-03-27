@@ -78,6 +78,7 @@ export const feedbackQuestionFetch = (url,category_id,reset_questions,new_page_n
 }
 
 export const deleteFeedback = (postData) =>{
+  console.log(postData);
      return   fetch(BASE_URL+API.DELETE_FEEDBACK, {
       method: 'post',
       headers: {
