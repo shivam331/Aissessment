@@ -16,7 +16,8 @@ export const QuestionCode = {
 export const QuestionTypes =  [
   {"id" : QuestionCode.MultipleChoice,"category":"mcq","category_name":"Multiple Choice"},
   {"id" : QuestionCode.Match_The_Following,"category":"association","category_name":"Matching"},
-  {"id" : QuestionCode.Image_Matching,"category":"imageclozeassociationV2","category_name": "Image Matching"}]
+  {"id" : QuestionCode.Image_Matching,"category":"imageclozeassociationV2","category_name": "Image Matching"},
+  {"id" : QuestionCode.Fill_In_The_Blanks,"category":"clozedropdown", "category_name" : "Fill In The Blanks"}]
 
 export const MenuBarDropdowns = [{name :"Chapters",header : "Chapters",id: 1},
                                  {name:"Content Types",header: "Content Type",id : 2},

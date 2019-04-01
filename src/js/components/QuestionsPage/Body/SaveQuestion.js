@@ -52,10 +52,15 @@ class SaveQuestion extends Component{
           var finalData = imageMatchingFormat(editor.getWidget(),this.props.book_id)
           api = API.SAVE_IMAGE_MATCHING_QUESTION
 
+          case QuestionCode.Fill_In_The_Blanks :
+          var finalData = fillInTheBlanksFormat(editor.getWidget(),this.props.book_id)
+          api = API.SAVE_FILL_IN_THE_BLANKS_QUESTION
+
+
           default:
 
         }
-
+         console.log(finalData);
         this.props.saveQuestion(finalData,api)
          .then(status =>
           {
@@ -160,6 +165,20 @@ return finalData
        book_id : book_id,
     }
 
+    return finalData
+  }
+
+  var fillInTheBlanksFormat = (finalQuestion,book_id) =>{
+    let finalData = {
+      cloz_problem_id : finalQuestion.response_id,
+      chapter : finalQuestion.chapter,
+      possible_responses : finalQuestion.possible_responses,
+      stimulus : finalQuestion.stimulus,
+      question : finalQuestion.template,
+      question_category : "clozedropdown",
+      valid_responses : finalQuestion.validation.valid_response.value,
+      book_id : book_id
+    }
     return finalData
   }
   export default SaveQuestion

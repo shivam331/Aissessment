@@ -83,6 +83,10 @@ else if(newQuestion.question_category == "imageclozeassociationV2"){
   return updateImageMatchingQuestion(oldQuestionList,newQuestion)
 }
 
+else if (newQuestion.question_category == "clozedropdown") {
+  return updateFillInTheBlanksQuestion(oldQuestionList,newQuestion)
+}
+
 }
 
 var updateMCQQuestions = (oldQuestionList, newQuestion) =>{
@@ -141,8 +145,6 @@ return updatedQuestionList;
 }
 
 var updateImageMatchingQuestion = (oldQuestionList,newQuestion) =>{
-  console.log(oldQuestionList);
-  console.log(newQuestion);
    let updatedQuestionList =
    oldQuestionList.map(group =>{
      return({
@@ -162,4 +164,28 @@ var updateImageMatchingQuestion = (oldQuestionList,newQuestion) =>{
      })
    })
   return updatedQuestionList
+}
+
+var updateFillInTheBlanksQuestion = (oldQuestionList, newQuestion) =>{
+   let updatedQuestionList =
+   oldQuestionList.map(group =>{
+     return({
+       group_name : group.group_name,
+       question_array : group.question_array.map(question =>{
+         if(question.response_id == newQuestion.cloz_problem_id){
+           return Object.assign({},question,{
+             possible_responses : newQuestion.possible_responses,
+             stimulus : newQuestion.stimulus,
+             validation : Object.assign({},question.validation,
+             {
+               valid_response : {value :newQuestion.valid_responses}
+             }),
+             template : newQuestion.question
+           })
+         }
+         return question
+       })
+     })
+   })
+   return updatedQuestionList
 }

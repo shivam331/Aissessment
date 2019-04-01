@@ -214,16 +214,16 @@ class QuestionBox  extends Component{
 
     initialisation(newVersionClicked,newVersionQuestion){
       if(newVersionClicked){
+          initOptions.state = 'review'
         initOptions.questions =[newVersionQuestion]
       }
       else
       {
-           initOptions.questions = this.state.active_question_set}
+       initOptions.questions = this.state.active_question_set}
       if(initOptions.questions.length != 0){
         initOptions.state = 'review'
         LearnosityApp.init(initOptions,callbacks);
       }
-
     }
 
 

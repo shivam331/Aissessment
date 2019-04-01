@@ -250,6 +250,7 @@ var dislikedQuestionParsing = (json,reset_question) =>{
   if(reset_question){
     feedbackQuestions = []
   }
+
   json.data.data.map((question)=>{
     var newForm;
   if(!question.question_category || question.question_category == "mcq"){
@@ -261,7 +262,11 @@ var dislikedQuestionParsing = (json,reset_question) =>{
   else if(question.question_category == "imageclozeassociationV2"){
     newForm = disLikedImageMatchingQuestion(question)
   }
-
+  else if(question.question_category == "clozedropdown"){
+    newForm = dislikedFillInTheBlanksQuestion(question)
+  }
+console.log(question);
+console.log(newForm);
     feedbackQuestions.push(newForm)
 
 })
@@ -359,6 +364,26 @@ var disLikedImageMatchingQuestion = (question) =>{
       return finalQuestionForm
 }
 
+var dislikedFillInTheBlanksQuestion = (question) =>{
+  let finalQuestionForm = {
+    "response_id": question.question_id,
+    "type": "clozedropdown",
+    "stimulus": "<b>Select the correct response for each blank.</b>",
+    "template": question.question.replace(/______/g,"{{response}}"),
+    "instant_feedback": true,
+    "possible_responses": question.choices,
+    "validation": {
+        "scoring_type": "partialMatch",
+        "valid_response": {
+            "value": question.answer
+        }
+    },
+    "reasons" : question.reasons,
+    "comment" : question.comment
+
+}
+  return finalQuestionForm
+}
 
 
 let imageDragDropQuestions = []
@@ -455,6 +480,83 @@ var savedImageMatchingQuestionParsing = (json,reset_question) =>{
   return savedImageMatchingQuestion
 }
 
+var fillInTheBlanksQuestions  = []
+var fillInTheBlanksQuestionsParsing = (json,reset_question) =>{
+  if(reset_question){
+    fillInTheBlanksQuestions = []
+  }
+  json.data.data.forEach(group =>{
+    let question_array = []
+    for(let question of group.questions_list){
+       let chapter = question.crumb.split(">")[1]
+       question_array.push({
+         "response_id": question._id,
+         "type": "clozedropdown",
+         "stimulus": "<b>Select the correct response for each blank.</b>",
+         "template": question.question.replace(/______/g,"{{response}}"),
+         "instant_feedback": true,
+         "possible_responses": question.choices,
+         "validation": {
+             "scoring_type": "partialMatch",
+             "valid_response": {
+                 "value": question.answer
+             }
+         },
+         "chapter":chapter,
+         "metadata" :{
+           "distractor_rationale" : ""
+         },
+     })
+    }
+    fillInTheBlanksQuestions.push(
+      {"group_name":group._id,
+        "question_array":question_array}
+    )
+  })
+return fillInTheBlanksQuestions
+}
+
+var savedFillInTheBlanksQuestions = []
+var savedFillInTheBlanksQuestionsParsing = (json,reset_question)=>{
+  if(reset_question){
+    savedFillInTheBlanksQuestions = []
+  }
+
+json.data.data.forEach(group=>{
+  let question_array = []
+  for(let question of group.questions_list){
+     let chapter = question.crumb.split(">")[1]
+    question_array.push({
+        "response_id": question.cloz_problem_id,
+        "type": "clozedropdown",
+        "stimulus": question.stimulus,
+        "template": question.question,
+        "instant_feedback": true,
+        "possible_responses": question.possible_responses,
+        "validation": {
+            "scoring_type": "partialMatch",
+            "valid_response": {
+                "value": question.valid_responses
+            }
+        },
+        "chapter":chapter,
+        "metadata" :{
+          "distractor_rationale" : ""
+        },
+    })
+  }
+  savedFillInTheBlanksQuestions.push(
+    {"group_name":group._id,
+      "question_array":question_array}
+  )
+})
+
+  // console.log(json);
+  return savedFillInTheBlanksQuestions
+}
+
+
+
 
 const question = (category_id,json,reset_question) => {
 console.log(category_id);
@@ -495,6 +597,14 @@ console.log(category_id);
     case QuestionCode.EditingMode + QuestionCode.FeedbackQuestions:
     case QuestionCode.SavedMode + QuestionCode.FeedbackQuestions:
     return dislikedQuestionParsing(json,reset_question)
+
+    case QuestionCode.EditingModeSearch + QuestionCode.Fill_In_The_Blanks:
+    case QuestionCode.EditingMode + QuestionCode.Fill_In_The_Blanks:
+    return fillInTheBlanksQuestionsParsing(json,reset_question)
+
+    case QuestionCode.SavedModeSearch + QuestionCode.Fill_In_The_Blanks:
+    case QuestionCode.SavedMode + QuestionCode.Fill_In_The_Blanks:
+    return savedFillInTheBlanksQuestionsParsing(json,reset_question)
 
     default:
     console.log("Invalid Question Id");

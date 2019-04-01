@@ -1,6 +1,6 @@
-// export const BASE_URL = "http://localhost:80/api/"
+export const BASE_URL = "http://localhost:80/api/"
 // export const BASE_URL = "https://dry-garden-43793.herokuapp.com/api/"
-export const BASE_URL = "http://aissessment.paperscorer.com/api/"
+// export const BASE_URL = "http://aissessment.paperscorer.com/api/"
 
 import {QuestionCode} from './Constants'
 
@@ -38,7 +38,12 @@ export const API = {
 "SAVE_IMAGE_MATCHING_QUESTION" : "saveImageMatchingQuestion",
 "SAVED_IMAGE_MATCHING_QUESTION" : "savedImageMatchingQuestion/",
 "SEARCH_IMAGE_MATCHING_QUESTIONS" : "searchEditingImageMatching/",
-"SEARCH_SAVED_IMAGE_MATCHING_QUESTIONS" : "searchSavedImageMatching/"
+"SEARCH_SAVED_IMAGE_MATCHING_QUESTIONS" : "searchSavedImageMatching/",
+"FILL_In_The_BLANKS_QUESTIONS" : "fillInBlanks/",
+"SAVE_FILL_IN_THE_BLANKS_QUESTION" : "saveFillInTheBlanksQuestion",
+"SAVED_FILL_IN_THE_BLANKS_QUESTIONS" : "savedFillInTheBlanksQuestions/",
+"SEARCH_FILL_IN_THE_BLANKS_QUESTIONS" : "searchEditingFillInTheBlanks/",
+"SEARCH_SAVED_FILL_IN_THE_BLANKS_QUESTIONS" : "searchSavedFillInTheBlanks/"
 }
 
 
@@ -100,7 +105,6 @@ export var myURL = (details) =>{
     return API.IMAGE_MATCHING_QUESTIONS + details.book_id + "/" + details.currentChapter
            + "/" + details.page_no
 
-
     case QuestionCode.SavedMode + QuestionCode.Image_Matching:
     return API.SAVED_IMAGE_MATCHING_QUESTION + details.book_id + "/"
           + details.currentChapter + "/" + details.page_no
@@ -112,6 +116,19 @@ export var myURL = (details) =>{
     case QuestionCode.SavedModeSearch + QuestionCode.Image_Matching:
     return API.SEARCH_SAVED_IMAGE_MATCHING_QUESTIONS + details.book_id + "/" + details.searchKey
 
+    case QuestionCode.EditingMode + QuestionCode.Fill_In_The_Blanks:
+    return API.FILL_In_The_BLANKS_QUESTIONS + details.book_id + "/" +
+           details.currentChapter + "/"  +  details.page_no
+
+    case QuestionCode.SavedMode + QuestionCode.Fill_In_The_Blanks:
+    return API.SAVED_FILL_IN_THE_BLANKS_QUESTIONS + details.book_id + "/" + details.currentChapter
+           + "/" + details.page_no
+
+    case QuestionCode.EditingModeSearch + QuestionCode.Fill_In_The_Blanks:
+    return API.SEARCH_FILL_IN_THE_BLANKS_QUESTIONS + details.book_id + "/" + details.searchKey
+
+    case QuestionCode.SavedModeSearch + QuestionCode.Fill_In_The_Blanks:
+    return API.SEARCH_SAVED_FILL_IN_THE_BLANKS_QUESTIONS + details.book_id + "/" + details.searchKey
 
     default:
     return ""
